@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="Windows-1252" standalone="no"?>
+<records>
+  <record id="1502701" type="project">
+    <accession_number>01660793</accession_number>
+    <record_type>PR</record_type>
+    <record_status>AP</record_status>
+    <attributes>
+      <attribute name="PersonInfoAcknowledgement">1</attribute>
+    </attributes>
+    <title>Evaluating the Effectiveness of Fly Ashes to Mitigate ASR and Using Recycled Concrete Aggregate as an Aggregate Source</title>
+    <language_1>English</language_1>
+    <document_urls />
+    <source_agency street_1="5300 Bishop Boulevard" city="Cheyenne" region="WY" country_name="United States" postal_code="82009-3340">Wyoming Department of Transportation</source_agency>
+    <source_type>StateDOT</source_type>
+    <tris_files>
+      <tris_file code="RiP">RiP</tris_file>
+      <tris_file code="STATEDOT">STATEDOT</tris_file>
+    </tris_files>
+    <report_numbers />
+    <contract_numbers>
+      <contract_number position="1">RS02215</contract_number>
+    </contract_numbers>
+    <abstract>This project will be completed in four phases.  Phase one will consist of a series of tests conducted on a minimum of two fly ashes for Knife River, Labarge, and one of the two reactive aggregates in the Big Horn Basin.  Phase one will evaluate moderately reactive, reactive, and very highly reactive aggregates.  Phase two will focus on the concrete prism testing.  The more common three month test will be conducted at the University of Wyoming by retrofitting an existing oven within the Civil Engineering Department.  Phase three will include demolishing blocks and making recycled concrete aggregate.  Phase four will include continued monitoring of field specimens.</abstract>
+    <index_terms>
+      <term type="IT" code="Sccye">Alkali silica reactions</term>
+      <term type="IT" code="Rbmddcsc">Concrete aggregates</term>
+      <term type="IT" code="Epdb">Evaluation and assessment</term>
+      <term type="IT" code="Rbmduh">Fly ash</term>
+      <term type="IT" code="Rbmdum">Recycled materials</term>
+      <term type="GT" code="">Wyoming</term>
+    </index_terms>
+    <subject_areas>
+      <subject_area>Design</subject_area>
+      <subject_area>Highways</subject_area>
+      <subject_area>Materials</subject_area>
+    </subject_areas>
+    <created_date>Feb 20 2018  4:05PM</created_date>
+    <modified_date>Feb 20 2018  4:11PM</modified_date>
+    <approved_date>Feb 20 2018  4:11PM</approved_date>
+    <project>
+      <project_status code="CO">Completed</project_status>
+      <public_access_compliant>0</public_access_compliant>
+      <public_access_identifier />
+      <funding>65975</funding>
+      <deliverables />
+      <notice_date>0</notice_date>
+      <start_date>20181231</start_date>
+      <expected_completion_date>20180630</expected_completion_date>
+      <actual_completion_date>0</actual_completion_date>
+      <performing_agencies />
+      <funding_agencies>
+        <funding_agency street_1="5300 Bishop Blvd." city="Cheyenne" region="WY" country_name="United States" postal_code="82009-3340" site_url="http://wydotweb.state.wy.us/">Wyoming Department of Transportation</funding_agency>
+      </funding_agencies>
+      <manager_agencies />
+      <responsible_individuals>
+        <responsible_individual firstname="Chris" lastname="Romo">Romo, Chris</responsible_individual>
+      </responsible_individuals>
+      <investigators>
+        <investigator firstname="Jennifer" lastname="Tanner" orcid="0000-0002-8279-6289">Tanner, Jennifer</investigator>
+      </investigators>
+      <programs />
+    </project>
+  </record>
+</records>

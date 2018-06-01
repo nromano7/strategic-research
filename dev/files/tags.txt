@@ -1,0 +1,72 @@
+abstract
+accession_number
+approved_date
+attributes
+  attribute
+contract_numbers
+  contract_number
+created_date
+document
+  media_type
+  pagination
+  oclc
+  features
+    feature
+  authors
+    author
+  discussers
+  monograph
+    edition
+    period_covered
+    corporate_authors
+    issue
+    availability_agencies
+      availability_agency
+    publication_date
+    serial
+    isbn
+    components
+    volume
+document_urls
+  url
+foreign_title
+index_terms
+  term
+language_1
+modified_date
+project
+    rip_record
+    project_status
+    public_access_compliant
+    public_access_identifier
+    funding
+    deliverables
+    notice_date
+    start_date
+    expected_completion_date
+    actual_completion_date
+    performing_agencies
+      performing_agency
+    funding_agencies
+      funding_agency
+    manager_agencies
+      manager_agency
+    responsible_individuals
+      responsible_individual
+    investigators
+      investigator
+    programs
+      program
+record_status
+record_type
+report_numbers
+  report_number
+source_agency
+source_data
+source_type
+subject_areas
+  subject_area
+supplemental_notes
+title
+tris_files
+  tris_file
