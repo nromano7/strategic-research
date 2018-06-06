@@ -1,0 +1,83 @@
+{
+  "title": "Research for AASHTO Standing Committee on Highways. Task 410. Load Rating for the Fast Act Emergency Vehicles Ev-2 and Ev-3",
+  "abstract": "On December 4, 2015, the President signed into law the Fixing America's Surface Transportation Act (FAST Act) (P.L. 114-94), which includes new truck size and weight provisions that effect bridge load rating and posting requirements. Among those provisions is the exemption of emergency vehicles from meeting the nationwide Interstate truck weight limits set forth in 23 U.S.C. 127(a). The emergency vehicles exempted from these weight limits by the FAST Act can create greater load effects in certain bridges than the previous legal loads. Research needs to be undertaken to establish whether existing load factors, multiple presence factors based on likely traffic situations, and exposure intervals as specified in the American Association of State Highway and Transportation Officials (AASHTO) Manual for Bridge Evaluation are appropriate for the emergency vehicles; further these load factors may need to be developed or calibrated to the reliability analysis in the AASHTO Manual for Bridge Evaluation. The objective of this research is to propose modifications to the load factors for the emergency vehicles in the AASHTO Manual for Bridge Evaluation (load factor rating LFR and load and resistance factor rating LRFR). For the LRFR, the load factors shall be calibrated to the reliability analysis in the AASHTO Manual for Bridge Evaluation with appropriate modifications. Task 1. Review the FAST Act provisions regarding emergency vehicles and other available references such as Federal Highway Administration's (FHWA)s QUESTIONS AND ANSWERS  Load Rating for the FAST Acts Emergency Vehicles (March 2017) and other FHWA Technical Guidance. Task 2. Establish multiple presence factors appropriate for the FAST Act emergency vehicles using recent traffic data. Include in the calibration the effect of multiple presence factors, discuss or determine the necessity to include emergency vehicles in combination with lane loads for longer spans, the utilization of striped lanes or positioning the emergency vehicle for maximum effect, and the appropriate use of dynamic load impact, etc.Task 3. Perform a standard calibration process consistent with the AASHTO Manual for Bridge Evaluation to determine load factors corresponding to current resistance factors for the FAST Act emergency vehicles. Task 4. Submit a draft letter report for Tasks 1 through 3 no later than 6 months after contract award. NCHRP approval will be required before proceeding with the remaining tasks. Task 5. Propose modifications to the load factors (load intensity, impact, lane loads, etc.) in the AASHTO Manual for Bridge Evaluation for both LFR and LRFR methods with examples. Submit the proposed modifications for NCHRP review. Task 6. Present the research findings to the AASHTO Committee on Bridges and Structures, Technical Committee T18Management, Evaluation, and Rehabilitation. Task 7. Revise the proposed modifications according to the National Cooperative Highway Research Program (NCHRP) project panel comments. Task 8. Submit the final report describing the entire research. Following receipt of the draft final report, the remaining 2 months shall be for NCHRP review and comment and for research agency preparation of the revised final report.",
+  "notes": "",
+  "urls": [
+    "http://apps.trb.org/cmsfeed/TRBNetProjectDisplay.asp?ProjectID=4404"
+  ],
+  "status": "Active",
+  "funding": "100000",
+  "start": "2018-03-26",
+  "expected_complete": "2019-03-25",
+  "actual_complete": "",
+  "performing_agencies": [
+    {
+      "name": "HNTB Corporation",
+      "city": "New York",
+      "state": "New York",
+      "country": "United States",
+      "postal_code": "",
+      "site_url": "http://www.hntb.com/"
+    }
+  ],
+  "funding_agencies": [
+    {
+      "name": "National Cooperative Highway Research Program",
+      "city": "Washington",
+      "state": "DC",
+      "country": "United States",
+      "postal_code": "20001",
+      "site_url": ""
+    },
+    {
+      "name": "Federal Highway Administration",
+      "city": "Washington",
+      "state": "DC",
+      "country": "United States",
+      "postal_code": "20590",
+      "site_url": "http://www.fhwa.dot.gov"
+    },
+    {
+      "name": "American Association of State Highway and Transportation Officials (AASHTO)",
+      "city": "Washington",
+      "state": "DC",
+      "country": "United States",
+      "postal_code": "20001",
+      "site_url": "http://www.transportation.org"
+    }
+  ],
+  "managing_agencies": [],
+  "project_investigators": [
+    {
+      "firstname": "Bala",
+      "lastname": "Sivakumar"
+    }
+  ],
+  "responsible_individuals": [
+    {
+      "firstname": "Waseem",
+      "lastname": "Dekelbab"
+    }
+  ],
+  "TRID_RECORD_BASE": "./files/raw/TRIDXML_2018-05-13.xml",
+  "TRID_RECORD_ID": "1499620",
+  "TRID_RECORD_TYPE": "project",
+  "TRID_TRIS_FILE_CODES": [
+    "TRB",
+    "RiP"
+  ],
+  "TRID_INDEX_TERMS": [
+    "AASHTO Manual for Bridge Evaluation",
+    "Bridges",
+    "Emergency vehicles",
+    "Fixing America's Surface Transportation (FAST) Act",
+    "Load and resistance factor design",
+    "Load factor",
+    "Vehicle weight"
+  ],
+  "TRID_SUBJECT_AREAS": [
+    "Bridges and other structures",
+    "Design",
+    "Highways"
+  ]
+}

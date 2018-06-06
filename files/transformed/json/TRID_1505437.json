@@ -1,0 +1,98 @@
+{
+  "title": "Disaster-Resilient and Self-Assessing Multifunctional Transportation Structures",
+  "abstract": "Shape memory alloy (SMAs) can produce large recoverable deformations triggered by stress in a response known as superelasticity. This response has been shown to limit the damage sustained by the structure from adverse events such as earthquakes, and have been considered in a range of civil engineering applications. The most widespread SMA candidate for such applications is the nickel-titanium (NiTi) SMA, which is cost-prohibitive for large-scale applications. Instead, the research team proposes a low-cost and easily processed iron (Fe)-based SMA as an alternative. Furthermore, the iron-based SMA shows an interesting meta-magnetic shape memory response, where a change in induced magnetization of the material occurs from applied stress and can be easily detected using commercial magnetometers. This property can be harnessed to create a method to monitor the stresses and strains on structural systems with iron-based SMAs remotely and in a non-destructive fashion. The combination of these properties enable a new kind of structural health monitoring framework where the load-bearing and sensing elements are the same, and quantitative information could be collected in real-time with simple instruments. The goal of the proposed project is to create large dimension iron-based SMA rods and that are suitable for structural and transportation applications and determine the maximum part size. This study will also demonstrate bulk-Fe-SMA rods and cables that are capable of sustaining high stress and elongation. Optimal configuration of rods and sensors will be computationally determined through combined magnetic-mechanical modeling and validated through experiments. For the implementation phase of the project, the team will show that the strain in large size iron-based SMA rods and cables directly correlates with changes in its magnetic response.",
+  "notes": "",
+  "urls": [],
+  "status": "Active",
+  "funding": "170000",
+  "start": "2018-03-15",
+  "expected_complete": "2019-09-15",
+  "actual_complete": "",
+  "performing_agencies": [
+    {
+      "name": "Texas A&M University, College Station",
+      "city": "College Station",
+      "state": "TX",
+      "country": "United States",
+      "postal_code": "77843",
+      "site_url": "http://www.tamu.edu/"
+    }
+  ],
+  "funding_agencies": [
+    {
+      "name": "Office of the Assistant Secretary for Research and Technology",
+      "city": "Washington",
+      "state": "DC",
+      "country": "United States",
+      "postal_code": "20590",
+      "site_url": "https://www.its.dot.gov/"
+    },
+    {
+      "name": "Office of the Assistant Secretary for Research and Technology",
+      "city": "Washington",
+      "state": "DC",
+      "country": "United States",
+      "postal_code": "20590",
+      "site_url": ""
+    }
+  ],
+  "managing_agencies": [
+    {
+      "name": "Office of the Assistant Secretary for Research and Technology",
+      "city": "Washington",
+      "state": "DC",
+      "country": "United States",
+      "postal_code": "20590",
+      "site_url": "https://www.its.dot.gov/"
+    },
+    {
+      "name": "Transportation Consortium of South-Central States",
+      "city": "Baton Rouge",
+      "state": "LA",
+      "country": "United States",
+      "postal_code": "70803",
+      "site_url": "www.lsu.edu"
+    }
+  ],
+  "project_investigators": [
+    {
+      "firstname": "Ibrahim",
+      "lastname": "Karaman"
+    },
+    {
+      "firstname": "Darren",
+      "lastname": "Hartl"
+    }
+  ],
+  "responsible_individuals": [
+    {
+      "firstname": "Ibrahim",
+      "lastname": "Karaman"
+    }
+  ],
+  "TRID_RECORD_BASE": "./files/raw/TRIDXML_2018-05-13.xml",
+  "TRID_RECORD_ID": "1505437",
+  "TRID_RECORD_TYPE": "project",
+  "TRID_TRIS_FILE_CODES": [
+    "UTC",
+    "RiP"
+  ],
+  "TRID_INDEX_TERMS": [
+    "Alloys",
+    "Bridges",
+    "Cracking",
+    "Design",
+    "Disaster resilience",
+    "Magnetic properties",
+    "Materials",
+    "Nondestructive tests",
+    "Rods",
+    "Structural health monitoring"
+  ],
+  "TRID_SUBJECT_AREAS": [
+    "Bridges and other structures",
+    "Design",
+    "Highways",
+    "Materials"
+  ]
+}

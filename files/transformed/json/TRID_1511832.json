@@ -1,0 +1,76 @@
+{
+  "title": "Characterizing the Behavior of a Machine-Placed UHPC Bridge Deck Overlay",
+  "abstract": "Bridge deck deterioration is a frequent problem faced by many states in the U.S., especially the Midwest and Northern states where deicing is used and Coastal states. Maintenance and repair associated with bridge decks can cost 50 to 80% of all bridge related expenditures, which is conservatively estimated to be more than $5B per year (Gucunski et al. 2011). Using bridges from Iowa, Gucunski et al. demonstrated typical bridge deck deterioration's include cracking, spalling, delamination, and corrosion of reinforcement (Fig. 1 ). Various phenomena contribute to deck deterioration, including poor initial quality, the use of deicing salts in winter, overloading, stresses associated with freeze-thaw cycles, fatigue, corrosion of reinforcement, or any combination thereof. Near the coast, the bridge decks can experience damage due to seawater salt. Several of these problems initiate due to surface cracking and infiltration of moisture and chloride into the deck. A variety of techniques have been used to repair damaged bridge decks. They can range from grouting to seal surface cracks to partial/full depth patching to replacing partial/full bridge deck. While each of these techniques can increase the service life of the bridge decks, none has been proven to completely prevent further bridge deck deterioration nor do they increase the longevity of bridge decks. With its superior durability properties, the use of ultra-high performance concrete with fiber reinforcement (UHPC) in bridge deck has been explored in Iowa as a means to combat wide-ranging bridge deck deterioration problems. Given that solid UHPC slab deck is prohibitively expensive, use of a waffle deck was successfully demonstrated (Aaleti et al. 2013; Aaleti and Sritharan 2014). By optimizing the waffle deck configuration, it was shown that the waffle deck concept can be used to reduce the volume of the required UHPC in bridge decks by 50% or more in comparison to solid bridge deck panels (Gheitanbaf et al. 2015). To further reduce the construction cost and broaden the application of UHPC in bridge decks, use of a thin UHPC layer as an overlay was then explored with an intention of preventing deck cracking, reducing fatigue damage and minimizing penetration of moisture and chloride ion into the bridge deck. To ensure cost effectiveness of this concept, the thickness of UHPC layer was targeted to be about 1.5 in. with no mechanical connection between the UHPC layer and underlying normal concrete (NC) deck. This approach will reduce the required volume of UHPC in bridge deck to less than 20% when compared to a solid panel.",
+  "notes": "",
+  "urls": [],
+  "status": "Active",
+  "funding": "75000",
+  "start": "2018-04-01",
+  "expected_complete": "2020-06-30",
+  "actual_complete": "",
+  "performing_agencies": [
+    {
+      "name": "Iowa State University, Ames",
+      "city": "Ames",
+      "state": "Iowa",
+      "country": "United States",
+      "postal_code": "50010-8664",
+      "site_url": "http://www.intrans.iastate.edu/"
+    }
+  ],
+  "funding_agencies": [
+    {
+      "name": "Iowa Highway Research Board",
+      "city": "Ames",
+      "state": "IA",
+      "country": "United States",
+      "postal_code": "50010",
+      "site_url": ""
+    }
+  ],
+  "managing_agencies": [
+    {
+      "name": "Iowa State University, Ames",
+      "city": "Ames",
+      "state": "Iowa",
+      "country": "United States",
+      "postal_code": "50010-8664",
+      "site_url": "http://www.intrans.iastate.edu/"
+    }
+  ],
+  "project_investigators": [
+    {
+      "firstname": "Sri",
+      "lastname": "Sritharan"
+    }
+  ],
+  "responsible_individuals": [
+    {
+      "firstname": "Vanessa",
+      "lastname": "Goetz"
+    }
+  ],
+  "TRID_RECORD_BASE": "./files/raw/TRIDXML_2018-05-13.xml",
+  "TRID_RECORD_ID": "1511832",
+  "TRID_RECORD_TYPE": "project",
+  "TRID_TRIS_FILE_CODES": [
+    "RiP",
+    "STATEDOT"
+  ],
+  "TRID_INDEX_TERMS": [
+    "Bridge decks",
+    "Durability",
+    "Iowa",
+    "Overlays (Pavements)",
+    "Pavement design",
+    "Thickness",
+    "Ultra high performance concrete"
+  ],
+  "TRID_SUBJECT_AREAS": [
+    "Bridges and other structures",
+    "Design",
+    "Highways",
+    "Materials",
+    "Pavements"
+  ]
+}

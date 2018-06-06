@@ -1,0 +1,68 @@
+{
+  "title": "Study on Structural Performance Evaluation of Double-Tee Bridges",
+  "abstract": "The ultimate goal of this project is to provide a better understanding of structural performance of in-service double-tee (DT) bridges loaded with actual trucks. The objectives of this project to achieve this goal are: 1) To identify damage of typically used DT bridges; 2) To determine live-load distribution and dynamic load allowance factors of the DT bridges; and 3) To investigate load-carrying capacity of the DT bridges.",
+  "notes": "",
+  "urls": [
+    "https://www.mountain-plains.org/research/details.php?id=462",
+    "https://www.mountain-plains.org/research/projects/downloads/2018-mpc-565.pdf"
+  ],
+  "status": "Active",
+  "funding": "60300",
+  "start": "2018-04-18",
+  "expected_complete": "2022-07-31",
+  "actual_complete": "",
+  "performing_agencies": [
+    {
+      "name": "South Dakota State University, Brookings",
+      "city": "Brookings",
+      "state": "SD",
+      "country": "United States",
+      "postal_code": "57007",
+      "site_url": ""
+    }
+  ],
+  "funding_agencies": [
+    {
+      "name": "Office of the Assistant Secretary for Research and Technology",
+      "city": "Washington",
+      "state": "DC",
+      "country": "United States",
+      "postal_code": "20590",
+      "site_url": ""
+    }
+  ],
+  "managing_agencies": [],
+  "project_investigators": [
+    {
+      "firstname": "Junwon",
+      "lastname": "Seo"
+    },
+    {
+      "firstname": "Nadim",
+      "lastname": "Wehbe"
+    }
+  ],
+  "responsible_individuals": [
+    {
+      "firstname": "Robin",
+      "lastname": "Kline"
+    }
+  ],
+  "TRID_RECORD_BASE": "./files/raw/TRIDXML_2018-05-13.xml",
+  "TRID_RECORD_ID": "1509924",
+  "TRID_RECORD_TYPE": "project",
+  "TRID_TRIS_FILE_CODES": [
+    "UTC",
+    "RiP"
+  ],
+  "TRID_INDEX_TERMS": [
+    "Highway bridges",
+    "Live loads",
+    "Structural analysis",
+    "Truck traffic"
+  ],
+  "TRID_SUBJECT_AREAS": [
+    "Bridges and other structures",
+    "Highways"
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "title": "Review and Assessment of Past MnDOT Bridge Barrier Types",
+  "abstract": "Many Minnesota bridges have older barriers or parapets that met the design code at the time of Construction in the 1950's. Many of these bridge rails no longer meet current strength and performance requirements. As MnDOT begins to rehabilitate older existing bridges, a determination needs to be made as to whether the existing older barrier type can remain in place or if it should be rehabilitated or replaced with a newer style barrier. The first step is to document the time periods and number of structures in the state that have post & beam, type G, type J, and type F barriers. Then evaluations of the structural strength and crashworthiness of each barrier type will be performed. Following that, recommended guidance and evaluation criteria will be developed to determine when an existing barrier should be upgraded or replaced.",
+  "notes": "",
+  "urls": [],
+  "status": "Programmed",
+  "funding": null,
+  "start": "2018-07-01",
+  "expected_complete": "",
+  "actual_complete": "",
+  "performing_agencies": [
+    {
+      "name": "Texas A&M Transportation Institute",
+      "city": "College Station",
+      "state": "TX",
+      "country": "United States",
+      "postal_code": "77843-3135",
+      "site_url": "http://tti.tamu.edu/"
+    }
+  ],
+  "funding_agencies": [
+    {
+      "name": "Minnesota Department of Transportation",
+      "city": "St Paul",
+      "state": "MN",
+      "country": "United States",
+      "postal_code": "55155",
+      "site_url": "http://www.dot.state.mn.us/"
+    }
+  ],
+  "managing_agencies": [],
+  "project_investigators": [
+    {
+      "firstname": "William",
+      "lastname": "Williams"
+    }
+  ],
+  "responsible_individuals": [],
+  "TRID_RECORD_BASE": "./files/raw/TRIDXML_2018-05-13.xml",
+  "TRID_RECORD_ID": "1509870",
+  "TRID_RECORD_TYPE": "project",
+  "TRID_TRIS_FILE_CODES": [
+    "RiP",
+    "STATEDOT"
+  ],
+  "TRID_INDEX_TERMS": [
+    "Bridges"
+  ],
+  "TRID_SUBJECT_AREAS": [
+    "Bridges and other structures"
+  ]
+}

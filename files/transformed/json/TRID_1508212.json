@@ -1,0 +1,74 @@
+{
+  "title": "Evaluation of New or Emerging Remote Inspection Technologies for Conduits Ranging From 12\" to 120\" Spans - Phase 1A",
+  "abstract": "There are over 80,000 culverts under Ohio's roadways that the Ohio Department of Transportation (ODOT) is responsible for maintenance. An essential component of culvert management is periodic inspection. Traditionally, highway agencies relied mainly on direct man-entry approach for assessing in-service conditions of culverts. However, this traditional approach left many drainage structures inapproachable and uninspected. This is because a large number of drainage structures in the state are either too small (diameter or rise less than 4 ft) or obstructed (filled with water or sediment) for man-entry. The number of culverts in ODOT's database is increasing in each year with new culverts being added due to new bypass highway constructions and ever increasing culvert replacement projects. Every time a new culvert is placed, it must be inspected right after installation (post-construction inspection) and periodically thereafter per ODOT requirement. ODOT has Construction & Materials Specifications (CMS) Item 611.12 that dictates how the post-construction culvert inspection must be conducted in Ohio. The main goal of the proposed study is to identify remote culvert inspection technologies which are cost effective, easy and safe to operate, capable of performing post-installation inspection (according to the ODOT Item 611.12), capable of measuring deflections, capable of measuring crack sizes, and capable of providing enough data to allow an accurate culvert rating. This research will be conducted in two phases. The proposed Phase 1 study will identify remote culvert inspection technologies that can be utilized safely to inspect and rate culverts in Ohio, Phase 2 will test the technologies identified in Phase 1 and is contingent upon the successful completion of Phase 1 and the written authorization of the ODOT Research Section.",
+  "notes": "",
+  "urls": [],
+  "status": "Active",
+  "funding": "77981",
+  "start": "2018-04-23",
+  "expected_complete": "2018-10-23",
+  "actual_complete": "",
+  "performing_agencies": [
+    {
+      "name": "CDM Smith Inc.",
+      "city": "Columbus",
+      "state": "OH",
+      "country": "United States",
+      "postal_code": "43235",
+      "site_url": "www.cdmsmith.com"
+    }
+  ],
+  "funding_agencies": [
+    {
+      "name": "Federal Highway Administration",
+      "city": "Washington",
+      "state": "DC",
+      "country": "United States",
+      "postal_code": "20590",
+      "site_url": "http://www.fhwa.dot.gov"
+    }
+  ],
+  "managing_agencies": [
+    {
+      "name": "Ohio Department of Transportation",
+      "city": "Columbus",
+      "state": "OH",
+      "country": "United States",
+      "postal_code": "43223",
+      "site_url": "http://www.dot.state.oh.us/Research"
+    }
+  ],
+  "project_investigators": [
+    {
+      "firstname": "John",
+      "lastname": "Schroeder"
+    }
+  ],
+  "responsible_individuals": [
+    {
+      "firstname": "Jill ",
+      "lastname": "Martindale"
+    }
+  ],
+  "TRID_RECORD_BASE": "./files/raw/TRIDXML_2018-05-13.xml",
+  "TRID_RECORD_ID": "1508212",
+  "TRID_RECORD_TYPE": "project",
+  "TRID_TRIS_FILE_CODES": [
+    "RiP",
+    "STATEDOT"
+  ],
+  "TRID_INDEX_TERMS": [
+    "Conduits",
+    "Culverts",
+    "Evaluation and assessment",
+    "Inspection",
+    "Ohio",
+    "Ratings",
+    "Remote sensing"
+  ],
+  "TRID_SUBJECT_AREAS": [
+    "Bridges and other structures",
+    "Highways",
+    "Maintenance and Preservation"
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "title": "Evaluation of Lateral Pile Resistance Near MSE Walls at a Dedicated Wall Site - Phase 2",
+  "abstract": "The objective of this research is to provide closure relative to the outstanding issues described above. A series of additional tests will be conducted as a Phase 2 follow-up to the original test series.",
+  "notes": "",
+  "urls": [
+    "http://www.pooledfund.org/Details/Study/633"
+  ],
+  "status": "Programmed",
+  "funding": "220000",
+  "start": "2018-04-22",
+  "expected_complete": "",
+  "actual_complete": "",
+  "performing_agencies": [],
+  "funding_agencies": [
+    {
+      "name": "Florida Department of Transportation",
+      "city": "Tallahassee",
+      "state": "FL",
+      "country": "United States",
+      "postal_code": "32399-0450",
+      "site_url": "http://www11.myflorida.com/research-center/"
+    },
+    {
+      "name": "New York State Department of Transportation",
+      "city": "Albany",
+      "state": "NY",
+      "country": "United States",
+      "postal_code": "12232",
+      "site_url": ""
+    },
+    {
+      "name": "Wisconsin Department of Transportation",
+      "city": "Madison",
+      "state": "WI",
+      "country": "United States",
+      "postal_code": "53707-7910",
+      "site_url": "http://wisdotresearch.wi.gov/"
+    },
+    {
+      "name": "Utah Department of Transportation",
+      "city": "Salt Lake City",
+      "state": "UT",
+      "country": "United States",
+      "postal_code": "84114-8380",
+      "site_url": ""
+    },
+    {
+      "name": "Minnesota Department of Transportation",
+      "city": "St Paul",
+      "state": "MN",
+      "country": "United States",
+      "postal_code": "55155",
+      "site_url": "http://www.dot.state.mn.us/"
+    },
+    {
+      "name": "Kansas Department of Transportation",
+      "city": "Topeka",
+      "state": "KS",
+      "country": "United States",
+      "postal_code": "66603-3754",
+      "site_url": "http://www.ksdot.org"
+    }
+  ],
+  "managing_agencies": [],
+  "project_investigators": [],
+  "responsible_individuals": [
+    {
+      "firstname": "David",
+      "lastname": "Stevens"
+    }
+  ],
+  "TRID_RECORD_BASE": "./files/raw/TRIDXML_2018-05-13.xml",
+  "TRID_RECORD_ID": "1509339",
+  "TRID_RECORD_TYPE": "project",
+  "TRID_TRIS_FILE_CODES": [
+    "RiP"
+  ],
+  "TRID_INDEX_TERMS": [
+    "Earth walls",
+    "Mechanically stabilized earth",
+    "Piles (Supports)"
+  ],
+  "TRID_SUBJECT_AREAS": [
+    "Bridges and other structures",
+    "Geotechnology",
+    "Highways"
+  ]
+}

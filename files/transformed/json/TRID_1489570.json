@@ -1,0 +1,195 @@
+{
+  "title": "Building Information Modeling (BIM) for Bridges and Structures",
+  "abstract": "The pooled fund project will provide the primary funding mechanism for American Association of State Highway and Transportation Officials (AASHTO) Subcomittee on Bridge and Structures (SCOBS) T-19 to perform the duties of governance and stewardship of Building Information Management (BIM) for Bridges and Structures.",
+  "notes": "The Institute for Transportation will provide facility and travel coordination for this Pooled Fund Bridge Project, \"Building Information Modeling (BIM) for Bridges and Structures for the Iowa Department of Transportation (Iowa DOT), and this project is being led by Ahmad Abu-Hawash from the Iowa DOT. The Iowa DOT is responsible for all financial obligations, InTrans is just coordinating this event on behalf of the Iowa DOT. Iowa DOT funding $189,174.",
+  "urls": [
+    "http://www.pooledfund.org/Details/Study/624"
+  ],
+  "status": "Programmed",
+  "funding": "1340000",
+  "start": "2018-12-01",
+  "expected_complete": "2022-11-30",
+  "actual_complete": "",
+  "performing_agencies": [
+    {
+      "name": "Iowa State University, Ames",
+      "city": "Ames",
+      "state": "IA",
+      "country": "United States",
+      "postal_code": "50010-8664",
+      "site_url": "http://www.ctre.iastate.edu"
+    }
+  ],
+  "funding_agencies": [
+    {
+      "name": "New Jersey Department of Transportation",
+      "city": "Trenton",
+      "state": "NJ",
+      "country": "United States",
+      "postal_code": "08625",
+      "site_url": "http://www.state.nj.us/transportation/"
+    },
+    {
+      "name": "New York State Department of Transportation",
+      "city": "Albany",
+      "state": "NY",
+      "country": "United States",
+      "postal_code": "12232",
+      "site_url": ""
+    },
+    {
+      "name": "Wisconsin Department of Transportation",
+      "city": "Madison",
+      "state": "WI",
+      "country": "United States",
+      "postal_code": "53707-7910",
+      "site_url": "http://wisdotresearch.wi.gov/"
+    },
+    {
+      "name": "Utah Department of Transportation",
+      "city": "Salt Lake City",
+      "state": "UT",
+      "country": "United States",
+      "postal_code": "84114-8380",
+      "site_url": ""
+    },
+    {
+      "name": "Texas Department of Transportation",
+      "city": "Austin",
+      "state": "TX",
+      "country": "United States",
+      "postal_code": "78701-2483",
+      "site_url": "http://www.dot.state.tx.us/"
+    },
+    {
+      "name": "Pennsylvania Department of Transportation",
+      "city": "Harrisburg",
+      "state": "PA",
+      "country": "United States",
+      "postal_code": "17120",
+      "site_url": "http://www.dot.state.pa.us/"
+    },
+    {
+      "name": "Ohio Department of Transportation",
+      "city": "Columbus",
+      "state": "OH",
+      "country": "United States",
+      "postal_code": "43223",
+      "site_url": "http://www.dot.state.oh.us/Research"
+    },
+    {
+      "name": "Mississippi Department of Transportation",
+      "city": "Jackson",
+      "state": "MS",
+      "country": "United States",
+      "postal_code": "39215-1850",
+      "site_url": "http://www.goMDOT.com/"
+    },
+    {
+      "name": "Iowa Department of Transportation",
+      "city": "Ames",
+      "state": "IA",
+      "country": "United States",
+      "postal_code": "50010",
+      "site_url": ""
+    },
+    {
+      "name": "Illinois Department of Transportation",
+      "city": "Springfield",
+      "state": "IL",
+      "country": "United States",
+      "postal_code": "62764",
+      "site_url": ""
+    },
+    {
+      "name": "Federal Highway Administration",
+      "city": "Washington",
+      "state": "DC",
+      "country": "United States",
+      "postal_code": "20590",
+      "site_url": "http://www.fhwa.dot.gov"
+    },
+    {
+      "name": "California Department of Transportation",
+      "city": "Sacramento",
+      "state": "CA",
+      "country": "United States",
+      "postal_code": "95843",
+      "site_url": ""
+    },
+    {
+      "name": "Delaware Department of Transportation",
+      "city": "Dover",
+      "state": "DE",
+      "country": "United States",
+      "postal_code": "19903",
+      "site_url": ""
+    },
+    {
+      "name": "Kansas Department of Transportation",
+      "city": "Topeka",
+      "state": "KS",
+      "country": "United States",
+      "postal_code": "66603-3754",
+      "site_url": "http://www.ksdot.org"
+    },
+    {
+      "name": "Michigan Department of Transportation",
+      "city": "Lansing",
+      "state": "MI",
+      "country": "United States",
+      "postal_code": "48909",
+      "site_url": "http://www.michigan.gov/mdot"
+    }
+  ],
+  "managing_agencies": [
+    {
+      "name": "Iowa State University, Ames",
+      "city": "Ames",
+      "state": "IA",
+      "country": "United States",
+      "postal_code": "50010-8664",
+      "site_url": "http://www.ctre.iastate.edu"
+    }
+  ],
+  "project_investigators": [
+    {
+      "firstname": "Shauna",
+      "lastname": "Hallmark"
+    }
+  ],
+  "responsible_individuals": [
+    {
+      "firstname": "Ahmad",
+      "lastname": "Abu-Hawash"
+    },
+    {
+      "firstname": "Khyle",
+      "lastname": "Clute"
+    }
+  ],
+  "TRID_RECORD_BASE": "./files/raw/TRIDXML_2018-05-13.xml",
+  "TRID_RECORD_ID": "1489570",
+  "TRID_RECORD_TYPE": "project",
+  "TRID_TRIS_FILE_CODES": [
+    "RiP",
+    "USDOT"
+  ],
+  "TRID_INDEX_TERMS": [
+    "American Association of State Highway and Transportation Officials",
+    "Bridge construction",
+    "Computer models",
+    "Facilities",
+    "Infrastructure",
+    "Management",
+    "Standardization",
+    "Strategic planning"
+  ],
+  "TRID_SUBJECT_AREAS": [
+    "Bridges and other structures",
+    "Construction",
+    "Design",
+    "Highways",
+    "Planning and Forecasting"
+  ]
+}

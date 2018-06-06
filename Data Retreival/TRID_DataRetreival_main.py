@@ -32,8 +32,7 @@ with ChromeDriver(**kwargs) as driver:
     driver.execute(js_commands)
 
     ## wait for download to complete
-    time.sleep(10)
-    # driver.wait_for('download_complete')
+    time.sleep(10) # driver.wait_for('download_complete')
 
     ## clear selections and navigate to next page
     visibility = driver.execute(r"return $('.record-pagination-forward').css('visibility')") # check if there is a next page
