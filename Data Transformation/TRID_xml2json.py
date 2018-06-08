@@ -4,7 +4,7 @@ from lxml import etree
 
 # TODO: write to xml and csv
 
-file = './files/raw/TRIDXML_2018-05-13.xml'
+file = './files/raw/TRIDXML_2018-06-06.xml'
 
 # parse xml document
 parser = etree.XMLParser(ns_clean=True, remove_blank_text=True)
