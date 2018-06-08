@@ -4,8 +4,8 @@ from random import randint
 
 # TODO: fix issue with wait_for method
 
-URL = r"https://trid.trb.org/Results?txtKeywords=&ddlSubject=1797&ddlTrisfile=&rpp=100"
-DOWNLOAD_DIRECTORY = r"C:\Users\Nick\Downloads\Test"
+URL = r"https://trid.trb.org/Results?txtKeywords=(bridge%20OR%20bridges)%20NOT%20rail*&txtTitle=&txtSerial=&ddlSubject=&txtReportNum=&ddlTrisfile=&txtIndex=%20&specificTerms=&txtAgency=&txtAuthor=&ddlResultType=&chkFulltextOnly=0&language=1&subjectLogic=or&dateStart=201306&dateEnd=201809&rangeType=publisheddate&sortBy=&sortOrder=DESC&rpp=100"
+DOWNLOAD_DIRECTORY = r"C:\Users\Nick\Documents\Projects\LTBP\Strategic Research\bulk_20180608"
 HEADLESS = False
 
 kwargs = {
@@ -16,11 +16,15 @@ kwargs = {
 with ChromeDriver(**kwargs) as driver:
   
   driver.open(URL)
+  count = 0
 
   while True:
 
-    time_delay = randint(10,20)
+    time_delay = randint(10,randint(20,60))
     time.sleep(time_delay)
+
+    count += 1
+    print(f'[Navigating Page {count}; Time Delay = {time_delay+10}]...')
 
     ## navigate page and download 
     js_commands = ';'.join([
@@ -42,5 +46,6 @@ with ChromeDriver(**kwargs) as driver:
         r"document.getElementsByClassName('record-pagination-forward')[0].click()", # goes to next page
       ])
       driver.execute(js_commands)
+      print('Done.\n')
     elif visibility == 'hidden': # there is no next page
       break

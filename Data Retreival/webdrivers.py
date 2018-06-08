@@ -69,6 +69,10 @@ class ChromeDriver:
     self.driver = self.CHROME_DRIVER
     self.is_active = False
 
+  @property
+  def title(self):
+    return self.driver.title
+
   def wait_for(self, wait_option, time_out=30, poll=0.5):
     wait = self.WAITS[wait_option]
     WebDriverWait(self.driver, time_out, poll).until(wait)
