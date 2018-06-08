@@ -1,0 +1,21 @@
+***ask question first in order to determine metric/visualization.
+
+metrics:
+
+project count by category/topic
+funding amount by category/topic
+category/topic by location
+sub-topic by category
+funding by gerography
+funding by bridge performance
+funding agency by category/topic
+research by component/material
+
+
+
+*funding (where are dollars being spent?, who is spending? what are they spending it on?)
+*funding vs distribution of bridge condition (correlating condition with research dollars)
+
+* aggregate numbers (e.g. research dollars per bridge)
+
+Later...(avg age vs avg cost)
