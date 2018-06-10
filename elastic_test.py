@@ -3,15 +3,15 @@ from elasticsearch import Elasticsearch
 import json
 from os import listdir
 
-all_json = listdir('./files/transformed/json/')
+all_json = listdir('./files/test_files/transformed/json/')
 es = Elasticsearch()
 
-id = 0
+# id = 0
 for file in all_json:
-  id+=1
-  with open(f'./files/transformed/json/{file}', 'r') as f:
+  # id+=1
+  with open(f'./files/test_files/transformed/json/{file}', 'r') as f:
     doc = json.load(f)
-    res = es.index(index="trid", doc_type='doc', id=id, body=doc)
+    res = es.index(index="trid", doc_type='project', id=id, body=doc)
     print(f'[doc:{id}] {res["result"]}')
 
 

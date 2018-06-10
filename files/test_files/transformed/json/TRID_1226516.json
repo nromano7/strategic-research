@@ -1,0 +1,34 @@
+{
+  "title": "Effect of Magnesium Chloride on PCC Pavement and Structures",
+  "abstract": "Winter maintenance throughout the United States has undergone a tremendous change during the last decade with a strong shift in materials away from solid chemicals and salt-sand mixtures toward the use of liquid deicing chemicals. This move has been prompted by many factors including increasing public demand for serviceable, even bare pavements, environmental concerns with dust and a concerted effort to find ways to maintain acceptable road conditions while reducing the quantity of chemical being applied. The new emphasis on deicing/anti-icing as a primary strategy has resulted in a substantial increase in the use of concentrated chloride salt solutions both for prewetting and direct application to pavement surfaces. As familiarity and experience grow, more and more liquid chemical is being used with the assumption that there is no fundamental difference in effect using these liquids as there was with the prior use of solid sodium chloride. This may not be the case. Magnesium chloride solution has gained wide acceptance as an important tool in numerous states' winter maintenance programs. Currently, it is being used for deicing, prewetting and anti-icing with great success. The volume of this material being applied annually is rapidly increasing as more maintenance units expand their capabilities. At the same time, the American Concrete Institute states in ACI 515.1R-79 &amp;quot;Magnesium chloride disintegrates concrete slowly&amp;quot; and F.M.Lea, in The Chemistry of Cement and Concrete (third edition, Chemical Publishing Company, New York, page 673), states &amp;quot;Solutions of magnesium chloride of 2% concentration and upwards produce a gradual diminution in the strength of portland cement mortars&amp;quot; and goes on to say &amp;quot;Very strong [about 30%] solutions destroy portland cement concrete.&amp;quot; These views raise questions about the long term effects of applying 28-30 % solution of this chemical, or, indeed, any chemical deicer to bridge decks and PCC pavements, as well as the potential impact to highly permeable new concrete. Calcium and sodium chloride are also being used as concentrated deicing brines, with unknown potential effects on concrete properties. Typical existing research involves testing 2%-4% solutions of deicer for scaling or other adverse effects. These tests assume rapid dilution of these chemicals, which may not be valid, especially where anti-icing is being employed. There is a need to conduct field investigations on concrete treated with liquid deicers over a number of years as well as laboratory research to determine the potential impact of various liquid deicers over the expected duration of treatment. There is also a need to determine whether strategies such as modified concrete mix design or application of sealants can offset any deleterious results. This project is being conducted as Pooled Fund Study TPF-5(042) through the cooperation of the Federal Highway Administration and the financial support of California, Colorado, Idaho, Illinois, Iowa, Montana, Texas and Wyoming.&amp;nbsp;The objectives of this research project are to: (1) &amp;nbsp;determine the long-term effects of concentrated solutions of magnesium, sodium and calcium chloride as well as CMA or other alternative liquid deicers on durable portland cement concrete; (2) estimate the potential for reduction in performance and service life for pavements (jointed plain, reinforced and continuously reinforced) and structures subjected to various concentrated deicing brines; and (3) identify alternative protective or deicing/anti-icing strategies which minimize potential impacts to durable portland cement concrete while providing acceptable winter maintenance results.",
+  "notes": null,
+  "urls": [
+    "http://sddot.com/business/research/projects/ProjectInfo.aspx?ColorTheme=Red&ProjNbr=SD2002-01"
+  ],
+  "status": "Active",
+  "funding": 600000.0,
+  "start": "2002-06-15",
+  "expected_complete": null,
+  "actual_complete": "2007-03-31",
+  "performing_agencies": [
+    {
+      "name": "University Transportation Center for Materials in Sustainable Transportation",
+      "city": "Houghton",
+      "state": "MI",
+      "country": "United States",
+      "postal_code": "49931",
+      "site_url": "http://www.misti.mtu.edu/index.php"
+    }
+  ],
+  "funding_agencies": [
+    {
+      "name": "South Dakota Department of Transportation",
+      "city": "Pierre",
+      "state": "SD",
+      "country": "United States",
+      "postal_code": "57501",
+      "site_url": "http://www.state.sd.us/dot/"
+    }
+  ],
+  "managing_agencies": []
+}

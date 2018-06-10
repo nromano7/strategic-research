@@ -215,7 +215,7 @@ Procedure:`
 	document_publication_date = record.document.monograph.publication_date
 
 		- DATE
-		- attributes: year, month
+		- attributes: year, month, day
 
 #### TBD fields 
 

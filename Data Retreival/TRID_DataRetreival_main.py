@@ -4,7 +4,7 @@ from random import randint
 
 # TODO: fix issue with wait_for method
 
-URL = r"https://trid.trb.org/Results?txtKeywords=(bridge%20OR%20bridges)%20NOT%20rail*&txtTitle=&txtSerial=&ddlSubject=&txtReportNum=&ddlTrisfile=&txtIndex=%20&specificTerms=&txtAgency=&txtAuthor=&ddlResultType=&chkFulltextOnly=0&language=1&subjectLogic=or&dateStart=201306&dateEnd=201809&rangeType=publisheddate&sortBy=&sortOrder=DESC&rpp=100"
+URL = r"https://trid.trb.org/Results?txtKeywords=(bridge%20OR%20bridges)%20NOT%20rail*&txtTitle=&txtSerial=&ddlSubject=&txtReportNum=&ddlTrisfile=&txtIndex=%20&specificTerms=&txtAgency=&txtAuthor=&ddlResultType=&chkFulltextOnly=0&language=1&subjectLogic=or&dateStart=201306&dateEnd=201809&rangeType=recordcreateddate&sortBy=&sortOrder=DESC&rpp=100"
 DOWNLOAD_DIRECTORY = r"C:\Users\Nick\Documents\Projects\LTBP\Strategic Research\bulk_20180608"
 HEADLESS = False
 
