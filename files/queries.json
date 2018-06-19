@@ -1,0 +1,250 @@
+// query funding agency by state
+{
+  "query":{
+    "nested":{
+      "path": "funding_agencies",
+      "query": {
+        "match": {
+          "funding_agencies.state.keyword": "TX"
+        }
+      }
+    }
+  }
+}
+
+// aggregation of funding agency by state
+{
+  "size": 0,
+  "_source": {"excludes": []},
+  "aggs": {
+    "agencies": {
+      "nested":{"path":"funding_agencies"},
+      "aggs": {
+        "states":{
+          "terms": {
+            "field": "funding_agencies.state.keyword",
+            "size": 50,
+            "order": {"_count": "desc"}
+          }
+        }
+      }
+    }
+  },
+  "stored_fields": ["*"],
+  "script_fields": {}
+}
+
+// GET projects/_search
+{
+  "query":{
+    "bool": {
+      "filter": [
+        {"term": {"status.keyword":"Active"}},
+        {"range":{
+          "expected_complete":{
+            "gte": "now",
+            "lte": "now+5y"
+          }
+        }}
+        ]
+    }
+  },
+  "size": 0,
+  "aggregations": {
+    "agencies": {
+      "nested":{"path":"funding_agencies"},
+      "aggregations": {
+        "states":{
+          "terms": {
+            "field": "funding_agencies.state.keyword",
+            "size": 50,
+            "order": {"_count": "desc"}
+          },
+          "aggs":{
+            "reverse":{
+              "reverse_nested":{},
+              "aggs":{
+                "total_funding":{
+                  "sum":{"field":"funding"}
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+{
+  "size": 0,
+  "aggregations": {
+    "agencies": {
+      "nested":{"path":"funding_agencies"},
+      "aggregations": {
+        "states":{
+          "terms": {
+            "field": "funding_agencies.state.keyword",
+            "size": 50,
+            "order": {"_count": "desc"}
+          },
+          "aggregations": {
+            "internal_cardinality": {
+              "reverse_nested": {
+                "path": "funding_agencies"
+              },
+              "aggregations": {
+                "stateCount":{
+                  "cardinality": {
+                    "field": "funding_agencies.state.keyword"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "stored_fields": ["*"],
+  "script_fields": {}
+}
+
+{
+  "size":0,
+  "aggregations": {
+    "agencies": {
+      "nested":{"path":"funding_agencies"},
+      "aggregations": {
+        "states":{
+          "terms": {
+            "field": "funding_agencies.state.keyword",
+            "size": 50,
+            "order": {"_count": "desc"}
+          },
+          "aggregations": {
+            "internal_cardinality": {
+              "reverse_nested": {
+                "path": "funding_agencies"
+              },
+              "aggregations": {
+                "stateCount":{
+                  "cardinality": {
+                    "field": "funding_agencies.state.keyword"
+                  }
+                }
+              }
+            },
+            "aggs": {
+              "3": {
+                "reverse_nested":{},
+                "range": {
+                  "field": "funding",
+                  "ranges": [
+                    {
+                      "from": 0,
+                      "to": 100000
+                    },
+                    {
+                      "from": 100000,
+                      "to": 200000
+                    }
+                  ],
+                  "keyed": true
+                }
+              }
+            
+          }
+        }
+      }
+    }
+  }
+}
+
+GET projects/_search
+{
+  "size":0,
+  "aggregations": {
+    "agencies": {
+      "nested":{"path":"funding_agencies"},
+      "aggregations": {
+        "states":{
+          "terms": {
+            "field": "funding_agencies.state.keyword",
+            "size": 50,
+            "order": {"_count": "desc"}
+          },
+          "aggs": {
+            "reverse": {
+              "reverse_nested": {},
+              "aggs": {
+                "fund_amt": {
+                  "range": {
+                    "field": "funding",
+                    "ranges": [
+                      {
+                        "from": 0,
+                        "to": 100000
+                      },
+                      {
+                        "from": 100000,
+                        "to": 250000
+                      },
+                      {
+                        "from": 250000,
+                        "to": 500000
+                      },
+                      {
+                        "from": 500000,
+                        "to": 750000
+                      },
+                      {
+                        "from": 750000,
+                        "to": 1000000
+                      },
+                      {
+                        "from": 1000000
+                      }
+                    ],
+                    "keyed": true
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+GET projects/_search
+{
+  "size": 0,
+  "aggregations": {
+    "agencies": {
+      "nested":{"path":"funding_agencies"},
+      "aggregations": {
+        "states":{
+          "terms": {
+            "field": "funding_agencies.state.keyword",
+            "size": 50,
+            "order": {"_count": "desc"}
+          },
+          "aggs":{
+            "reverse":{
+              "reverse_nested":{},
+              "aggs":{
+                "total_funding":{
+                  "sum":{"field":"funding"}
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

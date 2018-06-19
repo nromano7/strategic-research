@@ -1,8 +1,9 @@
-PUT trid-projects
+PUT projects
 {
   "mappings":{
-    "project": {
+    "_doc": {
       "properties": {
+        "type": {"type":"text"},
         "title": {"type":"text"},
         "abstract": {"type":"text"},
         "notes": {"type":"text"},
@@ -24,50 +25,53 @@ PUT trid-projects
         "performing_agencies":{
           "type":"nested",
           "properties": {
-            "name": "text",
-            "city": "text",
-            "state": "text",
-            "country": "text",
-            "site_url": "text",
+            "name": {"type":"text"},
+            "city": {"type":"text"},
+            "state": {"type":"keyword"},
+            "country": {"type":"keyword"},
+            "postal_code": {"type":"text"},
+            "site_url": {"type":"text"}
           }
-          },
+        },
         "funding_agencies": {
           "type":"nested",
           "properties": {
-            "name": "text",
-            "city": "text",
-            "state": "text",
-            "country": "text",
-            "site_url": "text",
+            "name": {"type":"text"},
+            "city": {"type":"text"},
+            "state": {"type":"keyword"},
+            "country": {"type":"keyword"},
+            "postal_code": {"type":"text"},
+            "site_url": {"type":"text"}
           }
-          },
+        },
         "managing_agencies": {
           "type":"nested",
           "properties": {
-            "name": "text",
-            "city": "text",
-            "state": "text",
-            "country": "text",
-            "site_url": "text",
+            "name": {"type":"text"},
+            "city": {"type":"text"},
+            "state": {"type":"keyword"},
+            "country": {"type":"keyword"},
+            "postal_code": {"type":"text"},
+            "site_url": {"type":"text"}
           }
-          },
+        },
         "project_investigators": {
           "type":"nested",
           "properties": {
-            "first_name":"text",
-            "last_name":"text"
+            "first_name":{"type":"keyword"},
+            "last_name":{"type":"keyword"}
           }
         },
         "responsible_individuals": {
           "type":"nested",
           "properties": {
-            "first_name":"text",
-            "last_name":"text"
+            "first_name":{"type":"keyword"},
+            "last_name":{"type":"keyword"}
           }
         },
         "TRID_RECORD_BASE": {"type":"text"},
-        "TRID_RECORD_ID": {"type":"integer"},
-        "TRID_RECORD_TYPE": {"type":"text"},
+        "TRID_RECORD_ID": {"type":"keyword"},
+        "TRID_RECORD_TYPE": {"type":"keyword"},
         "TRID_TRIS_FILE_CODES": {"type":"keyword"},
         "TRID_INDEX_TERMS": {"type":"keyword"},
         "TRID_SUBJECT_AREAS": {"type":"keyword"}
@@ -79,7 +83,7 @@ PUT trid-projects
 PUT trid-publications
 {
   "mappings":{
-    "project": {
+    "publication": {
       "properties": {
         "title": {"type":"text"},
         "abstract": {"type":"text"},
@@ -88,18 +92,21 @@ PUT trid-publications
         "authors": {
           "type":"nested",
           "properties": {
-            "first_name":"text",
-            "last_name":"text",
-            "position":"integer"
+            "first_name":{"type":"keyword"},
+            "last_name":{"type":"keyword"},
+            "position":{"type":"integer"}
           }
         },
         "serial":{"type":"text"},
         "serial_url":{"type":"text"},
         "publisher":{"type":"text"},
-        "publication_date":{"type":"text"},
+        "publication_date":{
+          "type":"date",
+          "format":"yyyy-MM-dd"
+        },
         "TRID_RECORD_BASE": {"type":"text"},
-        "TRID_RECORD_ID": {"type":"integer"},
-        "TRID_RECORD_TYPE": {"type":"text"},
+        "TRID_RECORD_ID": {"type":"keyword"},
+        "TRID_RECORD_TYPE": {"type":"keyword"},
         "TRID_TRIS_FILE_CODES": {"type":"keyword"},
         "TRID_INDEX_TERMS": {"type":"keyword"},
         "TRID_SUBJECT_AREAS": {"type":"keyword"}

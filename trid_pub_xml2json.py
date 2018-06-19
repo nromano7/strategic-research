@@ -35,6 +35,8 @@ for xml_file in all_xml_files:
 
     ## get data and store to record dict 
 
+    record['type'] = 'publication'
+
     # title
     record['title'] = ' '.join(xml_record.findtext("title").split())
 
@@ -47,14 +49,17 @@ for xml_file in all_xml_files:
     record['notes'] = notes.replace('\n','').replace('  ',' ') if notes else None # clean up
   
     # urls
+    record['urls'] = []
     record['urls'] = [url.text for url in xml_record.xpath("./document_urls/*")]
+    # all_urls = [url.text for url in xml_record.xpath("./document_urls/*")]
+    # [record['urls'].append({'url':u}) for u in all_urls]
 
     # authors
     record['authors'] = []
     for author in xml_record.xpath("./document/authors/*"):
       authors = {}
-      authors['first_name'] = author.attrib.get('firstname',None)
-      authors['last_name'] = author.attrib.get('lastname',None)
+      authors['firstname'] = author.attrib.get('firstname',None)
+      authors['lastname'] = author.attrib.get('lastname',None)
       authors['position'] = author.attrib.get('position',None)
       record['authors'].append(authors)
 
@@ -77,6 +82,9 @@ for xml_file in all_xml_files:
     pub_date = datetime(pub_date[0], pub_date[1], pub_date[2]).isoformat()[0:10] if pub_date else None
     record['publication_date'] = pub_date
 
+    # tags
+    record['tags'] = []
+
     # TRID meta data 
     record['TRID_RECORD_BASE'] = xml_record.base
     record['TRID_RECORD_ID'] = xml_record.attrib['id']
@@ -87,5 +95,7 @@ for xml_file in all_xml_files:
 
     with open(path.join(TRANS_FILES_PATH, f'TRID_{xml_record.attrib["id"]}.json'), 'w') as f:
       json.dump(record, f)
+
+    print(f'[publication xml2json doc:{xml_record.attrib["id"]}] : Complete')
 
 
