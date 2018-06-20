@@ -52,21 +52,37 @@ def FundingLevelHeatMap():
   
   return figure
 
-def ProjectCountMap1():
+def ProjectCountMap1(data=None):
 
-  data = aggs.ProjectCountByState()
+  if not data:
+    data = aggs.ProjectCountByState()
+
   states = [state for state in data.keys() if state != 'DC']
   counts = [data[state] for state in states]
+
+  colorscale=[
+    [0,'rgb(255,255,217)'],
+    [0.1,'rgb(237,248,177)'],
+    [0.2,'rgb(199,233,180)'],
+    [0.35,'rgb(127,205,187)'],
+    [0.45,'rgb(65,182,196)'],
+    [0.6,'rgb(29,145,192)'],
+    [0.75,'rgb(34,94,168)'],
+    [0.9,'rgb(37,52,148)'],
+    [1,'rgb(8,29,88)']
+  ]
   figure = {
     'data':[
       dict(
         type='choropleth',
-        autocolorscale = True,
+        # autocolorscale = True,
+        colorscale=colorscale,
         showscale=False,
+        opacity=0.9,
         locations = states, 
         z = counts, 
         locationmode = 'USA-states',
-        # marker = dict(line = dict(color = 'rgb(255,255,255)',width = 1)),
+        marker = dict(line = dict(color='rgb(255,255,255)',width=0.5)),
         colorbar = dict(
           title = "Project Count",
           x = 1,
@@ -169,12 +185,71 @@ def FundingByYearHistogram():
     ],
     layout=dict(
       margin=dict(
-        l=20,
+        l=40,
         r=20,
         b=20,
-        t=20,
+        t=60,
+      ),
+      title="Funding By Year",
+      titlefont=dict(
+        size=30
       )
     )
   )
   
   return figure
+
+def TermsPieChart():
+
+  data = aggs.LTBPTermsCount()
+  labels = [key for key in data]
+  values = [data[key] for key in data]
+
+  figure = {
+    "data": [
+      {
+        "values": values,
+        "labels": labels,
+        "domain":dict(column=60),
+        "hoverinfo":"label",
+        "hole": .4,
+        "type": "pie",
+        # "textinfo":"text+percent",
+        # "text":labels,
+        "textposition":"outside",
+        "showlegend":True,
+        "marker":dict(
+          colors='Viridis'
+        )
+      }],
+    "layout": {
+      "title":"LTBP Terms",
+      # "annotations": [
+      #   {
+      #     "font": {
+      #         "size": 30
+      #     },
+      #     "showarrow": False,
+      #     # "text": "LTBP Terms",
+      #     "x": 0.5,
+      #     "y": 0.5
+      #   }
+      # ],
+      "legend":dict(orientation='h'),
+      "margin":dict(
+        l=10,
+        r=10,
+        b=10,
+        t=60
+      ),
+      "titlefont":dict(
+        size=30
+      )
+
+    }
+  }
+
+  return figure
+
+
+

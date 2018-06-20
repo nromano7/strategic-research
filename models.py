@@ -1,7 +1,8 @@
 from elasticsearch import Elasticsearch
 from elasticsearch_dsl import DocType, Date, Nested, Boolean, InnerDoc, Keyword, Text, Float, Integer
 
-client = Elasticsearch()
+AWS_EP = r"https://elastic:wigWgahDPGf7Kh2JetHvcf3x@6c09a7dc67e4408c93e1416ac9bbc629.us-east-1.aws.found.io:9243"
+client = Elasticsearch(AWS_EP)
 
 class Agency(InnerDoc):
   name = Text(fields={'keyword': Keyword()})
@@ -57,6 +58,6 @@ class Publication(Record):
     index = 'publications'
 
 Project.init(using=client)
-# Publication.init(using=client)
+Publication.init(using=client)
 
 

@@ -11,7 +11,7 @@ PUB_FILES_PATH = r"C:\Users\Nick\Documents\Projects\LTBP\Strategic Research\bulk
 DOC_TYPE = 'doc'
 
 def indexDocuments(index,root_path):
-  esClient = Elasticsearch()
+  esClient = Elasticsearch(AWS_EP)
   all_files = listdir(root_path)
   for file in all_files:
     id = file.split('_')[1].split('.')[0]

@@ -70,9 +70,21 @@ def FundingLevelByState():
   
   return res
 
-def ProjectCountByState():
+def ProjectCountByState(query=None):
   # search object
   s = Search(using=client,index=index)
+  fields = ["title","abstract","notes","TRID_INDEX_TERMS","TRID_SUBJECT_AREAS",'tags']
+  if query:
+    q=Q(
+      {
+        "multi_match":{
+          "query": query,
+          "type":"best_fields",
+          "fields":fields
+        }
+      }
+    )
+    s=s.query(q)
 
   # aggregations
   a1 = A(
@@ -155,83 +167,122 @@ def FundingByYear():
   
   return res
 
-def ProjectCount():
+def ProjectCount(query=None):
   # search object
   s = Search(using=client,index=index)
 
-  # query
-  total = Q(
-    {
-      "match_phrase": {
-        "type": {
-          "query": "project"
-        }
-      }
-    }
-  )
-  active = Q(
-    {
-      "match_phrase": {
-        "status.keyword": {
-          "query": "Active"
-        }
-      }
-    }
-  )
-  complete = Q(
-    {
-      "match_phrase": {
-        "status.keyword": {
-          "query": "Completed"
-        }
-      }
-    }
-  )
-  programmed = Q(
-    {
-      "match_phrase": {
-        "status.keyword": {
-          "query": "Programmed"
-        }
-      }
-    }
-  )
-  proposed = Q(
-    {
-      "match_phrase": {
-        "status.keyword": {
-          "query": "Proposed"
-        }
-      }
-    }
-  )
+  fields = ["title","abstract","notes","TRID_INDEX_TERMS","TRID_SUBJECT_AREAS",'tags']
+  allStatus = ['Active', 'Completed', 'Programmed', 'Proposed']
 
-  res=dict(
-    total=s.query(total).count(),
-    active=s.query(active).count(),
-    complete=s.query(complete).count(),
-    programmed=s.query(programmed).count(),
-    proposed=s.query(proposed).count()
-  )
+  if query:
+
+    q=Q(
+      {
+        "multi_match":{
+          "query": query,
+          "type":"best_fields",
+          "fields":fields
+        }
+      }
+    )
+    s=s.query(q)
+    res={}
+    res['total'] = s.count()
+    for status in allStatus:
+      res[status.lower()] = s.filter("match",status=status).count()
+
+  else:
+
+    # query
+    total = Q(
+      {
+        "match_phrase": {
+          "type": {
+            "query": "project"
+          }
+        }
+      }
+    )
+    s=s.query(total)
+    res={}
+    res['total'] = s.count()
+    for status in allStatus:
+      q = Q(
+        {
+          "match_phrase": {
+            "status.keyword": {
+              "query": status
+            }
+          }
+        }
+      )
+      res[status.lower()] = s.query(q).count()
 
   return res
 
-def PublicationCount():
+def PublicationCount(query=None):
 
   # search object
   s = Search(using=client,index='publications')
+  fields = ["title","abstract","notes","TRID_INDEX_TERMS","TRID_SUBJECT_AREAS",'tags']
 
-  # query
-  total = Q(
-    {
-      "match_phrase": {
-        "type": {
-          "query": "publication"
+  if query:
+
+    q=Q(
+      {
+        "multi_match":{
+          "query": query,
+          "type":"best_fields",
+          "fields":fields
         }
       }
-    }
-  )
+    )
+    count = s.query(q).count()
 
-  count = s.query(total).count()
+  else:
+
+    # query
+    total = Q(
+      {
+        "match_phrase": {
+          "type": {
+            "query": "publication"
+          }
+        }
+      }
+    )
+
+    count = s.query(total).count()
 
   return count
+
+def LTBPTermsCount():
+  s = Search(using=client,index=index)
+
+  inAttr = [
+    "Construction",
+    "Design",
+    "Environment",
+    "Live Load",
+    "Maintenance & Preservation",
+    "Material"
+  ]
+  fields = ["title","abstract","notes","TRID_INDEX_TERMS","TRID_SUBJECT_AREAS", "tags"]
+
+  res={}
+  for i in inAttr:
+    q = Q(
+      {
+        "multi_match":{
+          "query": i,
+          "type":"best_fields",
+          "fields": fields
+        }
+      }
+    )
+    res[i] = s.query(q).count()
+
+  return res
+
+# res = PublicationCount(query="Construction")
+# print()

@@ -2,12 +2,21 @@ from elasticsearch import Elasticsearch
 from elasticsearch_dsl import Search, Q
 from pytools.ContextManagers.timer import timer
 
-query = "admixtures"
+query = "maintenance preservation"
 
 index = 'projects'
 doc_type = 'doc'
 client = Elasticsearch()
 s = Search(using=client,index=index)
+
+fields = ["title","abstract","notes","TRID_INDEX_TERMS","TRID_SUBJECT_AREAS",'tags']
+
+q = Q(
+  {
+    "match_all":{}
+  }
+)
+r = s.query(q)
 
 with timer('match'):
   q = Q({"match":{"abstract": query}})
@@ -25,7 +34,7 @@ with timer('multi_match: best_fields'):
       "multi_match":{
         "query": query,
         "type":"best_fields",
-        "fields":["title","abstract"]
+        "fields":fields
       }
     }
   )
@@ -38,7 +47,7 @@ with timer('multi_match: most_fields'):
       "multi_match":{
         "query": query,
         "type":"most_fields",
-        "fields":["title","abstract"]
+        "fields":fields
       }
     }
   )
