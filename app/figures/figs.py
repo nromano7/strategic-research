@@ -46,7 +46,7 @@ def FundingLevelHeatMap():
         # title = 'Funding by State',
         xaxis={'title': 'States'},
         yaxis={'title': 'Funding (Dollar Amount)','tickprefix':"  "},
-        margin={'l':110,'r':40,'t':30,'b':70,},
+        # margin={'l':110,'r':40,'t':30,'b':70,},
       )
   }
   
@@ -92,13 +92,13 @@ def ProjectCountMap1(data=None):
       )
     ],
     'layout':dict(
-      margin={
-        'l':0,
-        'r':0,
-        'b':0,
-        't':0,
-        'pad':0
-      },
+      # margin={
+      #   'l':0,
+      #   'r':0,
+      #   'b':0,
+      #   't':0,
+      #   'pad':10
+      # },
       geo = dict(
         scope='usa',
         # projection=dict( type='albers usa' ),
@@ -110,11 +110,11 @@ def ProjectCountMap1(data=None):
 
   return figure
 
-def ProjectCountMap2():
+def ProjectCountMap2(data=None):
 
   mapbox_access_token = "pk.eyJ1IjoibnJvbWFubzciLCJhIjoiY2ppa2prYjQ2MWszczNsbnh5YnhkZTh1aSJ9.5qBV5E8g3oxlo3ZFL4n6Zw"
   
-  with open('./files/statesGeo.json','r') as f:
+  with open('./statesGeo.json','r') as f:
     geo = json.load(f)
 
   BINS = [
@@ -158,20 +158,22 @@ def ProjectCountMap2():
         pitch=0,
         zoom=3.1
       ),
-      margin = dict(
-        l=10,
-        r=10,
-        b=10,
-        t=10
-      )
+      # margin = dict(
+      #   l=10,
+      #   r=10,
+      #   b=10,
+      #   t=10
+      # )
     )
   }
 
   return figure
 
-def FundingByYearHistogram():
+def FundingByYearHistogram(data=None):
 
-  data = aggs.FundingByYear()
+  if not data:
+    data = aggs.FundingByYear()
+
   x = [x for x in data]
   y = [data[i] for i in x]
 
@@ -184,13 +186,45 @@ def FundingByYearHistogram():
       )
     ],
     layout=dict(
-      margin=dict(
-        l=40,
-        r=20,
-        b=20,
-        t=60,
-      ),
+      # margin=dict(
+      #   l=40,
+      #   r=20,
+      #   b=20,
+      #   t=60,
+      # ),
       title="Funding By Year",
+      titlefont=dict(
+        size=30
+      )
+    )
+  )
+  
+  return figure
+
+def ProjectCountByYearHistogram(data=None):
+  
+  if not data:
+    data = aggs.ProjectCountByYear()
+    
+  x = [x for x in data]
+  y = [data[i] for i in x]
+
+  figure=dict(
+    data=[
+      dict(
+        x=x,
+        y=y,
+        type='bar',
+      )
+    ],
+    layout=dict(
+      # margin=dict(
+      #   l=40,
+      #   r=20,
+      #   b=20,
+      #   t=60,
+      # ),
+      title="Project Count By Year",
       titlefont=dict(
         size=30
       )
@@ -236,12 +270,12 @@ def TermsPieChart():
       #   }
       # ],
       "legend":dict(orientation='h'),
-      "margin":dict(
-        l=10,
-        r=10,
-        b=10,
-        t=60
-      ),
+      # "margin":dict(
+      #   l=10,
+      #   r=10,
+      #   b=10,
+      #   t=60
+      # ),
       "titlefont":dict(
         size=30
       )

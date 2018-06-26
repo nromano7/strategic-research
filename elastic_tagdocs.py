@@ -23,13 +23,12 @@ tags = [
   "data collection",
   "preservation",
   "overlay",
-  "service life",
   "truck load",
   "wheel load"
   "washing",
-  "bridge joints",
-  "bridge bearings",
-  "bridge deck",
+  "joints",
+  "bearings",
+  "deck",
   "curing",
   "construction",
   "cost",
@@ -39,10 +38,11 @@ tags = [
   "visual inspection"
 ]
 
+AWS_EP = r"https://elastic:wigWgahDPGf7Kh2JetHvcf3x@6c09a7dc67e4408c93e1416ac9bbc629.us-east-1.aws.found.io:9243"
 index = 'projects'
 doc_type = 'doc'
 fields = ["title","abstract","notes","TRID_INDEX_TERMS","TRID_SUBJECT_AREAS"]
-client = Elasticsearch()
+client = Elasticsearch(AWS_EP)
 s = Search(using=client,index=index)
 
 for tag in tags:

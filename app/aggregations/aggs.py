@@ -2,9 +2,12 @@ from elasticsearch import Elasticsearch
 from elasticsearch_dsl import Search, A, Q
 import json
 
+AWS_EP = r"https://elastic:wigWgahDPGf7Kh2JetHvcf3x@6c09a7dc67e4408c93e1416ac9bbc629.us-east-1.aws.found.io:9243"
+
+
 index = 'projects'
 doc_type = 'doc'
-client = Elasticsearch()
+client = Elasticsearch(AWS_EP)
 
 def FundingLevelByState():
   # search object
@@ -113,9 +116,22 @@ def ProjectCountByState(query=None):
   
   return res
 
-def FundingByYear():
+def FundingByYear(query=None):
   # search object
   s = Search(using=client,index=index)
+
+  fields = ["title","abstract","notes","TRID_INDEX_TERMS","TRID_SUBJECT_AREAS",'tags']
+  if query:
+    q=Q(
+      {
+        "multi_match":{
+          "query": query,
+          "type":"best_fields",
+          "fields":fields
+        }
+      }
+    )
+    s=s.query(q)
 
   # aggregations
   a1 = A(
@@ -164,6 +180,69 @@ def FundingByYear():
   for bucket in list(response.aggregations.dateRange.buckets):
     year = bucket.key[:4]
     res[year] = bucket.sumFunding.value
+  
+  return res
+
+def ProjectCountByYear(query=None):
+  
+  # search object
+  s = Search(using=client,index=index)
+
+  fields = ["title","abstract","notes","TRID_INDEX_TERMS","TRID_SUBJECT_AREAS",'tags']
+  if query:
+    q=Q(
+      {
+        "multi_match":{
+          "query": query,
+          "type":"best_fields",
+          "fields":fields
+        }
+      }
+    )
+    s=s.query(q)
+
+  # aggregations
+  a1 = A(
+    "date_range", 
+    field="actual_complete_date",
+    ranges=[
+      {
+        "from": "2013-01-01",
+        "to": "2014-01-01"
+      },
+      {
+        "from": "2014-01-01",
+        "to": "2015-01-01"
+      },
+      {
+        "from": "2015-01-01",
+        "to": "2016-01-01"
+      },
+      {
+        "from": "2016-01-01",
+        "to": "2017-01-01"
+      },
+      {
+        "from": "2017-01-01",
+        "to": "2018-01-01"
+      },
+      {
+        "from": "2018-01-01",
+        "to": "2019-01-01"
+      }
+    ]
+  )
+    
+  s.aggs\
+    .bucket('dateRange', a1)
+
+  response = s.execute()
+
+  # filter response
+  res = {}
+  for bucket in list(response.aggregations.dateRange.buckets):
+    year = bucket.key[:4]
+    res[year] = bucket.doc_count
   
   return res
 
@@ -284,5 +363,5 @@ def LTBPTermsCount():
 
   return res
 
-# res = PublicationCount(query="Construction")
+# res = ProjectCountByYear()
 # print()
