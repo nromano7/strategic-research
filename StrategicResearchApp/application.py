@@ -22,7 +22,7 @@ app.css.append_css({"external_url": r"https://codepen.io/chriddyp/pen/brPBPO.css
 
 app.title = 'Strategic Research'
 
-z_depth = 'z-depth-4'
+z_depth = 'z-depth-1'
 
 app.layout =  (
   # ///// START MAIN /////
@@ -250,8 +250,8 @@ app.layout =  (
                           # ///// MAP /////
                           Graph(
                             id='project-count-map',
-                            style={"height":"100%"},
-                            figure=figs.ProjectCountMap2(),
+                            style={"height":"100%","overflow": "hidden"},
+                            figure=dict(data=dict(type="scattermapbox")),#figs.ProjectCountMap2(),
                             config={'displayModeBar': False},
                           )
                         ]

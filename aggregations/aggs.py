@@ -1,5 +1,5 @@
-# from elasticsearch import Elasticsearch
-from app import client
+from elasticsearch import Elasticsearch
+# from app import client
 from elasticsearch_dsl import Search, A, Q
 import json
 
@@ -8,7 +8,7 @@ import json
 
 index = 'projects'
 doc_type = 'doc'
-# client = Elasticsearch()
+client = Elasticsearch()
 
 def FundingLevelByState():
   # search object
