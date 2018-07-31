@@ -1,53 +1,117 @@
 <!DOCTYPE html>
+
 <html>
 
 <head>
   <!-- Compiled and minified CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
   <!--Let browser know website is optimized for mobile-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    .header-search-wrapper input {
+      padding: 10px
+    }
+  </style>
 </head>
 
-<body>
+<body class="grey lighten-5">
 
-  <div class="container">
-
-    <div class="row">
-
-      <div class="col s4 m4 l4">
-        <div class="card">
-          <div class="card-image">
-            <img src="http://materializecss.com/images/sample-1.jpg">
-            <a class="btn-floating btn-large halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
+  <div class="navbar-fixed">
+    <nav class="blue-grey">
+      <div class="nav-wrapper">
+        <!-- <div class="header-search-wrapper">
+          <div class="input-field white" style="width:33%; position:absolute; border-radius: 5px">
+            <input id="search" type="search" required>
+            <label class="label-icon" for="search">
+              <i class="material-icons grey-text">search</i>
+            </label>
+            <i class="material-icons">close</i>
           </div>
-          <div class="card-content">
-            <span class="card-title">Card Title</span>
-            <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
-          </div>
+        </div> -->
+        <div style="width:33%; position:absolute;">
+          <input class="white" id="search" type="search" style="border-radius: 5px" required>
         </div>
+        <ul class="right">
+          <ul id="nav-mobile" class="right hide-on-small-and-down">
+            <li>
+              <!-- Dropdown Trigger -->
+              <a class='dropdown-trigger btn' href='#' data-target='dropdown1'>Bridge Elements</a>
+
+              <!-- Dropdown Structure -->
+              <ul id='dropdown1' class='dropdown-content'>
+                <li>
+                  <a href="#!">one</a>
+                </li>
+                <li class="divider" tabindex="-1"></li>
+                <li>
+                  <a href="#!">two</a>
+                </li>
+                <li class="divider" tabindex="-1"></li>
+                <li>
+                  <a href="#!">three</a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <!-- Dropdown Trigger -->
+              <a class='dropdown-trigger btn' href='#' data-target='dropdown2'>Inputs/Attributes</a>
+
+              <!-- Dropdown Structure -->
+              <ul id='dropdown2' class='dropdown-content'>
+                <li>
+                  <a href="#!">one</a>
+                </li>
+                <li class="divider" tabindex="-1"></li>
+                <li>
+                  <a href="#!">two</a>
+                </li>
+                <li class="divider" tabindex="-1"></li>
+                <li>
+                  <a href="#!">three</a>
+                </li>
+              </ul>
+            </li>
+
+            <li>
+              <!-- Dropdown Trigger -->
+              <a class='dropdown-trigger btn' href='#' data-target='dropdown3'>Performance Inidcators</a>
+
+              <!-- Dropdown Structure -->
+              <ul id='dropdown3' class='dropdown-content'>
+                <li>
+                  <a href="#!">one</a>
+                </li>
+                <li class="divider" tabindex="-1"></li>
+                <li>
+                  <a href="#!">two</a>
+                </li>
+                <li class="divider" tabindex="-1"></li>
+                <li>
+                  <a href="#!">three</a>
+                </li>
+              </ul>
+            </li>
+
+          </ul>
+        </ul>
       </div>
 
-      <div class="col s4 m4 l4">
-          <div class="card">
-            <div class="card-image">
-              <img src="http://materializecss.com/images/sample-1.jpg">
-              <a class="btn-floating btn-large halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Card Title</span>
-              <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
-            </div>
-          </div>
-        </div>
-
-
-
-    </div>
-    
-  
-
+    </nav>
   </div>
+  </nav>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var elems = document.querySelectorAll('.dropdown-trigger');
+      var instances = M.Dropdown.init(elems, {
+        'alignment': 'center'
+      });
+    });
+  </script>
 
   <!-- Compiled and minified JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>

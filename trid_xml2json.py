@@ -3,8 +3,8 @@ import json
 from lxml import etree
 from os import listdir, path
 
-XML_PATH = r"C:\Users\Nick\Documents\Projects\LTBP\Strategic Research\bulk_20180608\raw"
-JSON_PATH = r"C:\Users\Nick\Documents\Projects\LTBP\Strategic Research\bulk_20180608\transformed\projects"
+# XML_PATH=r"C:\Users\Nick\Documents\Projects\LTBP\Strategic Research\data_files\20180725\xml"
+# JSON_PATH=r"C:\Users\Nick\Documents\Projects\LTBP\Strategic Research\data_files\20180725\json"
 
 def projects_xml2json(XML_PATH, JSON_PATH):
 
@@ -112,7 +112,10 @@ def projects_xml2json(XML_PATH, JSON_PATH):
       record['urls'] = [url.text for url in xml_record.xpath("./document_urls/*")]
       
       # status
-      record['status'] = xml_record.xpath("./project/project_status")[0].text
+      try:
+        record['status'] = xml_record.xpath("./project/project_status")[0].text
+      except:
+        print()
 
       # funding
       funding = xml_record.xpath("./project/funding")[0].text
@@ -134,7 +137,8 @@ def projects_xml2json(XML_PATH, JSON_PATH):
       record['performing_agencies'] = []
       for perf_agency in xml_record.xpath("./project/performing_agencies/*"):
         agency = agencyCheck(perf_agency)
-        agency['state'] = fixStateName(agency.get('state'))
+        if agency['state'] == "United States" or agency['state'] == "USA":
+          agency['state'] = fixStateName(agency.get('state'))
         record['performing_agencies'].append(agency)
 
       # funding agencies
@@ -142,14 +146,16 @@ def projects_xml2json(XML_PATH, JSON_PATH):
       record['funding_agencies'] = []
       for fund_agency in funding_agencies:
         agency = agencyCheck(fund_agency)
-        agency['state'] = fixStateName(agency.get('state'))
+        if agency['state'] == "United States" or agency['state'] == "USA":
+          agency['state'] = fixStateName(agency.get('state'))
         record['funding_agencies'].append(agency)
 
       # managing agencies
       record['managing_agencies'] = []
       for manage_agency in xml_record.xpath("./project/manager_agencies/*"):
         agency = agencyCheck(manage_agency)
-        agency['state'] = fixStateName(agency.get('state'))
+        if agency['state'] == "United States" or agency['state'] == "USA":
+          agency['state'] = fixStateName(agency.get('state'))
         record['managing_agencies'].append(agency)
 
       # project investigators
@@ -184,7 +190,6 @@ def projects_xml2json(XML_PATH, JSON_PATH):
 
       print(f'[project xml2json doc:{xml_record.attrib["id"]}] : Complete')
 
-
 def publications_xml2json(XML_PATH, JSON_PATH):
   all_xml_files = listdir(XML_PATH)
 
@@ -196,6 +201,8 @@ def publications_xml2json(XML_PATH, JSON_PATH):
     if x[2] > 31 or x[2] < 1:
       x[2] = 1
     return x
+
+  count=0
 
   for xml_file in all_xml_files:
 
@@ -218,6 +225,11 @@ def publications_xml2json(XML_PATH, JSON_PATH):
 
       # title
       record['title'] = ' '.join(xml_record.findtext("title").split())
+
+      if not xml_record.findtext("abstract"): # skip if no abstract
+        count+=1
+        print(f"Faulty record [{xml_record.attrib['id']}] - {count}")
+        continue
 
       # abstract
       record['abstract'] = ' '.join(xml_record.findtext("abstract") \
@@ -276,3 +288,5 @@ def publications_xml2json(XML_PATH, JSON_PATH):
         json.dump(record, f)
 
       print(f'[publication xml2json doc:{xml_record.attrib["id"]}] : Complete')
+
+# publications_xml2json(XML_PATH, JSON_PATH)
