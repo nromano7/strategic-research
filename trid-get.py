@@ -1,24 +1,39 @@
 from datetime import datetime
 import logging
-from pytools.webdrivers import ChromeDriver
-from pytools.fileEventHandler import Watcher
+from trid.webdrivers import ChromeDriver
+from trid.fileEventHandler import Watcher
+from trid.xml2json import xml2json
 import os
 from random import randint
 import time
-import trid_xml2json
 
 # ///// INPUTS /////
-URL = r"""https://trid.trb.org/Results?
-txtKeywords=&txtTitle=&txtSerial=&ddlSubject=1797&
-txtReportNum=&ddlTrisfile=&txtIndex=%20&specificTerms=&
-txtAgency=&txtAuthor=&ddlResultType=&chkFulltextOnly=0&
-language=1&subjectLogic=or&dateStart=2006&dateEnd=2019&
-rangeType=publisheddate&sortBy=&sortOrder=DESC&rpp=100"""
-DOWNLOADS_DIRECTORY = r"C:/Users/Nick/Documents/Projects/LTBP/Strategic Research/data_files/"
+URL=r"""https://trid.trb.org/Results?
+txtKeywords=&
+txtTitle=&
+txtSerial=&
+ddlSubject=1797&
+txtReportNum=&
+ddlTrisfile=&
+txtIndex=%20&
+specificTerms=&
+txtAgency=&
+txtAuthor=&
+ddlResultType=DO&
+chkFulltextOnly=0&
+language=1&
+subjectLogic=or&
+dateStart=2006&
+dateEnd=2019&
+rangeType=publisheddate&
+sortBy=&
+sortOrder=DESC&
+rpp=100"""
 HEADLESS = True
 # ///// /////
 
 # create downloads folder if it does not exist
+DOWNLOADS_DIRECTORY = r"C:\Users\nickp\OneDrive\Documents\work\projects\ltbp\strategic-research\data-files"#os.getcwd()
 now = datetime.now()
 year, month, day = now.year, now.month, now.day
 DOWNLOADS_FOLDER = os.path.join(DOWNLOADS_DIRECTORY,f"{year:04}{month:02}{day:02}")
@@ -94,7 +109,7 @@ with Watcher(DOWNLOADS_FOLDER, log_filepath=LOGFILE_PATH):
       os.rename(src, dst)
 
 
-  trid_xml2json.projects_xml2json(XML_PATH, JSON_PATH)
-  trid_xml2json.publications_xml2json(XML_PATH, JSON_PATH)
+  xml2json(XML_PATH, JSON_PATH)
+  
 
 

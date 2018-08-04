@@ -11,110 +11,308 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
-    .header-search-wrapper input {
-      padding: 10px
-    } 
+    .black-text {
+      color: #000000 !important;
+    }
+
+    /*Search box*/
+
+    #header .header-search-wrapper {
+      margin: 10px auto 0 10px;
+      width: calc(100% - 900px);
+      height: 40px;
+      display: inline-block;
+      position: relative;
+      -webkit-transition: .3s ease all;
+      -o-transition: .3s ease all;
+      -moz-transition: .3s ease all;
+      transition: .3s ease all;
+      -webkit-backface-visibility: hidden;
+      -moz-backface-visibility: hidden;
+      backface-visibility: hidden;
+    }
+
+    #header .header-search-wrapper i {
+      position: absolute;
+      font-size: 24px;
+      top: 6px;
+      left: 24px;
+      line-height: 32px !important;
+      -webkit-transition: color 200ms ease;
+      transition: color 200ms ease;
+    }
+
+    #header input.header-search-input {
+      display: block;
+      padding: 8px 8px 8px 72px;
+      width: 87%;
+      background: rgba(255, 255, 255, 0.3);
+      height: 24px;
+      -webkit-transition: all 200ms ease;
+      transition: all 200ms ease;
+      border: none;
+      font-size: 16px;
+      appearance: textfield;
+      font-weight: 400;
+      outline: none;
+      border-radius: 3px;
+    }
+
+    #header input.header-search-input:hover {
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    #header input.header-search-input:focus {
+      color: #333;
+      background: #fff;
+      border-bottom: none !important;
+      box-shadow: none !important;
+    }
+
+    #header .header-search-wrapper-focus i {
+      color: #444;
+    }
+
+    #header .header-search-input::-webkit-input-placeholder {
+      color: #fff;
+      font-size: 16px;
+      font-weight: 400;
+    }
+
+    #header .header-search-input::-moz-placeholder {
+      color: #fff;
+      font-size: 16px;
+      font-weight: 400;
+    }
+
+    #header .header-search-input:-ms-input-placeholder {
+      color: #fff;
+      font-size: 16px;
+      font-weight: 400;
+    }
+
+    #header .header-search-input:focus::-webkit-input-placeholder {
+      color: #333;
+      font-size: 16px;
+      font-weight: 400;
+    }
+
+    #header .header-search-input:focus::-moz-placeholder {
+      color: #333;
+      font-size: 16px;
+      font-weight: 400;
+    }
+
+    #header .header-search-input:focus::placeholder {
+      color: #333;
+      font-size: 16px;
+      font-weight: 400;
+    }
+
+    #header .header-search-input:focus:-ms-input-placeholder {
+      color: #333;
+      font-size: 16px;
+      font-weight: 400;
+    }
+
+    #header .header-search-input::placeholder {
+      color: #fff;
+      font-size: 16px;
+      font-weight: 400;
+    }
+
+    .material-icons {
+      font-family: 'Material Icons';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 24px;
+      /* Preferred icon size */
+      display: inline-block;
+      line-height: 1;
+      text-transform: none;
+      letter-spacing: normal;
+      word-wrap: normal;
+      white-space: nowrap;
+      direction: ltr;
+      /* Support for all WebKit browsers. */
+      -webkit-font-smoothing: antialiased;
+      /* Support for Safari and Chrome. */
+      text-rendering: optimizeLegibility;
+      /* Support for Firefox. */
+      -moz-osx-font-smoothing: grayscale;
+      /* Support for IE. */
+      font-feature-settings: 'liga';
+    }
+
+    #nav-dropdown {
+      padding-right: 10px;
+    }
+
+    #nav-dropdown li a {
+      color: #444
+    }
+
+    #card-stats .row {
+      margin-left: 0px;
+      margin-right: 0px;
+      margin-bottom: 5px;
+    }
+
+    #card-stats .col.s4.m4.l4 {
+      margin: 0px;
+      padding: 0px
+    }
+
+    #card-stats h1 {
+      margin-top: 0px
+    }
   </style>
+
 </head>
 
-<body class="grey lighten-5">
-
-  <div class="navbar-fixed">
-    <nav class="blue-grey">
-      <div class="nav-wrapper">
-        <!-- <div class="header-search-wrapper">
-          <div class="input-field white" style="width:33%; position:absolute; border-radius: 5px">
-            <input id="search" type="search" required>
-            <label class="label-icon" for="search">
-              <i class="material-icons grey-text">search</i>
-            </label>
-            <i class="material-icons">close</i>
+<body class="grey lighten-4">
+  <!-- START HEADER -->
+  <header id="header" class="page-topbar">
+    <!-- start header nav-->
+    <div class="navbar-fixed">
+      <nav class="blue-grey lighten-2">
+        <div class="nav-wrapper">
+          <div class="header-search-wrapper hide-on-med-and-down">
+            <i class="material-icons">search</i>
+            <input type="text" name="Search" class="header-search-input z-depth-2" placeholder="Search" />
           </div>
-        </div> -->
-        <div style="width:33%; position:absolute;">
-          <input class="white" id="search" type="search" style="border-radius: 5px" required>
+          <div id="nav-dropdown" class="right">
+            <!-- Dropdown Trigger -->
+            <a class='dropdown-trigger btn blue' href='#' data-target='dropdown1'>Bridge Elements</a>
+
+            <!-- Dropdown Structure -->
+            <ul id='dropdown1' class='dropdown-content'>
+              <li>
+                <a href="#!">Treated Deck</a>
+              </li>
+              <li class="divider" tabindex="-1"></li>
+              <li>
+                <a href="#!">Untreated Deck</a>
+              </li>
+              <li class="divider" tabindex="-1"></li>
+              <li>
+                <a href="#!">Joints</a>
+              </li>
+            </ul>
+
+            <!-- Dropdown Trigger -->
+            <a class='dropdown-trigger btn blue' href='#' data-target='dropdown2'>Inputs/Attributes</a>
+
+            <!-- Dropdown Structure -->
+            <ul id='dropdown2' class='dropdown-content'>
+              <li>
+                <a href="#!">Treated Deck</a>
+              </li>
+              <li class="divider" tabindex="-1"></li>
+              <li>
+                <a href="#!">Untreated Deck</a>
+              </li>
+              <li class="divider" tabindex="-1"></li>
+              <li>
+                <a href="#!">Joints</a>
+              </li>
+            </ul>
+
+            <!-- Dropdown Trigger -->
+            <a class='dropdown-trigger btn blue' href='#' data-target='dropdown3'>Performance Metrics</a>
+
+            <!-- Dropdown Structure -->
+            <ul id='dropdown3' class='dropdown-content'>
+              <li>
+                <a href="#!">Treated Deck</a>
+              </li>
+              <li class="divider" tabindex="-1"></li>
+              <li>
+                <a href="#!">Untreated Deck</a>
+              </li>
+              <li class="divider" tabindex="-1"></li>
+              <li>
+                <a href="#!">Joints</a>
+              </li>
+            </ul>
+          </div>
+
         </div>
-        <ul class="right">
-          <ul id="nav-mobile" class="right hide-on-small-and-down">
-            <li>
-              <!-- Dropdown Trigger -->
-              <a class='dropdown-trigger btn' href='#' data-target='dropdown1'>Bridge Elements</a>
+      </nav>
 
-              <!-- Dropdown Structure -->
-              <ul id='dropdown1' class='dropdown-content'>
-                <li>
-                  <a href="#!">one</a>
-                </li>
-                <li class="divider" tabindex="-1"></li>
-                <li>
-                  <a href="#!">two</a>
-                </li>
-                <li class="divider" tabindex="-1"></li>
-                <li>
-                  <a href="#!">three</a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <!-- Dropdown Trigger -->
-              <a class='dropdown-trigger btn' href='#' data-target='dropdown2'>Inputs/Attributes</a>
+    </div>
+    <!-- end header nav-->
+  </header>
 
-              <!-- Dropdown Structure -->
-              <ul id='dropdown2' class='dropdown-content'>
-                <li>
-                  <a href="#!">one</a>
-                </li>
-                <li class="divider" tabindex="-1"></li>
-                <li>
-                  <a href="#!">two</a>
-                </li>
-                <li class="divider" tabindex="-1"></li>
-                <li>
-                  <a href="#!">three</a>
-                </li>
-              </ul>
-            </li>
-
-            <li>
-              <!-- Dropdown Trigger -->
-              <a class='dropdown-trigger btn' href='#' data-target='dropdown3'>Performance Inidcators</a>
-
-              <!-- Dropdown Structure -->
-              <ul id='dropdown3' class='dropdown-content'>
-                <li>
-                  <a href="#!">one</a>
-                </li>
-                <li class="divider" tabindex="-1"></li>
-                <li>
-                  <a href="#!">two</a>
-                </li>
-                <li class="divider" tabindex="-1"></li>
-                <li>
-                  <a href="#!">three</a>
-                </li>
-              </ul>
-            </li>
-
-          </ul>
-        </ul>
+  <div class="container">
+    <!--card stats start-->
+    <div id="card-stats">
+      <div class="row">
+        <div class="col s4 m4 l4">
+          <div class="card">
+            <div class="card-content white center">
+              <h4 class="card-stats-number">1,626</h4>
+              <h4>Active Projects</h4>
+            </div>
+          </div>
+        </div>
+        <div class="col s4 m4 l4">
+          <div class="row">
+            <div class="card">
+              <div class="card-content white center">
+                <h4 class="card-stats-number">1,626</h4>
+                <h4>Active Projects</h4>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="card">
+              <div class="card-content white center">
+                <h4 class="card-stats-number">1,626</h4>
+                <h4>Active Projects</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col s4 m4 l4">
+          <div class="card">
+            <div class="card-content white center">
+              <h4 class="card-stats-number">15,000</h4>
+              <h4>Publications</h4>
+            </div>
+          </div>
+        </div>
       </div>
+    </div>
 
-    </nav>
+
+
   </div>
-  </nav>
-  </div>
+
+
+
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
 
   <script>
+    // dropdowns
     document.addEventListener('DOMContentLoaded', function () {
       var elems = document.querySelectorAll('.dropdown-trigger');
       var instances = M.Dropdown.init(elems, {
         'alignment': 'center'
       });
     });
+    // search bar focus
+    $('.header-search-input').focus(
+      function () {
+        $(this).parent('div').addClass('header-search-wrapper-focus');
+      }).blur(
+      function () {
+        $(this).parent('div').removeClass('header-search-wrapper-focus');
+      });
   </script>
-
-  <!-- Compiled and minified JavaScript -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
 
 </body>
 
