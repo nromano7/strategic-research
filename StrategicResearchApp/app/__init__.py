@@ -6,7 +6,8 @@ from elasticsearch import Elasticsearch
 import json
 
 # initialize elastic search client
-client = Elasticsearch()
+AWS_EP = r"https://search-strategic-research-eqhxwqugitmyfpzyiobs2dadue.us-east-1.es.amazonaws.com"
+client = Elasticsearch(AWS_EP)
 
 # states geo JSON
 def getStatesGeo():

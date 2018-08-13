@@ -298,7 +298,7 @@ def ProjectCount(query=None):
     total = Q(
       {
         "match_phrase": {
-          "type": {
+          "doc_type": {
             "query": "project"
           }
         }
@@ -347,7 +347,7 @@ def PublicationCount(query=None):
     total = Q(
       {
         "match_phrase": {
-          "type": {
+          "doc_type": {
             "query": "publication"
           }
         }

@@ -1,8 +1,13 @@
 from elasticsearch import Elasticsearch
-from elasticsearch_dsl import DocType, Date, Nested, Boolean, InnerDoc, Keyword, Text, Float, Integer
+from elasticsearch_dsl import DocType, Date, Nested, Boolean, InnerDoc, Keyword, Text, Float, Integer, analyzer, tokenizer
 
 AWS_EP = r"https://search-strategic-research-eqhxwqugitmyfpzyiobs2dadue.us-east-1.es.amazonaws.com"
 client = Elasticsearch(AWS_EP)
+
+my_analyzer = analyzer('my_analyzer',
+  tokenizer="standard",
+  filter=["standard", "lowercase", "stop"],
+)
 
 class Agency(InnerDoc):
   name = Text(fields={'keyword': Keyword()})
@@ -26,10 +31,10 @@ class Record(DocType):
   TRID_RECORD_TYPE = Text(fields={'keyword': Keyword()})
   TRID_SUBJECT_AREAS = Text(multi=True, fields={'keyword': Keyword(multi=True)})
   TRID_TRIS_FILE_CODES = Text(multi=True, fields={'keyword': Keyword(multi=True)})
-  abstract = Text(fields={'keyword': Keyword()})
+  abstract = Text(fields={'keyword': Keyword()}, analyzer=my_analyzer)
   doc_type = Text(fields={'keyword': Keyword()})
-  notes = Text(fields={'keyword': Keyword()})
-  title = Text(fields={'keyword': Keyword()})
+  notes = Text(fields={'keyword': Keyword()}, analyzer=my_analyzer)
+  title = Text(fields={'keyword': Keyword()}, analyzer=my_analyzer)
   tags = Text(multi=True, fields={'keyword': Keyword(multi=True)})
   urls = Text(multi=True)
 

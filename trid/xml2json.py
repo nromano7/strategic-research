@@ -130,6 +130,8 @@ def xml2json(XML_PATH, JSON_PATH):
 
       if rec.attrib['type'] == "project":
 
+        record['doc_type'] = "project"
+
         # project status
         try:
           record['status'] = rec.xpath("./project/project_status")[0].text
@@ -202,6 +204,8 @@ def xml2json(XML_PATH, JSON_PATH):
         print(f'[project xml2json doc:{rec.attrib["id"]}] : Complete')
 
       else:
+
+        record['doc_type'] = "publication"
 
         # publication authors
         record['authors'] = []
