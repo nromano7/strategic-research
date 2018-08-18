@@ -1,9 +1,30 @@
+
 from elasticsearch import Elasticsearch
 from elasticsearch_dsl import Search, Q
+import argparse
+from queries import construct_query
 
-# initialize elastic search client and search object
 AWS_EP = r"https://search-strategic-research-eqhxwqugitmyfpzyiobs2dadue.us-east-1.es.amazonaws.com"
-client = Elasticsearch()
+
+# parse input arguments
+parser = argparse.ArgumentParser(
+  prog = __file__.split(".")[0], 
+  description = "Interface for querying index in elasticsearch."
+  )
+parser.add_argument('-c', "--client", metavar='', type=str, help='the elasticsearch client')
+parser.add_argument('-i', "--index", metavar='', type=str, required=True, help='the index to query')
+parser.add_argument('-q', "--query", metavar='', type=str, required=True, help='the query to execute')
+args = parser.parse_args()
+
+# initialize elastic search client
+if args.client == 'AWS':
+  client = Elasticsearch(AWS_EP)
+else:
+  client = Elasticsearch()
+
+# unpack arguments
+query = args.query
+index = args.index
 
 def run_query(index, q, fields=["title","abstract"], doc_type='doc'):
   # initialize search object
@@ -32,19 +53,11 @@ def process_response(r):
     )
   return hits, hits_count
 
-# construct the query
-q = Q(
-  {
-    "match": {
-      "title": {
-        "query": "deck",
-        "_name": "title:deck"
-      }
-    }
-  }
-)
+#  retrieve query object
+q = construct_query(query)
 
-# run query and process respoinse
+# run query and process response
 r = run_query('projects', q)
 hits, hits_count = process_response(r)
 
+print(f"[Total hits for query: '{query}'] {hits_count}")
