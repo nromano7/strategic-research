@@ -1,15 +1,10 @@
 from elasticsearch import Elasticsearch
 from elasticsearch_dsl import Search 
-import queries
+from elastic import queries 
+import itertools 
 
-# TODO: test all functions in queries.py (validate in Kibana console)
-
-AWS_EP = r"https://search-strategic-research-eqhxwqugitmyfpzyiobs2dadue.us-east-1.es.amazonaws.com"
 client = Elasticsearch()
-fields=["title","abstract"]
 index='projects'
-
-query="deck*"
 
 def run_query(index, q):
   # initialize search object
@@ -38,13 +33,18 @@ def process_response(r):
     )
   return hits, hits_count
 
-#  retrieve query object
-must = dict(wildcard=[("title",query),("abstract",query)])
-must_not = dict(match=[("title","overlay"),("abstract","overlay")])
-q = queries.bool_query(must=must, must_not=must_not)
+# find documents that match "deck"
+query = "deck"
+prefixes = ["bridge","concrete","reinforced"]
+fields = ["title","abstract"]
 
-# run query and process response
+# TODO: write function to construct should statements 
+# given query/prefixes, fields and for associated terms
+# TODO: test approaches (with and without prefixes, associated terms)
+should = dict(match=[("title",query),("abstract",query)])
+
+q = queries.boolean(should=should)
 r = run_query(index, q)
 hits, hits_count = process_response(r)
+print(f"[should (title,abstract: {query})]: {hits_count}")
 
-print(f"[Total hits for query: '{query}'] {hits_count}")

@@ -1,6 +1,6 @@
 from elasticsearch_dsl import Q
 
-def match_query(query, field, name='match'):
+def match(query, field, name='match'):
   """
   Return 'match' query object for the provided
   query and field. 
@@ -34,7 +34,7 @@ def match_query(query, field, name='match'):
   return q
 
 
-def wildcard_query(query, field, name='wildcard'):
+def wildcard(query, field, name='wildcard'):
   """
   Return 'wildcard' query object for the provided
   query and field. 
@@ -82,13 +82,13 @@ def get_query_func(query_type):
   A query function for the provided query type.
   """
   query_functions = {
-    "match": match_query,
-    "wildcard": wildcard_query,
+    "match": match,
+    "wildcard": wildcard,
   }
   return query_functions.get(query_type)
 
 
-def bool_query(must=None, should=None, must_not=None):
+def boolean(must=None, should=None, must_not=None):
   """
   Return 'bool' query object for the provided 'must',
   'should', and 'must_not' queries. 
@@ -150,7 +150,7 @@ def bool_query(must=None, should=None, must_not=None):
   return q
 
 
-def multimatch_query(query, fields, query_type='match'):
+def multimatch(query, fields, query_type='match'):
   """
   Return 'multi_match' query object for the provided query 
   and list of fields. 
@@ -179,7 +179,7 @@ def multimatch_query(query, fields, query_type='match'):
 
   # this bool query is equivalent to the multi_match query 
   # with a most_fields type
-  q = bool_query(should=should)
+  q = boolean(should=should)
 
   return q
 

@@ -66,17 +66,17 @@ class Record(Document):
         'bigram': Text(analyzer=bigram), 
         'trigram': Text(analyzer=trigram),
         'quadragram': Text(analyzer=quadragram),
-        'pentagram': Text(analyzer=pentagram)})
+        'pentagram': Text(analyzer=pentagram)}, analyzer=standard)
     notes = Text(fields={'keyword': Keyword(), 
         'bigram': Text(analyzer=bigram), 
         'trigram': Text(analyzer=trigram),
         'quadragram': Text(analyzer=quadragram),
-        'pentagram': Text(analyzer=pentagram)})
+        'pentagram': Text(analyzer=pentagram)}, analyzer=standard)
     title = Text(fields={'keyword': Keyword(), 
         'bigram': Text(analyzer=bigram), 
         'trigram': Text(analyzer=trigram),
         'quadragram': Text(analyzer=quadragram),
-        'pentagram': Text(analyzer=pentagram)})
+        'pentagram': Text(analyzer=pentagram)}, analyzer=standard)
     tags = Text(multi=True, fields={'keyword': Keyword(multi=True), 'bigram': Text(multi=True, analyzer=bigram), 'trigram': Text(multi=True, analyzer=trigram)})
     urls = Text(multi=True)
 
