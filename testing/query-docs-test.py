@@ -33,16 +33,8 @@ def process_response(r):
     )
   return hits, hits_count
 
-# find documents that match "deck"
-query = "deck"
-prefixes1 = ["bridge","concrete","reinforced"]
-prefixes2 = ["concrete bridge","reinforced bridge"]
-prefixes3 = ["reinforced concrete bridge"]
-fields = ["title","abstract"]
-
-
 # function that constructs should clause for queries and fields
-def construct_should_clause(queries, fields):
+def construct_bool_clause(queries, fields):
   all_queries=[]
   for query in queries:
     for field in fields:
@@ -76,38 +68,22 @@ def construct_phrase_queries(query, prefixes):
 
 # TODO: test approaches (with and without prefixes, associated terms)
 
-# no prefixes
-all_queries = [query]
-should = construct_should_clause(all_queries, fields)
-q = queries.boolean(should=should)
+# find documents that match bridge elements
+element_queries = ["deck", "joint", "bearing","girder", "beam"]
+fields = ["title","abstract"]
+
+for query in element_queries:
+  should = construct_bool_clause([query], fields)
+  q = queries.boolean(should=should)
+  r = run_query(index, q)
+  hits, hits_count = process_response(r)
+  print(f"[{query}]: {hits_count}")
+
+# try to separate document overlap
+should=construct_bool_clause(["deck"],fields)
+must_not=construct_bool_clause(["girder", "beam"],["title"])
+q = queries.boolean(should=should, must_not=must_not)
 r = run_query(index, q)
 hits, hits_count = process_response(r)
-print(f"[should (title, abstract: {all_queries})]: {hits_count}")
-
-# single prefixes
-all_queries = construct_phrase_queries(query, prefixes1)
-should = construct_should_clause(all_queries, fields)
-q = queries.boolean(should=should)
-r = run_query(index, q)
-hits, hits_count = process_response(r)
-print(f"[should (title, abstract: {all_queries})]: {hits_count}")
-
-# double prefixes
-all_queries = construct_phrase_queries(query, prefixes2)
-should = construct_should_clause(all_queries, fields)
-q = queries.boolean(should=should)
-r = run_query(index, q)
-hits, hits_count = process_response(r)
-print(f"[should (title, abstract: {all_queries})]: {hits_count}")
-
-# triple prefixes
-all_queries = construct_phrase_queries(query, prefixes3)
-should = construct_should_clause(all_queries, fields)
-q = queries.boolean(should=should)
-r = run_query(index, q)
-hits, hits_count = process_response(r)
-print(f"[should (title, abstract: {all_queries})]: {hits_count}")
-
-
-
+print(f"[deck NOT (girder OR beam)]: {hits_count}")
 
