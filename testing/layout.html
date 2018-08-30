@@ -1,315 +1,311 @@
 <!DOCTYPE html>
 
+
+<!-- https://wireframe.cc/kTMLDM -->
+<!-- https://wireframe.cc/2o7TJn -->
+
 <html>
 
 <head>
-  <!-- Compiled and minified CSS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- Bootstrap core CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.4/css/mdb.min.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="../static/css/custom.css">
   <!--Let browser know website is optimized for mobile-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <style>
-    .black-text {
-      color: #000000 !important;
-    }
-
-    /*Search box*/
-
-    #header .header-search-wrapper {
-      margin: 10px auto 0 10px;
-      width: calc(100% - 900px);
-      height: 40px;
-      display: inline-block;
-      position: relative;
-      -webkit-transition: .3s ease all;
-      -o-transition: .3s ease all;
-      -moz-transition: .3s ease all;
-      transition: .3s ease all;
-      -webkit-backface-visibility: hidden;
-      -moz-backface-visibility: hidden;
-      backface-visibility: hidden;
-    }
-
-    #header .header-search-wrapper i {
-      position: absolute;
-      font-size: 24px;
-      top: 6px;
-      left: 24px;
-      line-height: 32px !important;
-      -webkit-transition: color 200ms ease;
-      transition: color 200ms ease;
-    }
-
-    #header input.header-search-input {
-      display: block;
-      padding: 8px 8px 8px 72px;
-      width: 87%;
-      background: rgba(255, 255, 255, 0.3);
-      height: 24px;
-      -webkit-transition: all 200ms ease;
-      transition: all 200ms ease;
-      border: none;
-      font-size: 16px;
-      appearance: textfield;
-      font-weight: 400;
-      outline: none;
-      border-radius: 3px;
-    }
-
-    #header input.header-search-input:hover {
-      background: rgba(255, 255, 255, 0.5);
-    }
-
-    #header input.header-search-input:focus {
-      color: #333;
-      background: #fff;
-      border-bottom: none !important;
-      box-shadow: none !important;
-    }
-
-    #header .header-search-wrapper-focus i {
-      color: #444;
-    }
-
-    #header .header-search-input::-webkit-input-placeholder {
-      color: #fff;
-      font-size: 16px;
-      font-weight: 400;
-    }
-
-    #header .header-search-input::-moz-placeholder {
-      color: #fff;
-      font-size: 16px;
-      font-weight: 400;
-    }
-
-    #header .header-search-input:-ms-input-placeholder {
-      color: #fff;
-      font-size: 16px;
-      font-weight: 400;
-    }
-
-    #header .header-search-input:focus::-webkit-input-placeholder {
-      color: #333;
-      font-size: 16px;
-      font-weight: 400;
-    }
-
-    #header .header-search-input:focus::-moz-placeholder {
-      color: #333;
-      font-size: 16px;
-      font-weight: 400;
-    }
-
-    #header .header-search-input:focus::placeholder {
-      color: #333;
-      font-size: 16px;
-      font-weight: 400;
-    }
-
-    #header .header-search-input:focus:-ms-input-placeholder {
-      color: #333;
-      font-size: 16px;
-      font-weight: 400;
-    }
-
-    #header .header-search-input::placeholder {
-      color: #fff;
-      font-size: 16px;
-      font-weight: 400;
-    }
-
-    .material-icons {
-      font-family: 'Material Icons';
-      font-weight: normal;
-      font-style: normal;
-      font-size: 24px;
-      /* Preferred icon size */
-      display: inline-block;
-      line-height: 1;
-      text-transform: none;
-      letter-spacing: normal;
-      word-wrap: normal;
-      white-space: nowrap;
-      direction: ltr;
-      /* Support for all WebKit browsers. */
-      -webkit-font-smoothing: antialiased;
-      /* Support for Safari and Chrome. */
-      text-rendering: optimizeLegibility;
-      /* Support for Firefox. */
-      -moz-osx-font-smoothing: grayscale;
-      /* Support for IE. */
-      font-feature-settings: 'liga';
-    }
-
-    #nav-dropdown {
-      padding-right: 10px;
-    }
-
-    #nav-dropdown li a {
-      color: #444
-    }
-
-    #card-stats .row {
-      margin-left: 0px;
-      margin-right: 0px;
-      margin-bottom: 5px;
-    }
-
-    #card-stats .col.s4.m4.l4 {
-      margin: 0px;
-      padding: 0px
-    }
-
-    #card-stats h1 {
-      margin-top: 0px
-    }
-  </style>
 
 </head>
 
 <body class="grey lighten-4">
-  <!-- START HEADER -->
-  <header id="header" class="page-topbar">
-    <!-- start header nav-->
-    <div class="navbar-fixed">
-      <nav class="blue-grey lighten-2">
-        <div class="nav-wrapper">
-          <div id="nav-dropdown" class="left">
-            <!-- Dropdown Trigger -->
-            <a class='dropdown-trigger btn blue' href='#' data-target='dropdown1'>Bridge Elements</a>
 
-            <!-- Dropdown Structure -->
-            <ul id='dropdown1' class='dropdown-content'>
-              <li>
-                <a href="#!">Treated Deck</a>
-              </li>
-              <li class="divider" tabindex="-1"></li>
-              <li>
-                <a href="#!">Untreated Deck</a>
-              </li>
-              <li class="divider" tabindex="-1"></li>
-              <li>
-                <a href="#!">Joints</a>
-              </li>
-            </ul>
+  <!--Navbar-->
+  <nav id="navbar" class="navbar navbar-expand-lg blue-grey white-text">
 
-            <!-- Dropdown Trigger -->
-            <a class='dropdown-trigger btn blue' href='#' data-target='dropdown2'>Inputs/Attributes</a>
+    <!-- Navbar brand -->
+    <a class="navbar-brand white-text" href="#">LTBP | Strategic Research</a>
 
-            <!-- Dropdown Structure -->
-            <ul id='dropdown2' class='dropdown-content'>
-              <li>
-                <a href="#!">Treated Deck</a>
-              </li>
-              <li class="divider" tabindex="-1"></li>
-              <li>
-                <a href="#!">Untreated Deck</a>
-              </li>
-              <li class="divider" tabindex="-1"></li>
-              <li>
-                <a href="#!">Joints</a>
-              </li>
-            </ul>
+    <!-- Collapse button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav" aria-controls="basicExampleNav"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon white-text"></span>
+    </button>
 
-            <!-- Dropdown Trigger -->
-            <a class='dropdown-trigger btn blue' href='#' data-target='dropdown3'>Performance Metrics</a>
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="basicExampleNav">
 
-            <!-- Dropdown Structure -->
-            <ul id='dropdown3' class='dropdown-content'>
-              <li>
-                <a href="#!">Treated Deck</a>
-              </li>
-              <li class="divider" tabindex="-1"></li>
-              <li>
-                <a href="#!">Untreated Deck</a>
-              </li>
-              <li class="divider" tabindex="-1"></li>
-              <li>
-                <a href="#!">Joints</a>
-              </li>
-            </ul>
+      <!-- Links -->
+      <ul class="navbar-nav ml-auto">
+
+        <!-- Bridge Elements Dropdown -->
+        <li class="nav-item dropdown m-1">
+          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Bridge Elements</a>
+          <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="#">Decks</a>
+            <a class="dropdown-item" href="#">Joints</a>
+            <a class="dropdown-item" href="#">Bearings</a>
+            <a class="dropdown-item" href="#">Girders</a>
           </div>
-          <div class="header-search-wrapper hide-on-med-and-down">
-            <i class="material-icons">search</i>
-            <input type="text" name="Search" class="header-search-input z-depth-2" placeholder="Search" />
+        </li>
+
+        <!-- Inputs/Attributes Dropdown -->
+        <li class="nav-item dropdown m-1">
+          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Inputs/Attributes</a>
+          <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="#">Construction</a>
+            <a class="dropdown-item" href="#">Design</a>
+            <a class="dropdown-item" href="#">Environment</a>
+            <a class="dropdown-item" href="#">Maintenance & Preservation</a>
+            <a class="dropdown-item" href="#">Materials</a>
           </div>
-        </div>
-      </nav>
+        </li>
+
+        <!-- Performance Dropdown -->
+        <li class="nav-item dropdown m-1">
+          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Performance</a>
+          <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="#">Cost</a>
+            <a class="dropdown-item" href="#">Functionality</a>
+            <a class="dropdown-item" href="#">Structural Condition</a>
+            <a class="dropdown-item" href="#">Structural Integrity</a>
+          </div>
+        </li>
+
+      </ul>
+      <!-- Links -->
+
+      <!-- Search form -->
+      <form class="form-inline search-wrapper">
+        <i class="fa fa-search" aria-hidden="true"></i>
+        <input class="form-control search-input" type="text" placeholder="Search" aria-label="Search">
+      </form>
 
     </div>
-    <!-- end header nav-->
-  </header>
+    <!-- Collapsible content -->
 
-  <div class="container">
-    <!--card stats start-->
-    <div id="card-stats">
-      <div class="row">
-        <div class="col s4 m4 l4">
-          <div class="card">
-            <div class="card-content white center">
-              <h4 class="card-stats-number">1,626</h4>
-              <h4>Active Projects</h4>
-            </div>
-          </div>
+  </nav>
+  <!--/.Navbar-->
+
+  <div class="grid-container"> 
+    
+    <!--Accordion wrapper-->
+<div class="accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
+
+    <!-- Accordion card -->
+    <div class="card">
+
+        <!-- Card header -->
+        <div class="card-header" role="tab" id="headingOne">
+            <a data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                <h5 class="mb-0">
+                    Collapsible Group Item #1 <i class="fa fa-angle-down rotate-icon"></i>
+                </h5>
+            </a>
         </div>
-        <div class="col s4 m4 l4">
-          <div class="row">
-            <div class="card">
-              <div class="card-content white center">
-                <h4 class="card-stats-number">1,626</h4>
-                <h4>Active Projects</h4>
-              </div>
+
+        <!-- Card body -->
+        <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordionEx" >
+            <div class="card-body">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute,
+                non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf
+                moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch
+                et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic
+                synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
             </div>
-          </div>
-          <div class="row">
-            <div class="card">
-              <div class="card-content white center">
-                <h4 class="card-stats-number">1,626</h4>
-                <h4>Active Projects</h4>
-              </div>
-            </div>
-          </div>
         </div>
-        <div class="col s4 m4 l4">
-          <div class="card">
-            <div class="card-content white center">
-              <h4 class="card-stats-number">15,000</h4>
-              <h4>Publications</h4>
-            </div>
-          </div>
+    </div>
+    <!-- Accordion card -->
+
+    <!-- Accordion card -->
+    <div class="card">
+
+        <!-- Card header -->
+        <div class="card-header" role="tab" id="headingTwo">
+            <a class="collapsed" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                <h5 class="mb-0">
+                    Collapsible Group Item #2 <i class="fa fa-angle-down rotate-icon"></i>
+                </h5>
+            </a>
         </div>
+
+        <!-- Card body -->
+        <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordionEx" >
+            <div class="card-body">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute,
+                non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf
+                moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch
+                et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic
+                synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+            </div>
+        </div>
+    </div>
+    <!-- Accordion card -->
+
+    <!-- Accordion card -->
+    <div class="card">
+
+        <!-- Card header -->
+        <div class="card-header" role="tab" id="headingThree">
+            <a class="collapsed" data-toggle="collapse" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                <h5 class="mb-0">
+                    Collapsible Group Item #3 <i class="fa fa-angle-down rotate-icon"></i>
+                </h5>
+            </a>
+        </div>
+
+        <!-- Card body -->
+        <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordionEx">
+            <div class="card-body">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute,
+                non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf
+                moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch
+                et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic
+                synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+            </div>
+        </div>
+    </div>
+    <!-- Accordion card -->
+</div>
+<!--/.Accordion wrapper-->
+
+    <div id="projects-stats" class="card">
+      <div class="card-body text-center">
+        <h1 class="card-title">1,626</h1>
+        <h3 class="card-text">Projects</h3>
       </div>
     </div>
 
+    <div id="publications-stats" class="card">
+      <div class="card-body text-center">
+        <h1 class="card-title">14,887</h1>
+        <h3 class="card-text">Publications</h3>
+      </div>
+    </div>
 
+    <div id="bridge-attributes-panel" class="card">
+      <!-- Card deck -->
+      <div class="card-deck">
+
+        <!-- Card -->
+        <div class="card mb-4">
+
+          <!--Card image-->
+          <div class="view overlay">
+            <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Others/images/16.jpg" alt="Card image cap">
+            <a href="#!">
+              <div class="mask rgba-white-slight"></div>
+            </a>
+          </div>
+
+          <!--Card content-->
+          <div class="card-body">
+
+            <!--Title-->
+            <h4 class="card-title">Card title</h4>
+            <!--Text-->
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+            <button type="button" class="btn btn-light-blue btn-md">Read more</button>
+
+          </div>
+
+        </div>
+        <!-- Card -->
+
+        <!-- Card -->
+        <div class="card mb-4">
+
+          <!--Card image-->
+          <div class="view overlay">
+            <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Others/images/14.jpg" alt="Card image cap">
+            <a href="#!">
+              <div class="mask rgba-white-slight"></div>
+            </a>
+          </div>
+
+          <!--Card content-->
+          <div class="card-body">
+
+            <!--Title-->
+            <h4 class="card-title">Card title</h4>
+            <!--Text-->
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+            <button type="button" class="btn btn-light-blue btn-md">Read more</button>
+
+          </div>
+
+        </div>
+        <!-- Card -->
+
+        <!-- Card -->
+        <div class="card mb-4">
+
+          <!--Card image-->
+          <div class="view overlay">
+            <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Others/images/15.jpg" alt="Card image cap">
+            <a href="#!">
+              <div class="mask rgba-white-slight"></div>
+            </a>
+          </div>
+
+          <!--Card content-->
+          <div class="card-body">
+
+            <!--Title-->
+            <h4 class="card-title">Card title</h4>
+            <!--Text-->
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+            <button type="button" class="btn btn-light-blue btn-md">Read more</button>
+
+          </div>
+
+        </div>
+        <!-- Card -->
+
+      </div>
+      <!-- Card deck -->
+    </div>
+
+    <div id="bridge-inputs-panel" class="card">
+      <div class="card-body text-center">
+        <h1 class="card-title">Bridge Inputs</h1>
+      </div>
+    </div>
+
+    <div id="bridge-performance-panel" class="card">
+      <div class="card-body text-center">
+        <h1 class="card-title">Performance Metrics</h1>
+      </div>
+    </div>
 
   </div>
 
-
-
-  <!-- Compiled and minified JavaScript -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-    crossorigin="anonymous"></script>
+  <!-- JQuery -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.4/js/mdb.min.js"></script>
 
   <script>
-    // dropdowns
-    document.addEventListener('DOMContentLoaded', function () {
-      var elems = document.querySelectorAll('.dropdown-trigger');
-      var instances = M.Dropdown.init(elems, {
-        'alignment': 'center'
-      });
-    });
     // search bar focus
-    $('.header-search-input').focus(
+    $('.search-input').focus(
       function () {
-        $(this).parent('div').addClass('header-search-wrapper-focus');
+        $(this).parent('div').addClass('search-wrapper-focus');
       }).blur(
       function () {
-        $(this).parent('div').removeClass('header-search-wrapper-focus');
+        $(this).parent('div').removeClass('search-wrapper-focus');
       });
   </script>
 
