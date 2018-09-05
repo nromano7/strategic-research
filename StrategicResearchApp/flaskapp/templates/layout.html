@@ -26,21 +26,19 @@
 
   <!-- NAVBAR -->
   <nav class="navbar navbar-expand-lg navbar-dark blue-grey">
-    <a class="navbar-brand" href="#">
-      <h3 class="mb-0">
-        <strong>LTBP | Strategic Research</strong>
-      </h3>
-    </a>
+    <h3 class="navbar-brand mb-0">
+      <strong>LTBP | Strategic Research</strong>
+    </h3>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
       aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav ml-3">
-        <a class="nav-item nav-link active" href="#">
+        <a class="nav-item nav-link active" href="{{ url_for('home') }}">
           SRM <span class="sr-only">(current)</span>
         </a>
-        <a class="nav-item nav-link" href="#">
+        <a class="nav-item nav-link" href="{{ url_for('analysis') }}">
           Analysis
         </a>
         <a class="nav-item nav-link disabled" href="#">

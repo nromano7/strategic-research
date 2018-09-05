@@ -201,7 +201,7 @@ def process_response(r):
     doc_id = h.meta.id
     title = h.title
     abstract = h.abstract
-    matched_queries = list(h.meta.matched_queries)
+    # matched_queries = list(h.meta.matched_queries)
     score = h.meta.score
     trid_terms = h.TRID_INDEX_TERMS
     trid_subjects = h.TRID_SUBJECT_AREAS
@@ -211,7 +211,7 @@ def process_response(r):
       abstract = abstract,
       trid_terms = trid_terms,
       trid_subjects = trid_subjects,
-      matched_queries = matched_queries,
+      # matched_queries = matched_queries,
       score = score
     )
   return hits
