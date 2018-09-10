@@ -44,11 +44,20 @@
         <a class="nav-item nav-link disabled" href="#">
           Search
         </a>
+        <a class="nav-item nav-link disabled mr-auto" href="#">
+            <i class="fa fa-refresh" aria-hidden="true"></i> Last Updated: 2018-08-03
+        </a>
       </div>
     </div>
   </nav>
 
-  {% block content %}{% endblock %}
+  
+  <main class="body-grid-container">
+
+      {% block content %}{% endblock %}
+
+  </main>
+  
 
   <!-- JQuery -->
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

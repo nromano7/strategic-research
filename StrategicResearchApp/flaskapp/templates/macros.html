@@ -1,6 +1,4 @@
-{% extends "home.html" %}
-{% block record %}
-  {% for doc in content['construction quality'] %}
+{% macro record(doc) %}
   <div class="card m-2">
     <div class="card-body">
       <h4 class="card-title">
@@ -9,9 +7,17 @@
       <p class="card-text">{{ doc.abstract }}</p>
       <p class="card-text"><strong>Status: </strong>{{ doc.status }}</p>
       <p class="card-text"><strong>Funding: </strong>{{ doc.funding }}</p>
-      <p class="card-text"><strong>Tags: </strong>{{ ",".join(doc.tags).title() }}</p>
+      <p class="card-text">
+        <strong>
+          Tags: 
+        </strong>
+        {% if doc.tags %}
+          {{ ", ".join(doc.tags).title() }}
+        {% else %}
+          {{ doc.tags }}
+        {% endif %}
+        </p>
       <p class="card-text"><strong>Score: </strong>{{ doc.meta.score }}</p>
     </div>
   </div>
-  {% endfor %}
-{% endblock record %}
+{% endmacro %}

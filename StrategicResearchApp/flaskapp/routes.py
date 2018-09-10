@@ -7,11 +7,15 @@ from elasticapp import queries
 @app.route("/srm")
 def home():
   content=dict()
-  tag = 'construction_quality'
-  s = Project.search(using=client, index='projects')
-  q = queries.get_query(tag)
-  s = s.query(q)
-  content[tag] = s.execute()
+  categories = ['construction_quality','design_and_details','material_specifications',
+    'live_load', 'environment', 'maintenance_and_preservation',
+    'structural_integrity', 'structural_condition', 'functionality', 'cost'
+  ]
+  for category in categories:
+    q = queries.get_query(category)
+    s = Project.search(using=client, index='projects').query(q)
+    response = s.execute()
+    content[category] = response
   return render_template('home.html',content=content, heading='Strategic Research Matrices')
 
 @app.route("/analysis")

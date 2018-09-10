@@ -1,7 +1,7 @@
 .body-grid-container {
   display: grid;
-  grid-template-columns: repeat(10, minmax(100px, 10%));
-  grid-template-rows: repeat(2, minmax(50px, 10%));
+  grid-template-columns: repeat(10, minmax(100px, 200px));
+  grid-template-rows: minmax(50px, 10%) 25px repeat(3, minmax(50px, 10%));
   grid-gap: 5px 5px;
   margin: 10px 100px 10px 100px
 }
@@ -27,9 +27,15 @@
   grid-row: 1/2
 }
 
+#sidenav {
+  margin-left: 20px;
+  grid-column: 9/end;
+  grid-row: 3/4
+}
+
 #collapse {
-  grid-column: 1/end;
-  grid-row: 2/3
+  grid-column: 1/9;
+  grid-row: 3/4
 }
 
 .truncate-text {
