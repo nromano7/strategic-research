@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
-{% from "macros.html" import record with context %}
-{% from "macros.html" import record_modal with context %}
+{% from "macros.html" import project_record with context %}
+{% from "macros.html" import project_record_modal with context %}
 {% block content %}
 
 
@@ -16,7 +16,7 @@
       <li class="list-group-item">
         Record Set: <br>
         <div class="mt-2">
-          <select style="min-width:75%">
+          <select style="min-width:75%; overflow: hidden;">
             <option value="volvo">All Bridges & Structures</option>
             <option value="volvo">Bridges: All Elements</option>
             <option value="volvo">Treated Decks</option>
@@ -112,20 +112,35 @@
         <div class="tab-content" id="myTabContent">
           <div class="tab-pane fade show active" id="construction" role="tabpanel" aria-labelledby="construction-tab">
             {% for doc in content['construction_quality'] %}
+            {% if doc.doc_type == 'project' %}
             {{ project_record(doc) }}
-            {{ record_modal(doc) }}
+            {{ project_record_modal(doc) }}
+            {% else %}
+            {{ publication_record(doc) }}
+            {{ publication_record_modal(doc) }}
+            {% endif %}
             {% endfor %}
           </div>
           <div class="tab-pane fade" id="design" role="tabpanel" aria-labelledby="design-tab">
             {% for doc in content['design_and_details'] %}
+            {% if doc.doc_type == 'project' %}
             {{ project_record(doc) }}
-            {{ record_modal(doc) }}
+            {{ project_record_modal(doc) }}
+            {% else %}
+            {{ publication_record(doc) }}
+            {{ publication_record_modal(doc) }}
+            {% endif %}
             {% endfor %}
           </div>
           <div class="tab-pane fade" id="materials" role="tabpanel" aria-labelledby="materials-tab">
             {% for doc in content['material_specifications'] %}
+            {% if doc.doc_type == 'project' %}
             {{ project_record(doc) }}
-            {{ record_modal(doc) }}
+            {{ project_record_modal(doc) }}
+            {% else %}
+            {{ publication_record(doc) }}
+            {{ publication_record_modal(doc) }}
+            {% endif %}
             {% endfor %}
           </div>
         </div>
@@ -169,20 +184,35 @@
         <div class="tab-content" id="myTabContent">
           <div class="tab-pane fade show active" id="liveload" role="tabpanel" aria-labelledby="liveload-tab">
             {% for doc in content['live_load'] %}
+            {% if doc.doc_type == 'project' %}
             {{ project_record(doc) }}
-            {{ record_modal(doc) }}
+            {{ project_record_modal(doc) }}
+            {% else %}
+            {{ publication_record(doc) }}
+            {{ publication_record_modal(doc) }}
+            {% endif %}
             {% endfor %}
           </div>
           <div class="tab-pane fade" id="environment" role="tabpanel" aria-labelledby="environment-tab">
             {% for doc in content['environment'] %}
+            {% if doc.doc_type == 'project' %}
             {{ project_record(doc) }}
-            {{ record_modal(doc) }}
+            {{ project_record_modal(doc) }}
+            {% else %}
+            {{ publication_record(doc) }}
+            {{ publication_record_modal(doc) }}
+            {% endif %}
             {% endfor %}
           </div>
           <div class="tab-pane fade" id="maintenance" role="tabpanel" aria-labelledby="maintenance-tab">
             {% for doc in content['maintenance_and_preservation'] %}
+            {% if doc.doc_type == 'project' %}
             {{ project_record(doc) }}
-            {{ record_modal(doc) }}
+            {{ project_record_modal(doc) }}
+            {% else %}
+            {{ publication_record(doc) }}
+            {{ publication_record_modal(doc) }}
+            {% endif %}
             {% endfor %}
           </div>
         </div>
@@ -231,22 +261,46 @@
         <div class="tab-content" id="myTabContent">
           <div class="tab-pane fade show active" id="integrity" role="tabpanel" aria-labelledby="integrity-tab">
             {% for doc in content['structural_integrity'] %}
+            {% if doc.doc_type == 'project'%}
             {{ project_record(doc) }}
+            {{ project_record_modal(doc) }}
+            {% else %}
+            {{ publication_record(doc) }}
+            {{ publication_record_modal(doc) }}
+            {% endif %}
             {% endfor %}
           </div>
           <div class="tab-pane fade" id="condition" role="tabpanel" aria-labelledby="condition-tab">
             {% for doc in content['structural_condition'] %}
+            {% if doc.doc_type == 'project'%}
             {{ project_record(doc) }}
+            {{ project_record_modal(doc) }}
+            {% else %}
+            {{ publication_record(doc) }}
+            {{ publication_record_modal(doc) }}
+            {% endif %}
             {% endfor %}
           </div>
           <div class="tab-pane fade" id="functionality" role="tabpanel" aria-labelledby="functionality-tab">
             {% for doc in content['functionality'] %}
+            {% if doc.doc_type == 'project'%}
             {{ project_record(doc) }}
+            {{ project_record_modal(doc) }}
+            {% else %}
+            {{ publication_record(doc) }}
+            {{ publication_record_modal(doc) }}
+            {% endif %}
             {% endfor %}
           </div>
           <div class="tab-pane fade" id="cost" role="tabpanel" aria-labelledby="cost-tab">
             {% for doc in content['cost'] %}
+            {% if doc.doc_type == 'project'%}
             {{ project_record(doc) }}
+            {{ project_record_modal(doc) }}
+            {% else %}
+            {{ publication_record(doc) }}
+            {{ publication_record_modal(doc) }}
+            {% endif %}
             {% endfor %}
           </div>
         </div>
