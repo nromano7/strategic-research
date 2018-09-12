@@ -13,7 +13,7 @@ def home():
   ]
   for category in categories:
     q = queries.get_query(category)
-    s = Project.search(using=client, index='projects').query(q)
+    s = Project.search(using=client, index='projects').query(q)[:3]
     response = s.execute()
     content[category] = response
   return render_template('home.html',content=content, heading='Strategic Research Matrices')

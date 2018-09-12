@@ -1,0 +1,126 @@
+{% macro record(doc) %}
+<div class="card m-2">
+  <div class="card-body">
+    <h6 class="card-title">
+      <a data-toggle="modal" data-target="#{{ doc.meta.id }}">{{ doc.title }}</a>
+    </h6>
+    <table class="table mb-0">
+      <tbody>
+        <tr>
+          <td class="pb-0">
+            <p class="card-text m-0">
+              <p class="mb-1">
+                <span class="badge badge-primary text-capitalize z-depth-0">{{doc.doc_type.title()}}</span>
+              </p>
+              {% if doc.tags %}
+              {% for tag in doc.tags %}
+              <p class="d-inline">
+                <span class="badge badge-pill teal z-depth-0">
+                  {{ tag.title().replace("_"," ").replace("And","&") }}
+                </span>
+              </p>
+              {% endfor %}
+              {% else %}
+              {{ doc.tags }}
+              {% endif %}
+            </p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endmacro %}
+
+{% macro record_modal(doc) %}
+<!-- Modal -->
+<div class="modal fade" id="{{ doc.meta.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-fluid modal-info pl-5 pr-5" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title w-100" id="ModalLabel">
+          {{ doc.title }}
+        </h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body font-weight-normal">
+        <h5>
+          {% if doc.doc_type == 'project' %}
+          <span class="badge cyan text-capitalize mr-1">{{doc.doc_type.title()}}</span>
+          {% else %}
+          <span class="badge amber darken-2 text-capitalize mr-1">{{doc.doc_type.title()}}</span>
+          {% endif %}
+        </h5>
+        <!-- <strong>
+          Status:
+        </strong> -->
+        {{ doc.status }}
+        <br>
+        <strong>
+          Tags:
+        </strong>
+        {% if doc.tags %}
+        {% for tag in doc.tags %}
+        <span class="badge badge-pill indigo">
+          {{ tag.title().replace("_"," ").replace("And","&") }}
+        </span>
+        {% endfor %}
+        {% else %}
+        {{ doc.tags }}
+        {% endif %}
+        <br>
+        <strong>
+          Abstract:
+        </strong>
+        {{ doc.abstract }}
+        <br>
+        <strong>
+          Fund Amount:
+        </strong>
+        {{ '${:,.2f}'.format(doc.funding) }}
+        <br>
+        <strong>
+          Funding Organizations:
+        </strong>
+        {% for agency in doc.funding_agencies %}
+        {{ agency['name'] }},
+        {% endfor %}
+        <br>
+        <strong>
+          Performing Agencies:
+        </strong>
+        {% for agency in doc.performing_agencies %}
+        {{ agency['name'] }},
+        {% endfor %}
+        <br>
+        <strong>
+          Project Managers/Investigators:
+        </strong>
+        {% for manager in doc.project_investigators %}
+        {{ manager['last_name'] }},
+        {% endfor %}
+        <br>
+        <strong>
+          Start Date:
+        </strong>
+        {{ doc.start_date.strftime('%Y-%m-%d') if doc.start_date else "-" }}
+        <br>
+        <strong>
+          Expexcted/Actual Completion Date:
+        </strong>
+        {{ doc.expected_complete_date.strftime('%Y-%m-%d') if doc.expected_complete_date else "-" }} /
+        {{ doc.actual_complete_date.strftime('%Y-%m-%d') if doc.actual_complete_date else "-" }}
+        <br>
+        <strong>
+          URLs:
+        </strong>
+        {{", ".join(doc.urls) }}
+        <br>
+      </div>
+    </div>
+  </div>
+</div>
+{% endmacro %}
