@@ -1,5 +1,5 @@
 from elasticsearch_dsl import Q, Search
-from elastic import client
+from elasticapp import client
 
 def get_query(name):
 

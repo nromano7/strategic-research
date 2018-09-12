@@ -85,6 +85,7 @@ class Record(Document):
         'quadragram': Text(analyzer=quadragram),
         'pentagram': Text(analyzer=pentagram)}, analyzer=standard)
     tags = Text(multi=True, fields={'keyword': Keyword(multi=True), 'bigram': Text(multi=True, analyzer=bigram), 'trigram': Text(multi=True, analyzer=trigram)})
+    element_tags = Text(multi=True, fields={'keyword': Keyword(multi=True), 'bigram': Text(multi=True, analyzer=bigram), 'trigram': Text(multi=True, analyzer=trigram)})
     urls = Text(multi=True)
 
 class Project(Record):

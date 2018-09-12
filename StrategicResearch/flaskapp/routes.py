@@ -1,7 +1,7 @@
 from flask import render_template, url_for
 from flaskapp import app, client
-from flaskapp.models import Project, Publication
-from elasticapp import queries
+from elasticapp.models import Project, Publication
+from elasticapp import query
 
 @app.route("/")
 @app.route("/srm")
@@ -12,7 +12,7 @@ def home():
     'structural_integrity', 'structural_condition', 'functionality', 'cost'
   ]
   for category in categories:
-    q = queries.get_query(category)
+    q = query.get_query(category)
     s = Project.search(using=client, index='projects').query(q)[:3]
     response = s.execute()
     content[category] = response
