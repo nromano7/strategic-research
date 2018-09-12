@@ -1,7 +1,7 @@
 from flask import render_template, url_for
 from flaskapp import app, client
-from elasticapp.models import Project, Publication
-from elasticapp import query
+from elastic.models import Project, Publication
+from elastic import query
 
 @app.route("/")
 @app.route("/srm")

@@ -1,5 +1,5 @@
 from elasticsearch_dsl import Q
-from elasticapp import client, query
+from elastic import client, query
 from models import Project, Publication
 
 categories = [
