@@ -63,9 +63,17 @@
           </td>
           <!-- elemnt tag -->
           <td class="pb-0 pt-0" style="border-top: none; text-align: right">
-            <p class="mb-1">
-              <span class="badge badge-warning text-capitalize z-depth-0">Element</span>
+            {% if doc.element_tags %}
+            {% for tag in doc.element_tags %}
+            <p class="d-inline">
+              <span class="badge badge-warning z-depth-0">
+                {{ tag.title().replace("_"," ").replace("And","&") }}
+              </span>
             </p>
+            {% endfor %}
+            {% else %}
+            {{ "--" }}
+            {% endif %}
           </td>
         </tr>
 

@@ -1,7 +1,88 @@
 from elasticsearch_dsl import Q, Search
-from elasticapp import client
+# from StrategicResearch.elastic import client
 
 def get_query(name):
+
+  deck = {
+    "bool": {
+      "must": [
+        {
+          "bool": {
+            "should": [
+              {"match": {"title":"decks"}},
+              {"match": {"abstract":"decks"}}
+            ]
+          }
+        }
+      ],
+      "should": [],
+      "must_not":[
+        {
+          "bool": {
+            "should": [
+              {"match": {"title":"overlay"}},
+              {"match": {"abstract": "overlay"}},
+              {"match": {"title.bigram":"wearing surface"}},
+              {"match": {"abstract.bigram": "wearing surface"}}
+            ]
+          }
+        }
+      ]
+    }
+  }
+
+  overlay = {
+    "bool":{
+      "must":[
+        {
+          "bool": {
+            "should": [
+              {"match": {"title":"overlay"}},
+              {"match": {"abstract": "overlay"}},
+              {"match": {"title.bigram":"wearing surface"}},
+              {"match": {"abstract.bigram": "wearing surface"}}
+            ]
+          }
+        }
+      ],
+      "should":[],
+      "must_not":[]
+    }
+  }
+
+  joints = {
+    "bool":{
+      "must":[
+        {
+          "bool": {
+            "should": [
+              {"match": {"title":"joints"}},
+              {"match": {"abstract": "joints"}}
+            ]
+          }
+        }
+      ],
+      "should":[],
+      "must_not":[]
+    }
+  }
+
+  bearings = {
+    "bool":{
+      "must":[
+        {
+          "bool": {
+            "should": [
+              {"match": {"title":"bearings"}},
+              {"match": {"abstract": "bearings"}}
+            ]
+          }
+        }
+      ],
+      "should":[],
+      "must_not":[]
+    }
+  }
 
   construction_quality = {
     "bool": {
@@ -20,7 +101,8 @@ def get_query(name):
         {"match":{"abstract":"quality"}},
         {"match":{"title.bigram":"construction quality"}},
         {"match":{"abstract.bigram":"construction quality"}}
-      ]
+      ],
+      "must_not":[]
     }
   }
 
@@ -195,7 +277,11 @@ def get_query(name):
     structural_integrity=structural_integrity,
     structural_condition=structural_condition,
     functionality=functionality,
-    cost=cost
+    cost=cost,
+    deck=deck,
+    overlay=overlay,
+    joints=joints,
+    bearings=bearings
   )
 
   return queries.get(name)
