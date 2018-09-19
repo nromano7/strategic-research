@@ -1,8 +1,37 @@
 from elasticsearch_dsl import Q, Search
+
 # from StrategicResearch.elastic import client
+from elasticsearch import Elasticsearch
+client = Elasticsearch()
 
-def get_query(name):
 
+def get_recordset_filter(name):
+
+  ALL = {
+    "bool":{
+      "must":[],
+      "should":[],
+      "must_not":[]
+    }
+  }
+
+  bridges = {
+    "bool":{
+      "must":[
+        {
+          "bool": {
+            "should": [
+              {"match": {"title":"bridge"}},
+              {"match": {"abstract": "bridge"}}
+            ]
+          }
+        }
+      ],
+      "should":[],
+      "must_not":[]
+    }
+  }
+    
   deck = {
     "bool": {
       "must": [
@@ -30,7 +59,7 @@ def get_query(name):
       ]
     }
   }
-
+  
   overlay = {
     "bool":{
       "must":[
@@ -66,6 +95,212 @@ def get_query(name):
       "must_not":[]
     }
   }
+  
+  bearings = {
+    "bool":{
+      "must":[
+        {
+          "bool": {
+            "should": [
+              {"match": {"title":"bearings"}},
+              {"match": {"abstract": "bearings"}}
+            ]
+          }
+        }
+      ],
+      "should":[],
+      "must_not":[]
+    }
+  }
+  
+
+  filters = dict(
+    all=ALL,
+    bridges=bridges,
+    untreated_deck=deck,
+    treated_deck=overlay,
+    joints=joints,
+    bearings=bearings
+  )
+
+  return filters.get(name)
+
+
+def get_filter_clause(filters, index):
+
+  record_set = get_recordset_filter(filters.get("record_set"))
+  
+  if filters.get("status") == "all":
+    status = {
+      "bool":{
+        "must":[],
+        "should":[],
+        "must_not":[]
+      }
+    }
+  else:
+    status = {
+      "bool":{
+        "must":[{"term": {"status": filters.get("status")}}],
+        "should":[],
+        "must_not":[]
+      }
+    }
+
+  if index == 'projects':
+    if filters.get("date_range") == 10 or filters.get("date_range") == "10":
+      date_range = {
+        "bool": {
+          "should": [
+            {"range": { "actual_complete_date": { "gte": "now-50y"}}},  
+            {"range": { "expected_complete_date": { "gte": "now-50y"}}},
+            {"range": { "start_date": { "gte": "now-50y"}}}
+          ]
+        }
+      }
+    else:
+      date_range = {
+        "bool": {
+          "should": [
+            {"range": { "actual_complete_date": { "gte": f"now-{filters.get('date_range')}y"}}},  
+            {"range": { "expected_complete_date": { "gte": f"now-{filters.get('date_range')}y"}}},
+            {"range": { "start_date": { "gte": f"now-{filters.get('date_range')}y"}}}
+          ]
+        }
+      }
+  else:
+    if filters.get("date_range") == 10 or filters.get("date_range") == "10":
+      date_range = {
+        "bool": {
+          "should": [
+            {"range": { "publication_date": { "gte": "now-50y"}}}
+          ]
+        }
+      }
+    else:
+      date_range = {
+        "bool": {
+          "should": [
+            {"range": { "publication_date": { "gte": f"now-{filters.get('date_range')}y"}}}
+          ]
+        }
+      }
+
+  if filters.get("tags") == "all":
+    tags = {
+      "bool":{
+        "must":[],
+        "should":[],
+        "must_not":[]
+      }
+    }
+  else:
+    tags = {
+      "bool":{
+        "must":[],
+        "should":[],
+        "must_not":[]
+      }
+    }
+
+  if index == 'projects':
+    must= [
+          record_set,
+          status,
+          date_range,
+          tags
+        ]
+  else:
+    must= [
+          record_set,
+          date_range,
+          tags
+        ]
+
+
+  f = [
+    {
+      "bool":{
+        "must":must,
+        "should":[],
+        "must_not":[]
+      }
+    }
+  ]
+
+  return f
+
+
+def get_query(name, filters, index):
+
+  filter_clause=get_filter_clause(filters, index)
+
+  deck = {
+    "bool": {
+      "must": [
+        {
+          "bool": {
+            "should": [
+              {"match": {"title":"decks"}},
+              {"match": {"abstract":"decks"}}
+            ]
+          }
+        }
+      ],
+      "filter": filter_clause,
+      "should": [],
+      "must_not":[
+        {
+          "bool": {
+            "should": [
+              {"match": {"title":"overlay"}},
+              {"match": {"abstract": "overlay"}},
+              {"match": {"title.bigram":"wearing surface"}},
+              {"match": {"abstract.bigram": "wearing surface"}}
+            ]
+          }
+        }
+      ]
+    }
+  }
+
+  overlay = {
+    "bool":{
+      "must":[
+        {
+          "bool": {
+            "should": [
+              {"match": {"title":"overlay"}},
+              {"match": {"abstract": "overlay"}},
+              {"match": {"title.bigram":"wearing surface"}},
+              {"match": {"abstract.bigram": "wearing surface"}}
+            ]
+          }
+        }
+      ],
+      "filter": filter_clause,
+      "should":[],
+      "must_not":[]
+    }
+  }
+
+  joints = {
+    "bool":{
+      "must":[
+        {
+          "bool": {
+            "should": [
+              {"match": {"title":"joints"}},
+              {"match": {"abstract": "joints"}}
+            ]
+          }
+        }
+      ],
+      "filter": filter_clause,
+      "should":[],
+      "must_not":[]
+    }
+  }
 
   bearings = {
     "bool":{
@@ -79,6 +314,7 @@ def get_query(name):
           }
         }
       ],
+      "filter": filter_clause,
       "should":[],
       "must_not":[]
     }
@@ -96,6 +332,7 @@ def get_query(name):
           }
         }
       ],
+      "filter": filter_clause,
       "should": [
         {"match":{"title":"quality"}},
         {"match":{"abstract":"quality"}},
@@ -118,6 +355,7 @@ def get_query(name):
           }
         }
       ],
+      "filter": filter_clause,
       "should":[],
       "must_not":[]
     }
@@ -135,6 +373,7 @@ def get_query(name):
           }
         }
       ],
+      "filter": filter_clause,
       "should":[
         {"match": {"title.bigram":"material specifications"}},
         {"match": {"abstract.bigram":"material specifications"}}
@@ -155,6 +394,7 @@ def get_query(name):
           }
         }
       ],
+      "filter": filter_clause,
       "should":[],
       "must_not":[]
     }
@@ -172,6 +412,7 @@ def get_query(name):
           }
         }
       ],
+      "filter": filter_clause,
       "should":[],
       "must_not":[]
     }
@@ -191,6 +432,7 @@ def get_query(name):
           }
         }
       ],
+      "filter": filter_clause,
       "should":[
         {"match": {"title.bigram":"maintenance and preservation"}},
         {"match": {"abstract.bigram":"maintenance and preservation"}}
@@ -211,6 +453,7 @@ def get_query(name):
           }
         }
       ],
+      "filter": filter_clause,
       "should":[],
       "must_not":[]
     }
@@ -228,6 +471,7 @@ def get_query(name):
           }
         }
       ],
+      "filter": filter_clause,
       "should":[],
       "must_not":[]
     }
@@ -245,6 +489,7 @@ def get_query(name):
           }
         }
       ],
+      "filter": filter_clause,
       "should":[],
       "must_not":[]
     }
@@ -262,6 +507,7 @@ def get_query(name):
           }
         }
       ],
+      "filter": filter_clause,
       "should":[],
       "must_not":[]
     }

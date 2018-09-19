@@ -25,8 +25,8 @@
 <body class="grey lighten-4">
 
   <!-- NAVBAR -->
-  <nav class="navbar navbar-expand-lg navbar-dark light-blue darken-4">
-    <h2 class="navbar-brand mb-0">
+  <nav class="navbar navbar-expand-lg navbar-dark light-blue darken-4 fixed-top">
+    <h2 class="navbar-brand mb-0" style="margin-left: 5%">
       <strong>LTBP | Strategic Research</strong>
     </h2>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
@@ -34,7 +34,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav ml-3">
+      <div class="navbar-nav mr-auto">
         <a class="nav-item nav-link active" href="{{ url_for('home') }}">
           Matrices <span class="sr-only">(current)</span>
         </a>
@@ -44,20 +44,22 @@
         <a class="nav-item nav-link disabled" href="#">
           Search
         </a>
-        <a class="nav-item nav-link disabled mr-auto" href="#">
-            <i class="fa fa-refresh" aria-hidden="true"></i> Last Updated: 2018-08-03
+      </div>
+      <div class="navbar-nav" style="margin-right: 5%">
+        <a class="nav-item nav-link disabled mr-auto" href="#" >
+          <i class="fa fa-refresh" aria-hidden="true"></i> Last Updated: 2018-08-03
         </a>
       </div>
     </div>
   </nav>
 
-  
+
   <main class="body-grid-container">
 
-      {% block content %}{% endblock %}
+    {% block content %}{% endblock %}
 
   </main>
-  
+
 
   <!-- JQuery -->
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

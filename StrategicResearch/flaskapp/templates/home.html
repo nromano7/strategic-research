@@ -1,6 +1,8 @@
 {% extends "layout.html" %}
 {% from "macros.html" import project_record with context %}
 {% from "macros.html" import project_record_modal with context %}
+{% from "macros.html" import publication_record with context %}
+{% from "macros.html" import publication_record_modal with context %}
 {% block content %}
 
 
@@ -8,65 +10,92 @@
   {{ heading }}
 </h1>
 
-<div id="sidenav" class="content-section">
-  <h3>Filters & Options</h3>
+<div onload="setButtonState()" id="sidenav" class="content-section">
+  <h4>Filters & Options</h4>
   <p class='text-muted'>
     Select from the following options to filter the results in the matrix.
-    <ul class="list-group">
-      <li class="list-group-item">
-        Record Set: <br>
-        <div class="mt-2">
-          <select style="min-width:75%; overflow: hidden;">
-            <option value="volvo">All Bridges & Structures</option>
-            <option value="volvo">Bridges: All Elements</option>
-            <option value="volvo">Treated Decks</option>
-            <option value="volvo">Untreated Decks</option>
-            <option value="volvo">Joints</option>
-            <option value="volvo">Bearings</option>
-          </select>
-        </div>
-      </li>
-      <li class="list-group-item">
-        Record Type: <br>
-        <div class="mt-2">
-          <label class="radio-inline mr-2 mb-0"><input type="radio" name="rt-radio" checked>All Records</label>
-          <label class="radio-inline mr-2 mb-0"><input type="radio" name="rt-radio">Projects Only</label>
-          <label class="radio-inline mr-2 mb-0"><input type="radio" name="rt-radio">Publications Only</label>
-        </div>
-      </li>
-      <li class="list-group-item">
-        Date Range: <br>
-        <div class="mt-2">
-          <label class="radio-inline mb-0 mr-2"><input type="radio" name="dr-radio" checked>1 Year</label>
-          <label class="radio-inline mb-0 mr-2"><input type="radio" name="dr-radio">5 Years</label>
-          <label class="radio-inline mb-0 mr-2"><input type="radio" name="dr-radio">10 Years</label>
-        </div>
-      </li>
-      <li class="list-group-item">
-        Tags: <br>
-        <div class="mt-2">
-          <select style="min-width:75%">
-            <option value="volvo">All Tags</option>
-          </select>
-        </div>
-      </li>
-      <li class="list-group-item">
-        Record Per Page: <br>
-        <div class="mt-2">
-          <label class="radio-inline mb-0 mr-2"><input type="radio" name="rpp-radio" checked>5</label>
-          <label class="radio-inline mb-0 mr-2"><input type="radio" name="rpp-radio">10</label>
-          <label class="radio-inline mb-0 mr-2"><input type="radio" name="rpp-radio">25</label>
-        </div>
-      </li>
-    </ul>
   </p>
-  <div class="mt-1 text-left">
-    <button type="button" class="btn btn-md btn-blue-grey">Apply</button>
-  </div>
+  <form action="{{ url_for('home') }}" method="post" class="text-left white border border-light p-3">
+    <label for="recordSet">Record Set</label>
+    <select name="recordSet" class="browser-default custom-select form-select">
+      <option value="" disabled>Choose Option</option>
+      <option value="all" selected>All Bridges & Structures</option>
+      <option value="bridges">Bridges: All Elements</option>
+      <option value="untreated_deck">Untreated Decks</option>
+      <option value="treated_deck">Treated Decks</option>
+      <option value="joints">Joints</option>
+      <option value="bearings">Bearings</option>
+    </select>
+    <hr>
+    <label>Record Type</label>
+    <!-- <div class="custom-control custom-radio">
+      <input value="all" type="radio" class="custom-control-input" id="rt1" name="recordType">
+      <label class="custom-control-label" for="rt1">All Records</label>
+    </div> -->
+    <div class="custom-control custom-radio">
+      <input value="projects" type="radio" class="custom-control-input" id="rt2" name="recordType" checked>
+      <label class="custom-control-label" for="rt2">Projects</label>
+    </div>
+    <div class="custom-control custom-radio">
+      <input value="publications" type="radio" class="custom-control-input" id="rt3" name="recordType">
+      <label class="custom-control-label" for="rt3">Publications</label>
+    </div>
+    <hr>
+    <label for="status">Status</label>
+    <select name="status" class="browser-default custom-select form-select">
+      <option value="" disabled>Choose Option</option>
+      <option value="all" selected>All</option>
+      <option value="active">Active</option>
+      <option value="complete">Complete</option>
+      <option value="programmed">Programmed</option>
+      <option value="proposed">Proposed</option>
+    </select>
+    <hr>
+    <label>Date Range</label>
+    <div class="custom-control custom-radio">
+      <input value=1 type="radio" class="custom-control-input" id="dr1" name="dateRange">
+      <label class="custom-control-label" for="dr1">1 Year</label>
+    </div>
+    <div class="custom-control custom-radio">
+      <input value=5 type="radio" class="custom-control-input" id="dr2" name="dateRange">
+      <label class="custom-control-label" for="dr2">5 Years</label>
+    </div>
+    <div class="custom-control custom-radio">
+      <input value=10 type="radio" class="custom-control-input" id="dr3" name="dateRange" checked>
+      <label class="custom-control-label" for="dr3">10+ Years</label>
+    </div>
+    <hr>
+    <label for="tags">Tags</label>
+    <select name="tags" class="browser-default custom-select">
+      <option value="" disabled>Choose Option</option>
+      <option value="1" selected>All Tags</option>
+    </select>
+    <hr>
+    <label>Records Per Page</label>
+    <div class="custom-control custom-radio">
+      <input value=5 type="radio" class="custom-control-input" id="rpp1" name="rpp" checked>
+      <label class="custom-control-label" for="rpp1">5</label>
+    </div>
+    <div class="custom-control custom-radio">
+      <input value=10 type="radio" class="custom-control-input" id="rpp2" name="rpp">
+      <label class="custom-control-label" for="rpp2">10</label>
+    </div>
+    <hr>
+    <label for="sortBy">Sort By</label>
+    <select name="sortBy" class="browser-default custom-select">
+      <option value="" disabled>Choose Option</option>
+      <option value="_score" selected>Relevance</option>
+      <option value="date">Date</option>
+    </select>
+    <hr>
+    <button class="btn btn-info btn-block btn-blue-grey mt-3" type="submit">
+      Apply
+    </button>
+  </form>
 </div>
 
-<span class="align-bottom" style="grid-row:1/2; grid-column:2/3; align-self: end; justify-self: end; padding:5px">
-  <a onclick="collapseFunc()">
+<span id="toggleCollapse" class="align-bottom">
+  <a onclick="toggleCollapse()">
     <i id="collapse-icon" class="fa fa-minus-circle" aria-hidden="true"></i>
     Expand/Collapse All
   </a>
@@ -77,7 +106,7 @@
 
   <!-- INPUTS COLLAPSE -->
   <div class="card mb-1">
-    <div class="card-header" role="tab" id="headingOne">
+    <div class="card-header d-inline white" role="tab" id="headingOne">
       <a data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
         <h4 class="mb-0 blue-grey-text">
           Inputs
@@ -120,6 +149,35 @@
             {{ publication_record_modal(doc) }}
             {% endif %}
             {% endfor %}
+            <!--Pagination -->
+            <nav aria-label="pagination example">
+              <ul class="pagination pagination-sm pg-blue mb-0 justify-content-end">
+                <!--First-->
+                <!-- <li class="page-item disabled"><a class="page-link">First</a></li> -->
+                <!--Arrow left-->
+                <li class="page-item disabled">
+                  <a class="page-link" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                </li>
+                <!--Numbers-->
+                <li class="page-item active"><a class="page-link">1</a></li>
+                <li class="page-item"><a class="page-link">2</a></li>
+                <li class="page-item"><a class="page-link">3</a></li>
+                <li class="page-item"><a class="page-link">4</a></li>
+                <li class="page-item"><a class="page-link">5</a></li>
+                <!--Arrow right-->
+                <li class="page-item">
+                  <a href="{{ url_for('home',page=2)}}" class="page-link" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                  </a>
+                </li>
+                <!--Last-->
+                <!-- <li class="page-item"><a class="page-link">Last</a></li> -->
+              </ul>
+            </nav>
           </div>
           <div class="tab-pane fade" id="design" role="tabpanel" aria-labelledby="design-tab">
             {% for doc in content['design_and_details'] %}
@@ -142,6 +200,7 @@
             {{ publication_record_modal(doc) }}
             {% endif %}
             {% endfor %}
+            
           </div>
         </div>
       </div>
@@ -150,9 +209,9 @@
 
   <!-- ATTRIBUTES COLLAPSE -->
   <div class="card mb-1">
-    <div class="card-header" role="tab" id="headingTwo">
+    <div class="card-header white" role="tab" id="headingTwo">
       <a class="collapsed" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-        <h4 class="mb-0 blue-grey-text">
+        <h4 class="mb-0 blue-grey-text =">
           Attributes
           <i class="fa fa-angle-down rotate-icon"></i>
         </h4>
@@ -222,7 +281,7 @@
 
   <!-- PERFORMANCE COLLAPSE -->
   <div class="card mb-1">
-    <div class="card-header" role="tab" id="headingThree">
+    <div class="card-header white" role="tab" id="headingThree">
       <a class="collapsed" data-toggle="collapse" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
         <h4 class="mb-0 blue-grey-text">
           Performance
@@ -312,7 +371,7 @@
 
 
 <script>
-  function collapseFunc() {
+  function toggleCollapse() {
 
     var isCollapsed = (
       document.getElementById("collapse-icon").className == "fa fa-plus-circle"
@@ -334,6 +393,29 @@
 
     }
   }
+
+  function setButtonState() {
+    
+    let recordSet = "{{ buttonStates['recordSet'] }}"
+    console.log(recordSet)
+
+    // update 'recordSet' selection
+    if (recordSet == 'all') {
+      document.getElementsByName('recordSet')[0].options.selectedIndex = 1
+    } else if (recordSet == 'bridges') {
+      document.getElementsByName('recordSet')[0].options.selectedIndex = 2
+    } else if (recordSet == 'untreated_deck') {
+      document.getElementsByName('recordSet')[0].options.selectedIndex = 3
+    } else if (recordSet == 'treated_deck') {
+      document.getElementsByName('recordSet')[0].options.selectedIndex = 4
+    } else if (recordSet == 'joints') {
+      document.getElementsByName('recordSet')[0].options.selectedIndex = 5
+    } else if (recordSet == 'bearings') {
+      document.getElementsByName('recordSet')[0].options.selectedIndex = 6
+    }
+
+  }
+
 </script>
 
 

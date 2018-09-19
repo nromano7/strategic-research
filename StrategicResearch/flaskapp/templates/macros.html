@@ -9,30 +9,15 @@
 
         <col width="70%">
         <col width="30%">
-
         <tr>
-          <!-- status -->
-          <td class="pb-0" style="text-align: left">
-            <strong>Status:</strong> {{doc.status.title() if doc.status else "-"}}
-          </td>
-          <!-- record type -->
-          <td class="pb-0" style="text-align: right">
+          <td class="p-1 pb-2">
+            <!-- record type -->
             <span class="badge badge-primary text-capitalize z-depth-0">{{doc.doc_type.title()}}</span>
-          </td>
-        </tr>
-
-        <tr>
-          <!-- completion date -->
-          <td class="pb-0 pt-0" style="border-top: none; text-align: left">
-            <strong>Completion Date: </strong> {{doc.actual_complete_date.strftime('%Y-%m-%d') if
-            doc.actual_complete_date else " -"}}
-          </td>
-          <!-- record tags -->
-          <td rowspan=2 class="pb-0 pt-0" style="border-top: none; text-align: right">
+            <!-- record tag -->
             {% if doc.tags %}
             {% for tag in doc.tags %}
             <p class="d-inline">
-              <span class="badge badge-pill teal z-depth-0">
+              <span class="badge badge-pill teal z-depth-0 ml-1">
                 {{ tag.title().replace("_"," ").replace("And","&") }}
               </span>
             </p>
@@ -40,40 +25,62 @@
             {% else %}
             {{ doc.tags }}
             {% endif %}
-          </td>
-        </tr>
-
-        <tr>
-          <!-- funding -->
-          <td class="pb-0 pt-0" style="border-top: none; text-align: left">
-            <strong>Funding: </strong> {{ '${:,.2f}'.format(doc.funding) if doc.funding != 0.0 else "-" }}
+            {% if doc.element_tags %}
+            {% for tag in doc.element_tags %}
+            <p class="d-inline">
+              <span class="badge badge-warning z-depth-0 ml-1">
+                {{ tag.title().replace("_"," ").replace("And","&") }}
+              </span>
+            </p>
+            {% endfor %}
+            {% endif %}
           </td>
         </tr>
 
         <tr>
           <!-- status -->
-          <td class="pb-0 pt-0" style="border-top: none; text-align: left">
+          <td class="pl-3 pb-0 pt-0" style="border-top: none; text-align: left">
+            <strong>Status:</strong> {{doc.status.title() if doc.status else "-"}}
+          </td>
+
+
+        <tr>
+          <!-- start date -->
+          <td class="pl-3 pb-0 pt-0" style="border-top: none; text-align: left">
+            <strong>Start Date: </strong> {{doc.start_date if
+              doc.start_date else " -"}}
+          </td>
+        </tr>
+        <tr>
+          <!-- completion date -->
+          <td class="pl-3 pb-0 pt-0" style="border-top: none; text-align: left">
+            <strong>Completion Date: </strong> {{doc.actual_complete_date if
+            doc.actual_complete_date else " -"}}
+          </td>
+        </tr>
+
+        <tr>
+          <!-- funding -->
+          <td class="pl-3 pb-0 pt-0" style="border-top: none; text-align: left">
+            <strong>Funding: </strong>
+            {% if doc.funding %}
+            {{ '${:,.2f}'.format(doc.funding) }}
+            {% else %}
+            {{ "-" }}
+            {% endif %}
+          </td>
+        </tr>
+
+        <tr>
+          <!-- status -->
+          <td class="pl-3 pb-0 pt-0" style="border-top: none; text-align: left">
             <strong>Organizations: </strong>
             {% for agency in doc.funding_agencies %}
-            {{ agency['name'].lower().replace("Department of Transportation", "DOT").title() }}; 
+            {{ agency['name'] }};
             {% endfor %}
             {% for agency in doc.performing_agencies %}
-            {{ agency['name'].lower().replace("Department of Transportation", "DOT").title() }}; 
+            {{ agency['name']}};
             {% endfor %}
-          </td>
-          <!-- elemnt tag -->
-          <td class="pb-0 pt-0" style="border-top: none; text-align: right">
-            {% if doc.element_tags %}
-            {% for tag in doc.element_tags %}
-            <p class="d-inline">
-              <span class="badge badge-warning z-depth-0">
-                {{ tag.title().replace("_"," ").replace("And","&") }}
-              </span>
-            </p>
-            {% endfor %}
-            {% else %}
-            {{ "--" }}
-            {% endif %}
           </td>
         </tr>
 
@@ -131,7 +138,11 @@
         <strong>
           Fund Amount:
         </strong>
+        {% if doc.funding %}
         {{ '${:,.2f}'.format(doc.funding) }}
+        {% else %}
+        {{ "-" }}
+        {% endif %}
         <br>
         <strong>
           Funding Organizations:
@@ -157,13 +168,128 @@
         <strong>
           Start Date:
         </strong>
-        {{ doc.start_date.strftime('%Y-%m-%d') if doc.start_date else "-" }}
+        {{ doc.start_date if doc.start_date else "-" }}
         <br>
         <strong>
           Expexcted/Actual Completion Date:
         </strong>
-        {{ doc.expected_complete_date.strftime('%Y-%m-%d') if doc.expected_complete_date else "-" }} /
-        {{ doc.actual_complete_date.strftime('%Y-%m-%d') if doc.actual_complete_date else "-" }}
+        {{ doc.expected_complete_date if doc.expected_complete_date else "-" }} /
+        {{ doc.actual_complete_date if doc.actual_complete_date else "-" }}
+        <br>
+        <strong>
+          URLs:
+        </strong>
+        {{", ".join(doc.urls) }}
+        <br>
+      </div>
+    </div>
+  </div>
+</div>
+{% endmacro %}
+
+{% macro publication_record(doc) %}
+<div class="card m-2 z-depth-0" style="border: 1px solid #dee2e6">
+  <div class="card-body">
+    <h6 class="card-title">
+      <a data-toggle="modal" data-target="#{{ doc.meta.id }}">{{ doc.title.title().replace("And","&") }}</a>
+    </h6>
+    <table class="table table-borderless mb-0">
+      <tbody class="card-text">
+
+        <col width="70%">
+        <col width="30%">
+
+        <tr>
+          <td class="p-1" style="text-align: left">
+            <!-- record type -->
+            <span class="badge amber text-capitalize z-depth-0">{{doc.doc_type.title()}}</span>
+            <!-- record tags -->
+            {% if doc.tags %}
+            {% for tag in doc.tags %}
+            <p class="d-inline">
+              <span class="badge badge-pill teal z-depth-0">
+                {{ tag.title().replace("_"," ").replace("And","&") }}
+              </span>
+            </p>
+            {% endfor %}
+            {% endif %}
+            {% if doc.element_tags %}
+            {% for tag in doc.element_tags %}
+            <p class="d-inline">
+              <span class="badge badge-warning z-depth-0">
+                {{ tag.title().replace("_"," ").replace("And","&") }}
+              </span>
+            </p>
+            {% endfor %}
+            {% endif %}
+          </td>
+        </tr>
+
+        <tr>
+          <!-- authors -->
+          <td class="pb-0 pt-0" style="border-top: none; text-align: left">
+            <strong>Authors: </strong>
+            {% for author in doc.authors %}
+            {{author.lastname}}, {{author.firstname}}; 
+            {% endfor %}
+          </td>
+        </tr>
+
+        <tr>
+          <!-- publication date -->
+          <td class="pb-0 pt-0" style="border-top: none; text-align: left">
+            <strong>Publication Date: </strong> {{doc.publication_date if
+            doc.publication_date else "-"}}
+          </td>
+        </tr>
+
+
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endmacro %}
+
+{% macro publication_record_modal(doc) %}
+<!-- Modal -->
+<div class="modal fade" id="{{ doc.meta.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-fluid modal-info pl-5 pr-5" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title w-100" id="ModalLabel">
+          {{ doc.title }}
+        </h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body font-weight-normal">
+        <h5>
+          {% if doc.doc_type == 'project' %}
+          <span class="badge cyan text-capitalize mr-1">{{doc.doc_type.title()}}</span>
+          {% else %}
+          <span class="badge amber darken-2 text-capitalize mr-1">{{doc.doc_type.title()}}</span>
+          {% endif %}
+        </h5>
+        <br>
+        <strong>
+          Tags:
+        </strong>
+        {% if doc.tags %}
+        {% for tag in doc.tags %}
+        <span class="badge badge-pill indigo">
+          {{ tag.title().replace("_"," ").replace("And","&") }}
+        </span>
+        {% endfor %}
+        {% else %}
+        {{ doc.tags }}
+        {% endif %}
+        <br>
+        <strong>
+          Abstract:
+        </strong>
+        {{ doc.abstract }}
         <br>
         <strong>
           URLs:

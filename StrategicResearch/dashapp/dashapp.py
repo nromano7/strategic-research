@@ -1,12 +1,17 @@
+# -*- coding: utf-8 -*-
 import dash
 from dash_core_components import Graph, Input, Dropdown
 from dash_html_components import Div, H1, H2, H3, H4, H5, H6, P, A, Span, Big, Main, Button
 import plotly.graph_objs as go
 
-import app.figures as figs
-import app.aggregations as aggs
+import dashapp.app.figures as figs
+import dashapp.app.aggregations as aggs
+# from dashapp import figures as figs
+# from dashapp import aggregations as aggs
 
-app = dash.Dash(__name__)
+from flaskapp import app as flaskapp
+
+app = dash.Dash(__name__, server=flaskapp, url_base_pathname='/pathname')
 application = app.server
 
 # materialize css
@@ -29,201 +34,18 @@ app.layout =  (
   Div(
     id="main",
     className="",
-    style={"background-color":"#eeeeee"},
     children=[
 
       # ///// START CONTENT /////
       Div(
         id="content",
         className="",
-        style={"padding":"20px 100px 20px 100px"},
+        # style={"padding":"20px 100px 20px 100px"},
         children=[
-
-          # ///// START ROW 1 /////
-          Div(
-            id="row1",
-            className="",
-            style={},
-            children=[
-
-              Div(
-                id="",
-                className='row',
-                style={"display":"flex"},
-                children=[
-
-                  # ///// SEARCH BAR /////
-                  Div(
-                    id="",
-                    className="col s6",
-                    style={},
-                    children=[
-
-                      Div(
-                        id="search-bar",
-                        className=f"blue-grey lighten-1 white-text {z_depth}",
-                        style={'padding':'10px',"height":"100%"},
-                        children=[
-
-                          P(
-                            id="",
-                            style={"margin":"0px","font-size":"18px"},
-                            children=[
-                              "Search by subject area or research topic (e.g. freeze-thaw, deterioation modeling, etc.)."
-                            ]
-                          ),
-
-                          Div(className="divider"),
-
-                          Div(
-                            id="",
-                            className="valign-wrapper",
-                            style={},
-                            children=[
-
-                              Div(
-                                id="",
-                                className="col s10",
-                                style={},
-                                children=[
-
-                                  Input(
-                                    id="search",
-                                    className="white-text",
-                                    style={"font-size":"20px","margin-top":"10px"},
-                                    type="text",
-                                    value="",
-                                  ),
-                                  
-                                ]
-                              ),
-
-                              Div(
-                                id="",
-                                className="col s2 center-align",
-                                style={},
-                                children=[
-
-                                  Button(
-                                    "Search",
-                                    id="search-btn",
-                                    className="waves-effect waves-light btn blue darken-2"
-                                  )
-                                ]
-                              )
-                            ]
-                          )
-                        ]
-                      )
-                    ]
-                  ),
-
-                  # ///// DROPDOWN MENU /////
-                  Div(
-                    id="",
-                    className="col s6",
-                    style={},
-                    children=[
-
-                      Div(
-                        id="dropdown-menu",
-                        className=f"blue-grey lighten-1 white-text {z_depth}",
-                        style={"background-color":"#ffffff","padding":"10px"},
-                        children=[
-
-                          P(
-                            children=['Filter by bridge element, inputs/attributes, or performance metric.'],
-                            style={'margin':'0px',"font-size":"18px"}
-                          ),
-
-                          Div(
-                            className='divider'
-                          ),
-
-                          Div(
-                            id="menu-row",
-                            className="row black-text",
-                            style={"margin":"0px","padding":"15px 0px 10px 0px"},
-                            children=[
-
-                               Div(
-                                id="",
-                                className="col s4",
-                                style={},
-                                children=[
-
-                                  Dropdown(
-                                    id="dropdown-1",
-                                    options=[
-                                      dict(label="Elements", value=""),
-                                      dict(label="Untreated Decks", value="UTdecks"),
-                                      dict(label="Treated Decks", value="Tdecks"),
-                                      dict(label="Joints", value="joints"),
-                                      dict(label="Coatings", value="coatings")
-                                    ],
-                                    value="",
-                                    searchable=False
-                                  )
-                                ]
-                              ),
-
-                              Div(
-                                id="",
-                                className="col s4",
-                                style={},
-                                children=[
-
-                                  Dropdown(
-                                    id='dropdown-2',
-                                    options=[
-                                      dict(label="Inputs/Attributes", value=""),
-                                      dict(label="Construction", value="construction"),
-                                      dict(label="Design", value="design"),
-                                      dict(label="Environment", value="environment"),
-                                      dict(label=r"Maintenance & Preservation", value="maintenance"),
-                                      dict(label="Materials", value="materials"),
-                                    ],
-                                    value="",
-                                    searchable=False
-                                  )
-                                ]
-                              ),
-
-                              Div(
-                                id="",
-                                className="col s4",
-                                style={},
-                                children=[
-
-                                  Dropdown(
-                                    id='dropdown-3',
-                                    options=[
-                                      dict(label="Performance", value=""),
-                                      dict(label="Cost", value="cost"),
-                                      dict(label="Functionality", value="functionality"),
-                                      dict(label="Structural Condition", value="condition"),
-                                      dict(label="Structural Integrity", value="integrity")
-                                    ],
-                                    value="",
-                                    searchable=False
-                                  )
-                                ]
-                              )
-                            ]
-                          )
-                        ]
-                      )
-                    ]
-                  )
-                ]
-              )
-            ]
-          ),
-          # ///// END ROW 1 /////
 
           # ///// START ROW 2 /////
           Div(
-            id="row2",
+            id="row1",
             className="",
             style={},
             children=[
@@ -587,48 +409,48 @@ app.layout =  (
   )
 )
 
-@app.callback(dash.dependencies.Output('project-count','children'),[dash.dependencies.Input('dropdown-2','value')])
-def updateTotalProjectCount(selection):
-  response = "{:,d}".format(aggs.ProjectCount(selection)['total'])
-  return response
+# @app.callback(dash.dependencies.Output('project-count','children'),[dash.dependencies.Input('dropdown-2','value')])
+# def updateTotalProjectCount(selection):
+#   response = "{:,d}".format(aggs.ProjectCount(selection)['total'])
+#   return response
 
-@app.callback(dash.dependencies.Output('publication-count','children'),[dash.dependencies.Input('dropdown-2','value')])
-def updatePublicationCount(selection):
-  response = "{:,d}".format(aggs.PublicationCount(selection))
-  return response
+# @app.callback(dash.dependencies.Output('publication-count','children'),[dash.dependencies.Input('dropdown-2','value')])
+# def updatePublicationCount(selection):
+#   response = "{:,d}".format(aggs.PublicationCount(selection))
+#   return response
 
-@app.callback(dash.dependencies.Output('status-count','children'),[dash.dependencies.Input('dropdown-2','value')])
-def updateActiveProjectCount(selection):
-  children = [
-    P("{:,d}".format(aggs.ProjectCount(selection)['active'])),
-    P("{:,d}".format(aggs.ProjectCount(selection)['programmed'])),
-    P("{:,d}".format(aggs.ProjectCount(selection)['proposed']))
-  ]
-  return children
+# @app.callback(dash.dependencies.Output('status-count','children'),[dash.dependencies.Input('dropdown-2','value')])
+# def updateActiveProjectCount(selection):
+#   children = [
+#     P("{:,d}".format(aggs.ProjectCount(selection)['active'])),
+#     P("{:,d}".format(aggs.ProjectCount(selection)['programmed'])),
+#     P("{:,d}".format(aggs.ProjectCount(selection)['proposed']))
+#   ]
+#   return children
 
-@app.callback(dash.dependencies.Output('project-count-map','figure'),[dash.dependencies.Input('dropdown-2','value')])
-def updateProjectCountMap(selection):
-  data = aggs.ProjectCountByState(selection)
-  figure = figs.ProjectCountMap2(data)
-  return figure
+# @app.callback(dash.dependencies.Output('project-count-map','figure'),[dash.dependencies.Input('dropdown-2','value')])
+# def updateProjectCountMap(selection):
+#   data = aggs.ProjectCountByState(selection)
+#   figure = figs.ProjectCountMap2(data)
+#   return figure
 
-@app.callback(dash.dependencies.Output("FundingLevelHeatMap-heatmap","figure"),[dash.dependencies.Input("dropdown-2","value")])
-def updateFundingHeatMap(selection):
-  data = aggs.FundingLevelByState(selection)
-  figure = figs.FundingLevelHeatMap(data)
-  return figure
+# @app.callback(dash.dependencies.Output("FundingLevelHeatMap-heatmap","figure"),[dash.dependencies.Input("dropdown-2","value")])
+# def updateFundingHeatMap(selection):
+#   data = aggs.FundingLevelByState(selection)
+#   figure = figs.FundingLevelHeatMap(data)
+#   return figure
 
-@app.callback(dash.dependencies.Output('FundingByYear-histogram','figure'),[dash.dependencies.Input('dropdown-2','value')])
-def updateFundingByYearHistogram(selection):
-  data = aggs.FundingByYear(selection)
-  figure = figs.FundingByYearHistogram(data)
-  return figure
+# @app.callback(dash.dependencies.Output('FundingByYear-histogram','figure'),[dash.dependencies.Input('dropdown-2','value')])
+# def updateFundingByYearHistogram(selection):
+#   data = aggs.FundingByYear(selection)
+#   figure = figs.FundingByYearHistogram(data)
+#   return figure
 
-@app.callback(dash.dependencies.Output('project-count-histogram','figure'),[dash.dependencies.Input('dropdown-2','value')])
-def updateProjectCountByYearHistogram(selection):
-  data = aggs.ProjectCountByYear(selection)
-  figure = figs.ProjectCountByYearHistogram(data)
-  return figure
+# @app.callback(dash.dependencies.Output('project-count-histogram','figure'),[dash.dependencies.Input('dropdown-2','value')])
+# def updateProjectCountByYearHistogram(selection):
+#   data = aggs.ProjectCountByYear(selection)
+#   figure = figs.ProjectCountByYearHistogram(data)
+#   return figure
 
 
 if __name__ == '__main__':

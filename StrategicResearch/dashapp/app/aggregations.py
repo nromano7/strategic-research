@@ -1,4 +1,4 @@
-from app import client
+from dashapp.app import client
 from elasticsearch_dsl import Search, A, Q
 import json
 

@@ -1,5 +1,5 @@
-from app import getStatesGeo
-import app.aggregations as aggs
+from dashapp.app import getStatesGeo
+import dashapp.app.aggregations as aggs
 import json
 import os
 import plotly.graph_objs as go
@@ -128,9 +128,9 @@ def ProjectCountMap1(data=None):
 def ProjectCountMap2(data=None):
 
   mapbox_access_token = r"pk.eyJ1IjoibnJvbWFubzciLCJhIjoiY2ppa2prYjQ2MWszczNsbnh5YnhkZTh1aSJ9.5qBV5E8g3oxlo3ZFL4n6Zw"
-  state_shapefile_PATH = r"./app/static/geojson"
+  state_shapefile_PATH = r"./dashapp/app/static/geojson"
 
-  with open("./statesGeo.json") as f:
+  with open("./dashapp/statesGeo.json") as f:
     geo = json.load(f)
 
   data = aggs.ProjectCountByState()
