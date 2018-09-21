@@ -1,4 +1,4 @@
-from flask import render_template, request, url_for
+from flask import render_template, request, session, url_for
 from flaskapp import app
 from elastic.models import Project, Publication
 from elastic import client, query
@@ -11,18 +11,22 @@ def home():
 
   # get request args
   page = request.args.get('page', 1, type=int)
-  
+  print(f"Page {page}")
 
   # get form data
   doc_type = request.form.get('recordType','projects')
   sort_by = request.form.get('sortBy','_score')
+  rpp = request.form.get('rpp','5')
+
   filters=dict(
     record_set = request.form.get('recordSet','all'),
     status = request.form.get('status','all'),
     date_range = request.form.get('dateRange','10'),
-    tags = request.form.get('tags','all')
+    tags = request.form.get('tags','all'),
+    sort_by=sort_by,
+    doc_type=doc_type,
+    rpp=rpp
   )
-  # rpp = int(request.form.get('rpp',5))
    # TODO: screen form inputs
 
   # handle form data
@@ -44,14 +48,14 @@ def home():
     s = query.run_query(index, q)
     if sort_by == 'date':
       if index == 'projects':
-        s.sort("-expected_complete_date","-actual_complete_date",'-start_date')
+        s.sort({"actual_complete_date": {"order": "desc"}})
       elif index == 'publications':
         s.sort("-publication_date")
-    # s = Project.search(using=client, index='projects').query(q)[:rpp]#[:((page - 1) * rpp + 1)]
+    s = s[(page - 1)*int(rpp):page*int(rpp)-1]
     r = s.execute()
     content[category] = r
 
-  return render_template('home.html',content=content, buttonStates=filters, heading='Strategic Research Matrices')
+  return render_template('home.html',content=content, buttonStates=filters, page=page, heading='Strategic Research Matrices')
 
 @app.route("/analysis")
 def analysis():

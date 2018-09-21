@@ -2,17 +2,25 @@
 <html lang="en">
 
 <head>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- <link rel="stylesheet" href="../static/css/fontawesome.min.css"> -->
+
   <!-- Bootstrap core CSS -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+  <!-- <link href="../static/css/bootstrap.min.css" rel="stylesheet"> -->
+
   <!-- Material Design Bootstrap -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.4/css/mdb.min.css" rel="stylesheet">
+  <!-- <link href="../static/css/mdb.min.css" rel="stylesheet"> -->
+
   <!-- Custom CSS -->
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+  <link rel="stylesheet" type="text/css" href="../static/css/main.css">
 
   {% if title %}
   <title>Strategic Research - {{ title }}</title>
@@ -25,7 +33,7 @@
 <body class="grey lighten-4">
 
   <!-- NAVBAR -->
-  <nav class="navbar navbar-expand-lg navbar-dark light-blue darken-4 fixed-top">
+  <nav class="navbar navbar-expand-lg navbar-dark light-blue darken-4 fixed-top pr-0 pl-0">
     <h2 class="navbar-brand mb-0" style="margin-left: 5%">
       <strong>LTBP | Strategic Research</strong>
     </h2>
@@ -36,7 +44,7 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav mr-auto">
         <a class="nav-item nav-link active" href="{{ url_for('home') }}">
-          Matrices <span class="sr-only">(current)</span>
+          Explore <span class="sr-only">(current)</span>
         </a>
         <a class="nav-item nav-link" href="{{ url_for('analysis') }}">
           Analysis
@@ -46,7 +54,7 @@
         </a>
       </div>
       <div class="navbar-nav" style="margin-right: 5%">
-        <a class="nav-item nav-link disabled mr-auto" href="#" >
+        <a class="nav-item nav-link disabled mr-auto" href="#">
           <i class="fa fa-refresh" aria-hidden="true"></i> Last Updated: 2018-08-03
         </a>
       </div>
@@ -63,12 +71,19 @@
 
   <!-- JQuery -->
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <!-- <script type="text/javascript" src="../static/js/jquery-3.3.1.min.js"></script> -->
+
   <!-- Bootstrap tooltips -->
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"></script>
+  <!-- <script type="text/javascript" src="../static/js/popper.min.js"></script> -->
+
   <!-- Bootstrap core JavaScript -->
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <!-- <script type="text/javascript" src="../static/js/bootstrap.min.js"></script> -->
+
   <!-- MDB core JavaScript -->
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.4/js/mdb.min.js"></script>
+  <!-- <script type="text/javascript" src="../static/js/mdb.min.js"></script> -->
 
 
 </body>
