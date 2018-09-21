@@ -6,14 +6,13 @@ from dashapp.dashapp import app as dashapp
 import json
 
 @app.route("/", methods=['GET', 'POST'])
-# @app.route("/srm", methods=['GET', 'POST'])
 def home():
 
   # get request args
   page = request.args.get('page', 1, type=int)
-  print(f"Page {page}")
 
-  # get form data
+  # get and handle form data
+  # TODO: screen form inputs
   doc_type = request.form.get('recordType','projects')
   sort_by = request.form.get('sortBy','_score')
   rpp = request.form.get('rpp','5')
@@ -27,42 +26,35 @@ def home():
     doc_type=doc_type,
     rpp=rpp
   )
-   # TODO: screen form inputs
-
-  # handle form data
-  index = doc_type
-  if index == 'all':
-    index = ['projects','publications']
-
-
-  content=dict()
+  
   categories = ['construction_quality','design_and_details','material_specifications',
     'live_load', 'environment', 'maintenance_and_preservation',
     'structural_integrity', 'structural_condition', 'functionality', 'cost'
   ]
 
+  content=dict()
   for category in categories:
-
+    # specify index
+    index = doc_type
+    if index == 'all':
+      index = ['projects','publications']
+    # run query
     q = query.get_query(category, filters, index)
-    # print(json.dumps(q,indent=2))
     s = query.run_query(index, q)
+    # sorting
     if sort_by == 'date':
       if index == 'projects':
         s.sort({"actual_complete_date": {"order": "desc"}})
       elif index == 'publications':
         s.sort("-publication_date")
-    s = s[(page - 1)*int(rpp):page*int(rpp)-1]
+    # pagination
+    s = s[(page - 1)*int(rpp):page*int(rpp)]
+    # execute and store in content strucutre
     r = s.execute()
     content[category] = r
 
-  return render_template('home.html',content=content, buttonStates=filters, page=page, heading='Strategic Research Matrices')
+  return render_template('explore.html',content=content, buttonStates=filters, page=page, heading='Strategic Research Matrices')
 
 @app.route("/analysis")
 def analysis():
-  return render_template('analysis.html', title='Analysis', heading='Analysis')
-  # return dashapp.index()
-
-
-# @app.route("/test", methods=['GET', 'POST'])
-# def test():
-#   return f"{request.form['rpp']}"
+  return render_template('analyze.html', title='Analysis', heading='Analyze')

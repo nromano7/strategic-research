@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<main class="analyze-grid-container" style="zoom: 90%">
+
+  <div class="unique-color" style="grid-column: 1/end; grid-row: 1/3"></div>
+  <h1 id="heading" class="white-text mb-3">
+    {{ heading }}
+  </h1>
+
+  <iframe id="dashboard-container" frameborder='0' noresize='noresize' style='width: 100%; height:100%;' src='/dashboard'
+    frameborder="0"></iframe>
+
+</main>
+
+{% endblock content %}

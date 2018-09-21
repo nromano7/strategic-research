@@ -233,7 +233,10 @@ def get_filter_clause(filters, index):
 
 def get_query(name, filters, index):
 
-  filter_clause=get_filter_clause(filters, index)
+  if filters:
+    filter_clause=get_filter_clause(filters, index)
+  else:
+    filter_clause = []
 
   deck = {
     "bool": {

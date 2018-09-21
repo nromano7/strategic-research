@@ -1,6 +1,9 @@
+from elasticsearch import Elasticsearch
 from elasticsearch_dsl import Q
-from StrategicResearch.elastic import client, query
+import query
 from models import Project, Publication
+
+client = Elasticsearch()
 
 categories = [
   'construction_quality','design_and_details','material_specifications',
@@ -10,7 +13,7 @@ categories = [
   
 elements = ['deck','overlay','joints','bearings']
 
-index = 'projects'
+index = 'publications'
 
 def remove_tags(index):
   q = Q({"match_all": {}})
@@ -29,7 +32,7 @@ def remove_tags(index):
 remove_tags(index)
 
 for category in categories:
-  q = query.get_query(category)
+  q = query.get_query(category, None, index)
   r = query.run_query(index, q)
   hits = query.process_response(r)
   for id in hits:
@@ -51,7 +54,7 @@ for category in categories:
 
 
 for element in elements:
-  q = query.get_query(element)
+  q = query.get_query(element, None, index)
   r = query.run_query(index, q)
   hits = query.process_response(r)
   for id in hits:

@@ -12,26 +12,26 @@
         <tr>
           <td class="p-1 pb-2">
             <!-- record type -->
-            <span class="badge badge-primary text-capitalize z-depth-0">{{doc.doc_type.title()}}</span>
+            <h6 class="d-inline mb-0"><span class="badge primary-color-dark text-capitalize z-depth-0">{{doc.doc_type.title()}}</span></h6>
             <!-- record tag -->
             {% if doc.tags %}
             {% for tag in doc.tags %}
-            <p class="d-inline">
-              <span class="badge badge-pill teal z-depth-0 ml-1">
+            <h6 class="d-inline">
+              <span class="badge badge-pill teal darken-1 z-depth-0 ml-1">
                 {{ tag.title().replace("_"," ").replace("And","&") }}
               </span>
-            </p>
+            </h6>
             {% endfor %}
             {% else %}
             {{ doc.tags }}
             {% endif %}
             {% if doc.element_tags %}
             {% for tag in doc.element_tags %}
-            <p class="d-inline">
-              <span class="badge badge-warning z-depth-0 ml-1">
+            <h6 class="d-inline">
+              <span class="badge orange darken-3 z-depth-0 ml-1">
                 {{ tag.title().replace("_"," ").replace("And","&") }}
               </span>
-            </p>
+            </h6>
             {% endfor %}
             {% endif %}
             <p class="d-inline ml-1">[{{doc.meta.score}}]</p>
@@ -203,24 +203,24 @@
         <tr>
           <td class="p-1" style="text-align: left">
             <!-- record type -->
-            <span class="badge amber text-capitalize z-depth-0">{{doc.doc_type.title()}}</span>
+            <h6 class="d-inline mb-0"><span class="badge secondary-color-dark text-capitalize z-depth-0">{{doc.doc_type.title()}}</span></h6> 
             <!-- record tags -->
             {% if doc.tags %}
             {% for tag in doc.tags %}
-            <p class="d-inline">
-              <span class="badge badge-pill teal z-depth-0">
+            <h6 class="d-inline">
+              <span class="badge badge-pill teal darken-1 z-depth-0">
                 {{ tag.title().replace("_"," ").replace("And","&") }}
               </span>
-            </p>
+            </h6>
             {% endfor %}
             {% endif %}
             {% if doc.element_tags %}
             {% for tag in doc.element_tags %}
-            <p class="d-inline">
-              <span class="badge badge-warning z-depth-0">
+            <h6 class="d-inline">
+              <span class="badge orange darken-3 z-depth-0">
                 {{ tag.title().replace("_"," ").replace("And","&") }}
               </span>
-            </p>
+            </h6>
             {% endfor %}
             {% endif %}
             <p class="d-inline ml-1">[{{doc.meta.score}}]</p>

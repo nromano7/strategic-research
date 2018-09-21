@@ -30,13 +30,14 @@
 
 </head>
 
-<body class="grey lighten-4">
+<body class="grey lighten-3">
 
   <!-- NAVBAR -->
   <nav class="navbar navbar-expand-lg navbar-dark light-blue darken-4 fixed-top pr-0 pl-0">
-    <h2 class="navbar-brand mb-0" style="margin-left: 5%">
+    <!-- <h2 class="navbar-brand mb-0" style="margin-left: 5%">
       <strong>LTBP | Strategic Research</strong>
-    </h2>
+    </h2> -->
+    <h3 class="navbar-brand mb-0" style="margin-left: 5%">LTBP | Strategic Research</h3>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
       aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -47,7 +48,7 @@
           Explore <span class="sr-only">(current)</span>
         </a>
         <a class="nav-item nav-link" href="{{ url_for('analysis') }}">
-          Analysis
+          Analyze
         </a>
         <a class="nav-item nav-link disabled" href="#">
           Search
@@ -61,13 +62,7 @@
     </div>
   </nav>
 
-
-  <main class="body-grid-container">
-
-    {% block content %}{% endblock %}
-
-  </main>
-
+  {% block content %}{% endblock %}
 
   <!-- JQuery -->
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
