@@ -1,9 +1,9 @@
 {% macro project_record(doc) %}
 <div class="card m-2 z-depth-0" style="border: 1px solid #dee2e6">
   <div class="card-body">
-    <h6 class="card-title">
+    <h5 class="card-title">
       <a data-toggle="modal" data-target="#{{ doc.meta.id }}">{{ doc.title }}</a>
-    </h6>
+    </h5>
     <table class="table table-borderless mb-0">
       <tbody class="card-text">
 
@@ -18,7 +18,7 @@
             {% for tag in doc.tags %}
             <h6 class="d-inline">
               <span class="badge badge-pill teal darken-1 z-depth-0 ml-1">
-                {{ tag.title().replace("_"," ").replace("And","&") }}
+                {{ tag.title().replace("_"," ").replace("And","and") }}
               </span>
             </h6>
             {% endfor %}
@@ -191,9 +191,9 @@
 {% macro publication_record(doc) %}
 <div class="card m-2 z-depth-0" style="border: 1px solid #dee2e6">
   <div class="card-body">
-    <h6 class="card-title">
-      <a data-toggle="modal" data-target="#{{ doc.meta.id }}">{{ doc.title.title().replace("And","&") }}</a>
-    </h6>
+    <h5 class="card-title">
+      <a data-toggle="modal" data-target="#{{ doc.meta.id }}">{{ doc.title.title().replace("And","and") }}</a>
+    </h5>
     <table class="table table-borderless mb-0">
       <tbody class="card-text">
 
@@ -203,7 +203,7 @@
         <tr>
           <td class="p-1" style="text-align: left">
             <!-- record type -->
-            <h6 class="d-inline mb-0"><span class="badge secondary-color-dark text-capitalize z-depth-0">{{doc.doc_type.title()}}</span></h6> 
+            <h6 class="d-inline mb-0"><span class="badge deep-purple darken-4 text-capitalize z-depth-0">{{doc.doc_type.title()}}</span></h6> 
             <!-- record tags -->
             {% if doc.tags %}
             {% for tag in doc.tags %}
