@@ -1,11 +1,10 @@
 from flask import render_template, request, session, url_for
-from flaskapp import app
-from elastic.models import Project, Publication
-from elastic import client, query
+from flaskapp import application
+from elastic import query
 from dashapp.dashapp import app as dashapp
 import json
 
-@app.route("/", methods=['GET', 'POST'])
+@application.route("/", methods=['GET', 'POST'])
 def home():
 
   # get request args
@@ -55,6 +54,7 @@ def home():
 
   return render_template('explore.html',content=content, buttonStates=filters, page=page, heading='Strategic Research Matrices')
 
-@app.route("/analysis")
+@application.route("/analysis")
 def analysis():
+  # return "Analysis"
   return render_template('analyze.html', title='Analysis', heading='Analyze')

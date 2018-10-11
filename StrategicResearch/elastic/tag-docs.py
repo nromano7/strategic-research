@@ -2,8 +2,17 @@ from elasticsearch import Elasticsearch
 from elasticsearch_dsl import Q
 import query
 from models import Project, Publication
+import sys
 
-client = Elasticsearch()
+if 'projects' in sys.argv:
+  index = "projects"
+elif 'publications' in sys.argv:
+  index = 'publications'
+else:
+  raise(Exception('no arguments provided.'))
+
+AWS_EP = "https://search-strategic-research-67yfnme5nbl3c45vigirwnko4q.us-east-2.es.amazonaws.com"
+client = Elasticsearch(AWS_EP)
 
 categories = [
   'construction_quality','design_and_details','material_specifications',
@@ -12,8 +21,6 @@ categories = [
 ]
   
 elements = ['deck','overlay','joints','bearings']
-
-index = 'publications'
 
 def remove_tags(index):
   q = Q({"match_all": {}})

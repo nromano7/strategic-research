@@ -20,7 +20,7 @@
   <!-- <link href="../static/css/mdb.min.css" rel="stylesheet"> -->
 
   <!-- Custom CSS -->
-  <link rel="stylesheet" type="text/css" href="../static/css/main.css">
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/main.css')}}">
 
   {% if title %}
   <title>Strategic Research - {{ title }}</title>
@@ -37,7 +37,7 @@
     <!-- <h2 class="navbar-brand mb-0" style="margin-left: 5%">
       <strong>LTBP | Strategic Research</strong>
     </h2> -->
-    <h3 class="navbar-brand mb-0" style="margin-left: 5%">LTBP | Strategic Research</h3>
+    <h3 class="navbar-brand mb-0" style="margin-left: 10%">LTBP | Strategic Research</h3>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
       aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -54,7 +54,7 @@
           Search
         </a>
       </div>
-      <div class="navbar-nav" style="margin-right: 5%">
+      <div class="navbar-nav" style="margin-right: 10%">
         <a class="nav-item nav-link disabled mr-auto" href="#">
           <i class="fa fa-refresh" aria-hidden="true"></i> Last Updated: 2018-08-03
         </a>

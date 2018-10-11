@@ -32,16 +32,16 @@
       <hr>
       <label>Record Type</label>
       <div class="custom-control custom-radio">
-        <input value="projects" type="radio" class="custom-control-input" id="rt2" name="recordType" checked>
+        <input value="projects" type="radio" onclick="enableStatus()" class="custom-control-input" id="rt2" name="recordType" checked>
         <label class="custom-control-label" for="rt2">Projects</label>
       </div>
       <div class="custom-control custom-radio">
-        <input value="publications" type="radio" class="custom-control-input" id="rt3" name="recordType">
+        <input value="publications" type="radio" onclick="disableStatus()" class="custom-control-input" id="rt3" name="recordType">
         <label class="custom-control-label" for="rt3">Publications</label>
       </div>
       <hr>
       <label for="status">Status</label>
-      <select name="status" class="browser-default custom-select form-select">
+      <select id="status" name="status" class="browser-default custom-select form-select">
         <option value="" disabled>Choose Option</option>
         <option value="all" selected>All</option>
         <option value="active">Active</option>
@@ -49,6 +49,7 @@
         <option value="programmed">Programmed</option>
         <option value="proposed">Proposed</option>
       </select>
+      <hr>
       <hr>
       <label>Date Range</label>
       <div class="custom-control custom-radio">
@@ -453,6 +454,14 @@
     }
   }
 
+  function disableStatus() {
+    document.getElementById("status").disabled = true
+  }
+
+  function enableStatus() {
+    document.getElementById("status").disabled = false
+  }
+
   function setButtonState() {
 
     let recordSet = "{{ buttonStates['record_set']|safe }}"
@@ -481,8 +490,10 @@
     //  update record type selection
     if (docType == 'projects') {
       document.getElementById('rt2').checked = true
+      enableStatus()
     } else {
       document.getElementById('rt3').checked = true
+      disableStatus()
     }
 
     // update status selection

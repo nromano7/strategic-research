@@ -4,14 +4,16 @@ import json
 from os import listdir, path
 import sys
 
-AWS_EP = r"https://search-strategic-research-eqhxwqugitmyfpzyiobs2dadue.us-east-1.es.amazonaws.com/"
+# AWS_EP = "https://search-strategic-research-67yfnme5nbl3c45vigirwnko4q.us-east-2.es.amazonaws.com"
+esClient = Elasticsearch()
+
 PROJECT_FILES_PATH = r"C:\Users\nickp\OneDrive\Documents\work\projects\ltbp\strategic-research\data-files\20180803\json\projects"
 PUB_FILES_PATH = r"C:\Users\nickp\OneDrive\Documents\work\projects\ltbp\strategic-research\data-files\20180803\json\publications"
 
 DOC_TYPE = 'doc'
 
 def indexDocuments(index, root_path):
-  esClient = Elasticsearch()
+  
   all_files = listdir(root_path)
   for file in all_files:
     id = file.split('_')[1].split('.')[0]
