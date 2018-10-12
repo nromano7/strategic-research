@@ -109,7 +109,8 @@ app.layout = html.Div(
 											marks={y: f'{y}' for y in range(2006, 2020)},
 											min=2006,
 											max=2019,
-											value=[2014,2019]
+											value=[2014,2019],
+											disabled=True
 										)
 									]
 								)
@@ -187,28 +188,29 @@ def updateTotalProjectCount(tag, element_tag):
 	]
 	return children
 
-# @app.callback(dash.dependencies.Output('publications-panel','children'),
-# 	[dash.dependencies.Input('tags-selection','value'),
-# 		dash.dependencies.Input('record-set-selection','value')])
-# def updateTotalPublicationCount(tag, element_tag):
-# 	queries = dict(
-# 		tag = tag,
-# 		element_tag = element_tag
-# 	)
-# 	children=[
-# 		html.H2("{:,d}".format(aggregate.publication_count(queries=queries))),
-# 		html.H3("Publications", className="text-muted")
-# 	]
-# 	return children
+@app.callback(dash.dependencies.Output('publications-panel','children'),
+	[dash.dependencies.Input('tags-selection','value'),
+		dash.dependencies.Input('record-set-selection','value')])
+def updateTotalPublicationCount(tag, element_tag):
+	queries = dict(
+		tag = tag,
+		element_tag = element_tag
+	)
+	children=[
+		html.H2("{:,d}".format(aggregate.publication_count(queries=queries))),
+		html.H3("Publications", className="text-muted")
+	]
+	return children
 
-@app.callback(dash.dependencies.Output('project-count-map','figure'),[dash.dependencies.Input('tags-selection','value')])
-def updateProjectCountMap(selection):
-	# print(f"selection: {selection}")
-	if selection == 'all' or selection == "":
-		query = None
-	else:
-		query = selection
-	data = aggregate.project_count_by_state(query=query)
+@app.callback(dash.dependencies.Output('project-count-map','figure'),
+	[dash.dependencies.Input('tags-selection','value'),
+		dash.dependencies.Input('record-set-selection','value')])
+def updateProjectCountMap(tag, element_tag):
+	queries = dict(
+		tag = tag,
+		element_tag = element_tag
+	)
+	data = aggregate.project_count_by_state(queries=queries)
 	figure = fig.project_count_map(data=data)
 	return figure
 

@@ -7,26 +7,18 @@ client = Elasticsearch(AWS_EP)
 index = 'projects'
 
 
-def project_count_by_state(query=None):
+def project_count_by_state(queries=None):
 
 	# search object
 	s = Search(using=client,index=index)
 
-	if query:
+	if queries:
 
-		# fields to query
-		fields = ["title","abstract","notes","TRID_INDEX_TERMS","TRID_SUBJECT_AREAS",'tags']
-		
-		q=Q(
-			{
-				"multi_match":{
-					"query": query,
-					"type":"best_fields",
-					"fields":fields
-				}
-			}
-		)
-		s=s.query(q)
+		tag = queries.get("tag")
+		element_tag = queries.get("element_tag")
+
+		q = query.get_query(tag, {"record_set": element_tag}, index)
+		s = query.run_query(index, q)
 
 	# aggregations
 	a1 = A(
@@ -170,7 +162,6 @@ def publication_count(queries=None):
 		count = s.query(total).count()
 
 	return count
-
 	
 def funding_by_state(query=None):
 
