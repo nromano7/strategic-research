@@ -42,18 +42,29 @@
       aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav mr-auto">
-        <a class="nav-item nav-link active" href="{{ url_for('home') }}">
-          Explore <span class="sr-only">(current)</span>
-        </a>
-        <a class="nav-item nav-link" href="{{ url_for('analysis') }}">
-          Analyze
-        </a>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mr-auto">
+        {% if title %}
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('home') }}">Explore </a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="{{ url_for('analysis') }}">Analyze <span class="sr-only">(current)</span></a>
+        </li>
+        {% else %}
+        <li class="nav-item active">
+            <a class="nav-link" href="{{ url_for('home') }}">Explore <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('analysis') }}">Analyze</a>
+        </li>
+        {% endif %}
+        
         <a class="nav-item nav-link disabled" href="#">
           Search
         </a>
-      </div>
+      </ul>
       <div class="navbar-nav" style="margin-right: 10%">
         <a class="nav-item nav-link disabled mr-auto" href="#">
           <i class="fa fa-refresh" aria-hidden="true"></i> Last Updated: 2018-08-03

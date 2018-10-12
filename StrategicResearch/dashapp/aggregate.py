@@ -69,22 +69,7 @@ def project_count(queries=None):
 
 		q = query.get_query(tag, {"record_set": element_tag}, index)
 		s = query.run_query(index, q)
-		# q = Q(
-		# 	"bool": {
-		# 		"must": [
-		# 			{"match": {"tags": tag}},
-		# 			{"match": {"element_tags": element_tag}},
-		# 		]
-		# 	}
-		# )
 
-
-		# if query == 'all':
-		# 	q=Q({"match_all":{}})
-		# else:
-		# 	q=Q({"match":{"tags":query}})
-
-		# s=s.query(q)
 		res={}
 		res['total'] = s.count()
 		for status in allStatus:
@@ -148,21 +133,26 @@ def project_count_by_tag(tag, query=None):
 
 	return count
 
-def publication_count(query=None):
+def publication_count(queries=None):
 
 	 # search object
 	s = Search(using=client,index='publications')
 	
-	fields = ["title","abstract","notes","TRID_INDEX_TERMS","TRID_SUBJECT_AREAS",'tags']
+	if queries:
 
-	if query:
+		tag = queries.get("tag")
+		element_tag = queries.get("element_tag")
 
-		if query == "all":
-			q=Q({"match_all":{}})
-		else:
-			q=Q({"match":{"tags":query}})
+		index = 'publications'
+		q = query.get_query(tag, {"record_set": element_tag}, index)
+		s = query.run_query(index, q)
 
-		count = s.query(q).count()
+		# if query == "all":
+		# 	q=Q({"match_all":{}})
+		# else:
+		# 	q=Q({"match":{"tags":query}})
+
+		count = s.count()
 
 	else:
 

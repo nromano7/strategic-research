@@ -56,10 +56,11 @@ def project_count_map(data=None):
 	annotations = [dict(
 		showarrow = False,
 		align = 'left',
-		text = '<b>Count of Projects <br> Funded Per State</b>',
+		text = "",
+		# text = '<b>Count of Projects <br> Funded Per State</b>',
 		font=dict(family='Courier New, monospace', size=18),
 		x = 0.95,
-		y = 0.90,
+		y = 0.85,
 	)]
 
 	for i, bin in enumerate(BINS):
@@ -76,7 +77,7 @@ def project_count_map(data=None):
 				align = 'left',
 				text = label,
 				x = 0.95,
-				y = 0.75-(i/20),
+				y = 0.65-(i/20),
 				ax = -60,
 				ay = 0,
 				arrowwidth = 10,
@@ -94,7 +95,7 @@ def project_count_map(data=None):
 			style='light',
 			center=dict(
 				lat=39,
-				lon=-92
+				lon=-96
 			),
 			pitch=0,
 			zoom=3.1,

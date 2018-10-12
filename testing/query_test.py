@@ -4,8 +4,8 @@ import json
 allStatus = ['Active', 'Completed', 'Programmed', 'Proposed']
 index = "projects"
 
-tag = "all"
-element_tag = "untreated_decks"
+tag = "construction_quality"
+element_tag = "treated_deck"
 
 q = query.get_query(tag, {"record_set": element_tag}, index)
 s = query.run_query(index, q)

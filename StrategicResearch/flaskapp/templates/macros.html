@@ -12,26 +12,26 @@
         <tr>
           <td class="p-1 pb-2">
             <!-- record type -->
-            <h6 class="d-inline mb-0"><span class="badge primary-color-dark text-capitalize z-depth-0">{{doc.doc_type.title()}}</span></h6>
+            <h5 class="d-inline mb-0"><span class="badge primary-color-dark text-capitalize z-depth-0">{{doc.doc_type.title()}}</span></h5>
             <!-- record tag -->
             {% if doc.tags %}
             {% for tag in doc.tags %}
-            <h6 class="d-inline">
+            <h5 class="d-inline">
               <span class="badge badge-pill teal darken-1 z-depth-0 ml-1">
                 {{ tag.title().replace("_"," ").replace("And","and") }}
               </span>
-            </h6>
+            </h5>
             {% endfor %}
             {% else %}
             {{ doc.tags }}
             {% endif %}
             {% if doc.element_tags %}
             {% for tag in doc.element_tags %}
-            <h6 class="d-inline">
+            <h5 class="d-inline">
               <span class="badge orange darken-3 z-depth-0 ml-1">
                 {{ tag.title().replace("_"," ").replace("And","&") }}
               </span>
-            </h6>
+            </h5>
             {% endfor %}
             {% endif %}
             <!-- <p class="d-inline ml-1">[{{doc.meta.score}}]</p> -->
@@ -95,8 +95,8 @@
 <!-- Modal -->
 <div class="modal fade" id="{{ doc.meta.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
-  <div class="modal-dialog modal-fluid modal-info pl-5 pr-5" role="document">
-    <div class="modal-content p-5">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title w-100" id="ModalLabel">
           {{ doc.title }}
@@ -105,14 +105,14 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body font-weight-normal p-3">
+      <div class="modal-body p-5 font-weight-normal">
         <!-- record type -->
         <h5 class="d-inline mb-0"><span class="badge primary-color-dark text-capitalize z-depth-0">{{doc.doc_type.title()}}</span></h5>
         <!-- record tag -->
         {% if doc.tags %}
         {% for tag in doc.tags %}
         <h5 class="d-inline">
-          <span class="badge badge-pill teal darken-1 z-depth-0 ml-1">
+          <span class="badge badge-pill teal darken-1 z-depth-0 mr-1">
             {{ tag.title().replace("_"," ").replace("And","and") }}
           </span>
         </h5>
@@ -130,6 +130,7 @@
         {% endfor %}
         {% endif %}
         <br>
+        <hr>
         <strong>
           Status:
         </strong>
@@ -160,14 +161,19 @@
           Performing Agencies:
         </h4>
         {% for agency in doc.performing_agencies %}
+        {% if agency['name'] %}
         {{ agency['name'] }},
+        {% endif %}
+
         {% endfor %}
         <br>
         <h4 class="mb-2 mt-2">
           Project Managers/Investigators:
         </h4>
         {% for manager in doc.project_investigators %}
+        {% if manager['last_name'] %}
         {{ manager['last_name'] }},
+        {% endif %}
         {% endfor %}
         <br>
         <h4 class="mb-2 mt-2">
@@ -184,7 +190,10 @@
         <h4 class="mb-2 mt-2">
           URLs:
         </h4>
-        {{", ".join(doc.urls) }}
+        {% for url in doc.urls %}
+        <a href="{{url}}">{{url}}</a> ,
+        {% endfor %}
+        
         <br>
       </div>
     </div>
@@ -207,27 +216,27 @@
         <tr>
           <td class="p-1" style="text-align: left">
             <!-- record type -->
-            <h6 class="d-inline mb-0"><span class="badge deep-purple darken-4 text-capitalize z-depth-0">{{doc.doc_type.title()}}</span></h6> 
+            <h5 class="d-inline mb-0"><span class="badge deep-purple darken-4 text-capitalize z-depth-0">{{doc.doc_type.title()}}</span></h5> 
             <!-- record tags -->
             {% if doc.tags %}
             {% for tag in doc.tags %}
-            <h6 class="d-inline">
+            <h5 class="d-inline">
               <span class="badge badge-pill teal darken-1 z-depth-0">
                 {{ tag.title().replace("_"," ").replace("And","&") }}
               </span>
-            </h6>
+            </h5>
             {% endfor %}
             {% endif %}
             {% if doc.element_tags %}
             {% for tag in doc.element_tags %}
-            <h6 class="d-inline">
+            <h5 class="d-inline">
               <span class="badge orange darken-3 z-depth-0">
                 {{ tag.title().replace("_"," ").replace("And","&") }}
               </span>
-            </h6>
+            </h5>
             {% endfor %}
             {% endif %}
-            <p class="d-inline ml-1">[{{doc.meta.score}}]</p>
+            <!-- <p class="d-inline ml-1">[{{doc.meta.score}}]</p> -->
           </td>
         </tr>
 
@@ -260,7 +269,7 @@
 <!-- Modal -->
 <div class="modal fade" id="{{ doc.meta.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
-  <div class="modal-dialog modal-fluid modal-info pl-5 pr-5" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title w-100" id="ModalLabel">
@@ -270,37 +279,52 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body font-weight-normal">
-        <h5>
-          {% if doc.doc_type == 'project' %}
-          <span class="badge cyan text-capitalize mr-1">{{doc.doc_type.title()}}</span>
-          {% else %}
-          <span class="badge amber darken-2 text-capitalize mr-1">{{doc.doc_type.title()}}</span>
-          {% endif %}
-        </h5>
-        <br>
-        <strong>
-          Tags:
-        </strong>
+      <div class="modal-body p-5 font-weight-normal">
+        <!-- record type -->
+        <h5 class="d-inline mb-0"><span class="badge deep-purple darken-4 text-capitalize z-depth-0">{{doc.doc_type.title()}}</span></h5> 
+        <!-- record tag -->
         {% if doc.tags %}
         {% for tag in doc.tags %}
-        <span class="badge badge-pill indigo">
-          {{ tag.title().replace("_"," ").replace("And","&") }}
-        </span>
+        <h5 class="d-inline">
+          <span class="badge badge-pill teal darken-1 z-depth-0 mr-1">
+            {{ tag.title().replace("_"," ").replace("And","and") }}
+          </span>
+        </h5>
         {% endfor %}
         {% else %}
         {{ doc.tags }}
         {% endif %}
+        {% if doc.element_tags %}
+        {% for tag in doc.element_tags %}
+        <h5 class="d-inline">
+          <span class="badge orange darken-3 z-depth-0 ml-1">
+            {{ tag.title().replace("_"," ").replace("And","&") }}
+          </span>
+        </h5>
+        {% endfor %}
+        {% endif %}
         <br>
-        <strong>
-          Abstract:
-        </strong>
+        <hr>
+        <h4>Authors: </h4>
+        {% for author in doc.authors %}
+        {{author.lastname}}, {{author.firstname}}; 
+        {% endfor %}
+        <br>
+        <br>
+        <h4>Publication Date: </h4> {{doc.publication_date if
+          doc.publication_date else "-"}}
+        <br>
+        <h4 class="mb-2 mt-2">
+            Abstract:
+        </h4>
         {{ doc.abstract }}
-        <br>
-        <strong>
-          URLs:
-        </strong>
-        {{", ".join(doc.urls) }}
+        <h4 class="mb-2 mt-2">
+            URLs:
+        </h4>
+        {% for url in doc.urls %}
+        <a href="{{url}}">{{url}}</a> ,
+        {% endfor %}
+        
         <br>
       </div>
     </div>

@@ -38,35 +38,37 @@ app.layout = html.Div(
 			id="filter-panel",
 			className="card card-body z-depth-1 pt-2",
 			children=[
-				html.H4("Filter results by element or LTBP research topics."),
+				html.H4("Filters & Options"),
 				html.Div(
 					className="row",
 					children=[
 						html.Div(
-							className="col text-center",
+							className="col text-left",
 							children=[
+								html.H6("Filter by bridge element."),
 								dcc.Dropdown(
 									id="record-set-selection",
 									className="text-left",
 									options=[
 										dict(label="All Bridges & Structures", value="all"),
 										dict(label="Bridges: All Elements", value="bridges"),
-										dict(label="Untreated Decks", value="untreated_decks"),
-										dict(label="Treated Decks", value="treated_decks"),
+										dict(label="Untreated Decks", value="untreated_deck"),
+										dict(label="Treated Decks", value="treated_deck"),
 										dict(label="Joints", value="joints"),
 										dict(label="Bearings", value="bearings"),
 										dict(label="Coatings", value="coatings")
 									],
 									placeholder="Select bridge element...",
-									value="",
+									value="all",
 									searchable=False,
 									clearable=False
 								)
 							]
 						),
 						html.Div(
-							className="col text-center",
+							className="col text-left",
 							children=[
+								html.H6("Filter by LTBP research topic."),
 								dcc.Dropdown(
 									id="tags-selection",
 									className="text-left",
@@ -83,9 +85,33 @@ app.layout = html.Div(
 										dict(label="Cost", value="cost")
 									],
 									placeholder="Select LTBP research topic...",
-									value="",
+									value="all",
 									searchable=False,
 									clearable=False
+								)
+							]
+						)
+					],
+					style={"margin-bottom":"10px"}
+				),
+				html.Div(
+					className = "row",
+					style={"margin-top":"10px"},
+					children = [
+						html.Div(
+							className="col",
+							children=[
+								html.H6("Filter by Year"),
+								html.Div(
+									style={"margin-left":"20px","margin-right":"20px"},
+									children=[
+										dcc.RangeSlider(
+											marks={y: f'{y}' for y in range(2006, 2020)},
+											min=2006,
+											max=2019,
+											value=[2014,2019]
+										)
+									]
 								)
 							]
 						)
@@ -112,6 +138,7 @@ app.layout = html.Div(
 		dcc.Graph(
 			id='project-count-map',
 			className="z-depth-1",
+			figure = fig.project_count_map(),
 			config={'displayModeBar': False}
 		),
 		dcc.Graph(
@@ -160,13 +187,19 @@ def updateTotalProjectCount(tag, element_tag):
 	]
 	return children
 
-@app.callback(dash.dependencies.Output('publications-panel','children'),[dash.dependencies.Input('tags-selection','value')])
-def updateTotalPublicationCount(selection):
-	children=[
-		html.H2("{:,d}".format(aggregate.publication_count(selection))),
-		html.H3("Publications", className="text-muted")
-	]
-	return children
+# @app.callback(dash.dependencies.Output('publications-panel','children'),
+# 	[dash.dependencies.Input('tags-selection','value'),
+# 		dash.dependencies.Input('record-set-selection','value')])
+# def updateTotalPublicationCount(tag, element_tag):
+# 	queries = dict(
+# 		tag = tag,
+# 		element_tag = element_tag
+# 	)
+# 	children=[
+# 		html.H2("{:,d}".format(aggregate.publication_count(queries=queries))),
+# 		html.H3("Publications", className="text-muted")
+# 	]
+# 	return children
 
 @app.callback(dash.dependencies.Output('project-count-map','figure'),[dash.dependencies.Input('tags-selection','value')])
 def updateProjectCountMap(selection):

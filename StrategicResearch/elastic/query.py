@@ -257,6 +257,7 @@ def get_query(name, filters, index):
 	ALL = {
 		"bool":{
 			"must":[],
+			"filter": filter_clause,
 			"should":[],
 			"must_not":[]
 		}
