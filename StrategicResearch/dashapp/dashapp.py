@@ -302,15 +302,34 @@ def callback_performance_barchart(topic_selection, element_selection):
 	return figure
 
 
-@app.callback(dash.dependencies.Output('funding-heatmap','figure'),[dash.dependencies.Input('tags-selection','value')])
-def updateHeatMap(selection):
-	if selection == 'all' or selection == "":
-		query = None
-	else:
-		query = selection
-	data = aggregate.funding_by_state(query=query)
+@app.callback(dash.dependencies.Output('funding-heatmap','figure'),
+	[dash.dependencies.Input('tags-selection','value'),
+		dash.dependencies.Input('record-set-selection','value')])
+
+def callback_heamap(topic_selection, element_selection):
+	
+	data =aggregate.funding_by_state(topic=topic_selection, element=element_selection)
 	figure = fig.funding_heatmap(data=data)
+
 	return figure
+
+
+
+# @app.callback(dash.dependencies.Output('funding-heatmap','figure'),[dash.dependencies.Input('tags-selection','value')])
+# def updateHeatMap(selection):
+# 	if selection == 'all' or selection == "":
+# 		query = None
+# 	else:
+# 		query = selection
+# 	data = aggregate.funding_by_state(query=query)
+# 	figure = fig.funding_heatmap(data=data)
+# 	return figure
+
+
+
+
+
+
 
 application = app.server
 if __name__ == '__main__':

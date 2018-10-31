@@ -151,26 +151,19 @@ def publication_count(queries=None):
 
 	return count
 	
-def funding_by_state(query=None):
+def funding_by_state(**kwargs):
 
-	# search object
-	s = Search(using=client,index=index)
+	topic_query = kwargs.get("topic")
+	topic_filter = kwargs.get("topic_selection")
+	element_filter = kwargs.get("element")
+	filters = dict(
+		element = element_filter,
+		# topic = topic_filter
+	)
 
-	if query:
-
-		# fields to query
-		fields = ["title","abstract","notes","TRID_INDEX_TERMS","TRID_SUBJECT_AREAS",'tags']
-		
-		q=Q(
-			{
-				"multi_match":{
-					"query": query,
-					"type":"best_fields",
-					"fields":fields
-				}
-			}
-		)
-		s=s.query(q)
+	# run query
+	q = query.get_topic_query(topic_query, filters, index)
+	s = query.run_query(index, q)
 
 	# aggregations
 	a1 = A(
@@ -222,10 +215,96 @@ def funding_by_state(query=None):
 	res = {}
 	for b in response.aggregations.agencies.states.buckets:
 		state = b.key
+		if len(state) > 2:
+			continue
+		if state in res: 
+			continue
 		buckets = b.reverse.fund_amt.buckets.to_dict()
 		res[state] = buckets
 	
 	return res
+
+# topic_selection = "construction_quality"
+# element_selection = "untreated_deck"
+# data =funding_by_state(topic=topic_selection, element=element_selection)
+
+# print()
+
+# def funding_by_state(query=None):
+
+# 	# search object
+# 	s = Search(using=client,index=index)
+
+# 	if query:
+
+# 		# fields to query
+# 		fields = ["title","abstract","notes","TRID_INDEX_TERMS","TRID_SUBJECT_AREAS",'tags']
+		
+# 		q=Q(
+# 			{
+# 				"multi_match":{
+# 					"query": query,
+# 					"type":"best_fields",
+# 					"fields":fields
+# 				}
+# 			}
+# 		)
+# 		s=s.query(q)
+
+# 	# aggregations
+# 	a1 = A(
+# 		"nested", 
+# 		path="funding_agencies"
+# 	)
+# 	a2 = A(
+# 		"terms", 
+# 		field="funding_agencies.state.keyword",
+# 		size=50, 
+# 		order={"_count":"desc"},
+# 	)
+# 	a3 = A("reverse_nested")
+# 	a4 = A(
+# 		"range", 
+# 		field="funding", 
+# 		ranges=[
+# 			{
+# 				"from": 0, "to": 100000
+# 			},
+# 			{
+# 				"from": 100000,"to": 250000
+# 			},
+# 			{
+# 				"from": 250000,"to": 500000
+# 			},
+# 			{
+# 				"from": 500000,"to": 750000
+# 			},
+# 			{
+# 				"from": 750000,"to": 1000000
+# 			},
+# 			{
+# 				"from": 1000000
+# 			}
+# 		],
+# 		keyed=True
+# 	)
+
+# 	# chain aggregations and execute
+# 	s.aggs\
+# 		.bucket('agencies', a1)\
+# 		.bucket('states',a2)\
+# 		.bucket('reverse',a3)\
+# 		.bucket('fund_amt',a4)
+# 	response = s.execute()
+
+# 	# filter response
+# 	res = {}
+# 	for b in response.aggregations.agencies.states.buckets:
+# 		state = b.key
+# 		buckets = b.reverse.fund_amt.buckets.to_dict()
+# 		res[state] = buckets
+	
+# 	return res
 
 # topic_selection = "all"
 # element_selection = "all"

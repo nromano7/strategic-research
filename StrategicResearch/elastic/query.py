@@ -154,22 +154,22 @@ def get_filter_clause(filters, index=None):
 	selected_date_range = filters.get('date_range')
 	if index == 'projects':
 		if selected_date_range == 10 or selected_date_range == "10":
+		
 			date_range = {
 				"bool": {
-					"should": [
-						# {"range": { "actual_complete_date": { "gte": "now-50y"}}},
-						# {"range": { "expected_complete_date": { "gte": "now-50y"}}},
+					"must": [
 						{"range": { "start_date": { "gte": "now-50y"}}}
 					]
 				}
 			}
+
 		elif selected_date_range != None:
-			if selected_date_range == 'future':
+			if selected_date_range != 'future':
 				
 				date_range = {
-				"bool": {
-					"should": [
-						{"range": { "start_date": { "gte": f"now-{filters.get('date_range')}y"}}}
+					"bool": {
+						"must": [
+							{"range": { "start_date": { "gte": f"now-{filters.get('date_range')}y"}}}
 						]
 					}
 				}
@@ -177,10 +177,12 @@ def get_filter_clause(filters, index=None):
 			else:
 
 				date_range = {
-					"should": [
-						{"range": { "start_date": { "gte": f"now+{filters.get('date_range')}y"}}}
+					"bool": {
+						"must": [
+							{"range": { "start_date": { "gte": f"now+10y"}}}
 						]
 					}
+				}
 		
 			
 		else:
@@ -189,7 +191,7 @@ def get_filter_clause(filters, index=None):
 		if selected_date_range == 10 or selected_date_range == "10":
 			date_range = {
 				"bool": {
-					"should": [
+					"must": [
 						{"range": { "publication_date": { "gte": "now-50y"}}}
 					]
 				}
@@ -197,7 +199,7 @@ def get_filter_clause(filters, index=None):
 		elif selected_date_range != None:
 			date_range = {
 				"bool": {
-					"should": [
+					"must": [
 						{"range": { "publication_date": { "gte": f"now-{filters.get('date_range')}y"}}}
 					]
 				}
@@ -223,6 +225,9 @@ def get_filter_clause(filters, index=None):
 		topic = get_topic_query(topic_query, index=index)
 	else:
 		topic = None
+
+	# sort_by = filters.get("sort_by")
+	# "sort" : [{"price" : {"order" : "asc", "mode" : "avg"}}]
 
 	must = []
 	if index == 'projects':
@@ -579,15 +584,16 @@ def run_query(index, q, filters=None):
 	# initialize search object
 	s = Search(using=client, index=index)
 
-	sort_by = filters.get('sort_by', '_score')
-	status = filters.get('status')
+	if filters:
+		sort_by = filters.get('sort_by', '_score')
 
-	# sorting
-	if sort_by == 'date':
-		if index == 'projects':
-			s.sort({"start_date": {"order": "desc"}})
-		elif index == 'publications':
-			s.sort("-publication_date")
+		# sorting
+		if sort_by == 'date':
+			if index == 'projects':
+				s.sort("start_date")
+				# {"start_date": {"order": "desc"}}
+			elif index == 'publications':
+				s.sort("-publication_date")
 
 	# query and return the response
 	r = s.query(q)
@@ -617,6 +623,25 @@ def process_response(r):
 			score = score
 		)
 	return hits
+
+
+# filters=dict(
+#     element = 'untreated_deck',
+#     status = "active",
+#     date_range = 1,
+#     sort_by = 'date',
+#     doc_type = 'projects',
+# )
+# category = "construction_quality"
+# index = 'projects'
+# q = get_topic_query(category, filters=filters, index=index)
+# s = run_query(index, q, filters=filters)
+# r = s.execute()
+
+# import json
+# print(json.dumps(r,indent=2))
+
+
 
 
 # def match(query, field, name='match'):

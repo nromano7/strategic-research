@@ -170,7 +170,7 @@ def funding_heatmap(data=None):
 
 	# retrieve data and remove 'DC'
 	if not data:
-		data = aggregate.funding_by_state()
+		data = aggregate.funding_by_state(topic="all", element="all")
 	states = [state for state in data.keys() if (state != 'DC') and (sum([b["doc_count"] for b in list(data[state].values())]) != 0)]
 	# state_labels = [geo[state.upper()]['abbrv'] if len(state) == 2 else geo[state]['abbrv'] finally state for state in states]
 

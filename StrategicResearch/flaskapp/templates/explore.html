@@ -52,12 +52,12 @@
       </select>
       <hr>
       <label>Date Range</label>
+      <!-- <div class="custom-control custom-radio">
+        <input value=0 type="radio" class="custom-control-input" id="dr0" name="dateRange">
+        <label class="custom-control-label" for="dr0">Future</label>
+      </div> -->
       <div class="custom-control custom-radio">
-        <input value=0 type="radio" class="custom-control-input" id="dr1" name="dateRange" checked>
-        <label class="custom-control-label" for="dr1">Future</label>
-      </div>
-      <div class="custom-control custom-radio">
-        <input value=1 type="radio" class="custom-control-input" id="dr1" name="dateRange">
+        <input value=1 type="radio" class="custom-control-input" id="dr1" name="dateRange" checked>
         <label class="custom-control-label" for="dr1">1 Year</label>
       </div>
       <div class="custom-control custom-radio">
@@ -147,7 +147,7 @@
               </a>
             </li>
           </ul>
-          <div class="tab-content" id="myTabContent">
+          <div class="tab-content results" id="myTabContent">
             <div class="tab-pane fade show active" id="construction" role="tabpanel" aria-labelledby="construction-tab">
               {% for doc in content['construction_quality'] %}
               {% if doc.doc_type == 'project' %}
@@ -222,7 +222,7 @@
             </li>
           </ul>
 
-          <div class="tab-content" id="myTabContent">
+          <div class="tab-content results" id="myTabContent">
             <div class="tab-pane fade show active" id="liveload" role="tabpanel" aria-labelledby="liveload-tab">
               {% for doc in content['live_load'] %}
               {% if doc.doc_type == 'project' %}
@@ -301,7 +301,7 @@
               </a>
             </li>
           </ul>
-          <div class="tab-content" id="myTabContent">
+          <div class="tab-content results" id="myTabContent">
             <div class="tab-pane fade show active" id="integrity" role="tabpanel" aria-labelledby="integrity-tab">
               {% for doc in content['structural_integrity'] %}
               {% if doc.doc_type == 'project'%}
@@ -436,6 +436,9 @@
     }
 
     // update date range selection
+    // if (dateRange == '0') {
+    //   document.getElementById('dr0').checked = true
+    // } else 
     if (dateRange == '1') {
       document.getElementById('dr1').checked = true
     } else if (dateRange == '5') {

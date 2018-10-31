@@ -17,13 +17,14 @@ def home():
   # rpp = request.form.get('rpp','5')
 
   filters=dict(
-    element = request.form.get('element','untreated_deck'),
-    status = request.form.get('status','active'),
-    date_range = request.form.get('dateRange','1'),
+    element = request.form.get('element','bridges'),
+    status = request.form.get('status','all'),
+    date_range = request.form.get('dateRange','5'),
     sort_by=sort_by,
     doc_type=doc_type,
     # rpp=rpp
   )
+
   
   categories = ['construction_quality','design_and_details','material_specifications',
     'live_load', 'environment', 'maintenance_and_preservation',
@@ -44,6 +45,7 @@ def home():
 
     # pagination
     # s = s[(page - 1)*int(rpp):page*int(rpp)]
+    s = s[:100]
 
     # execute and store in content strucutre
     r = s.execute()
