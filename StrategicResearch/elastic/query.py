@@ -6,7 +6,7 @@ AWS_EP = "https://search-strategic-research-67yfnme5nbl3c45vigirwnko4q.us-east-2
 client = Elasticsearch(AWS_EP)
 
 
-def get_recordset_filter(name):
+def get_element_filter(name):
 
 	ALL = {
 		"bool":{
@@ -127,11 +127,12 @@ def get_recordset_filter(name):
 	return filters.get(name)
 
 
-def get_filter_clause(filters, index):
+def get_filter_clause(filters, index=None):
 
-	record_set = get_recordset_filter(filters.get("record_set"))
+	element = get_element_filter(filters.get("element"))
 
-	if filters.get("status") == "all":
+	selected_status = filters.get("status")
+	if selected_status == "all":
 		status = {
 			"bool":{
 				"must":[],
@@ -139,10 +140,10 @@ def get_filter_clause(filters, index):
 				"must_not":[]
 			}
 		}
-	elif filters.get("status") != None:
+	elif selected_status != None:
 		status = {
 			"bool":{
-				"must":[{"term": {"status": filters.get("status")}}],
+				"must":[{"term": {"status": selected_status}}],
 				"should":[],
 				"must_not":[]
 			}
@@ -150,31 +151,42 @@ def get_filter_clause(filters, index):
 	else:
 		status = None
 
+	selected_date_range = filters.get('date_range')
 	if index == 'projects':
-		if filters.get("date_range") == 10 or filters.get("date_range") == "10":
+		if selected_date_range == 10 or selected_date_range == "10":
 			date_range = {
 				"bool": {
 					"should": [
-						{"range": { "actual_complete_date": { "gte": "now-50y"}}},
-						{"range": { "expected_complete_date": { "gte": "now-50y"}}},
+						# {"range": { "actual_complete_date": { "gte": "now-50y"}}},
+						# {"range": { "expected_complete_date": { "gte": "now-50y"}}},
 						{"range": { "start_date": { "gte": "now-50y"}}}
 					]
 				}
 			}
-		elif filters.get("date_range") != None:
-			date_range = {
+		elif selected_date_range != None:
+			if selected_date_range == 'future':
+				
+				date_range = {
 				"bool": {
 					"should": [
-						{"range": { "actual_complete_date": { "gte": f"now-{filters.get('date_range')}y"}}},
-						{"range": { "expected_complete_date": { "gte": f"now-{filters.get('date_range')}y"}}},
 						{"range": { "start_date": { "gte": f"now-{filters.get('date_range')}y"}}}
-					]
+						]
+					}
 				}
-			}
+
+			else:
+
+				date_range = {
+					"should": [
+						{"range": { "start_date": { "gte": f"now+{filters.get('date_range')}y"}}}
+						]
+					}
+		
+			
 		else:
 			date_range = None
 	else:
-		if filters.get("date_range") == 10 or filters.get("date_range") == "10":
+		if selected_date_range == 10 or selected_date_range == "10":
 			date_range = {
 				"bool": {
 					"should": [
@@ -182,7 +194,7 @@ def get_filter_clause(filters, index):
 					]
 				}
 			}
-		elif filters.get("date_range") != None:
+		elif selected_date_range != None:
 			date_range = {
 				"bool": {
 					"should": [
@@ -193,41 +205,41 @@ def get_filter_clause(filters, index):
 		else:
 			date_range = None
 
-	if filters.get("tags") == "all":
-		tags = {
+	topic_query = filters.get("topic")
+	if topic_query == "all":
+		topic = {
 			"bool":{
 				"must":[],
 				"should":[],
 				"must_not":[]
 			}
 		}
-	elif filters.get("tags") != None:
-		tags = {
-			"bool":{
-			"must":[],
-			"should":[],
-			"must_not":[]
-			}
-		}
+	elif topic_query != None:
+		# topic = {
+		# 	"bool":{
+		# 		"must":[get_topic_query(topic, index=index)],
+		# 	}
+		# }
+		topic = get_topic_query(topic_query, index=index)
 	else:
-		tags = None
+		topic = None
 
 	must = []
 	if index == 'projects':
 		_filters = [
-				record_set,
+				element,
 				status,
 				date_range,
-				tags
+				topic
 			]
 		for f in _filters:
 			if f:
 				must.append(f)
 	else:
 		_filters = [
-				record_set,
+				element,
 				date_range,
-				tags
+				topic
 			]
 		for f in _filters:
 			if f:
@@ -247,7 +259,7 @@ def get_filter_clause(filters, index):
 	return f
 
 
-def get_query(name, filters, index):
+def get_topic_query(name, filters=None, index=None):
 
 	if filters:
 		filter_clause=get_filter_clause(filters, index)
@@ -562,11 +574,24 @@ def get_query(name, filters, index):
 	return queries.get(name)
 
 
-def run_query(index, q):
+def run_query(index, q, filters=None):
+
 	# initialize search object
 	s = Search(using=client, index=index)
+
+	sort_by = filters.get('sort_by', '_score')
+	status = filters.get('status')
+
+	# sorting
+	if sort_by == 'date':
+		if index == 'projects':
+			s.sort({"start_date": {"order": "desc"}})
+		elif index == 'publications':
+			s.sort("-publication_date")
+
 	# query and return the response
 	r = s.query(q)
+	
 	return r
 
 

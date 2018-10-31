@@ -6,6 +6,7 @@ import plotly.graph_objs as go
 import dashapp.figure as fig
 import dashapp.aggregate as aggregate
 from flaskapp import application as flaskapp
+import textwrap
 
 # external css and js
 external_stylesheets = [
@@ -38,10 +39,37 @@ app.layout = html.Div(
 			id="filter-panel",
 			className="card card-body z-depth-1 pt-2",
 			children=[
-				html.H4("Filters & Options"),
+				html.H4("Filter Options"),
 				html.Div(
 					className="row",
 					children=[
+						html.Div(
+							className="col text-left",
+							children=[
+								html.H6("Filter by LTBP research topics."),
+								dcc.Dropdown(
+									id="tags-selection",
+									className="text-left",
+									options=[
+										dict(label="All Research Topics ", value="all"),
+										dict(label="Construction Quality", value="construction_quality"),
+										dict(label="Design & Details", value="design_and_details"),
+										dict(label="Material Specifications", value="material_specifications"),
+										dict(label="Live Load", value="live_load"),
+										dict(label="Environment", value="environment"),
+										dict(label="Maintenance & Preservation", value="maintenance_and_preservation"),
+										dict(label="Structural Integrity", value="structural_integrity"),
+										dict(label="Structural Condition", value="structural_condition"),
+										dict(label="Functionality", value="functionality"),
+										dict(label="Cost", value="cost")
+									],
+									placeholder="Select LTBP research topic...",
+									value="all",
+									searchable=False,
+									clearable=False
+								)
+							]
+						),
 						html.Div(
 							className="col text-left",
 							children=[
@@ -65,32 +93,6 @@ app.layout = html.Div(
 								)
 							]
 						),
-						html.Div(
-							className="col text-left",
-							children=[
-								html.H6("Filter by LTBP research topic."),
-								dcc.Dropdown(
-									id="tags-selection",
-									className="text-left",
-									options=[
-										dict(label="All", value="all"),
-										dict(label="Construction Quality", value="construction_quality"),
-										dict(label="Design & Details", value="design_and_details"),
-										dict(label="Material Specifications", value="material_specifications"),
-										dict(label="Live Load", value="live_load"),
-										dict(label="Environment", value="environment"),
-										dict(label="Structural Integrity", value="structural_integrity"),
-										dict(label="Structural Condition", value="structural_condition"),
-										dict(label="Functionality", value="functionality"),
-										dict(label="Cost", value="cost")
-									],
-									placeholder="Select LTBP research topic...",
-									value="all",
-									searchable=False,
-									clearable=False
-								)
-							]
-						)
 					],
 					style={"margin-bottom":"10px"}
 				),
@@ -151,19 +153,19 @@ app.layout = html.Div(
 		dcc.Graph(
 			id='barchart1',
 			className="z-depth-1",
-			figure=fig.bar_chart("attributes"),
+			# figure=fig.bar_chart("attributes"),
 			config={'displayModeBar': False}
 		),
 		dcc.Graph(
 			id='barchart2',
 			className="z-depth-1",
-			figure=fig.bar_chart("inputs"),
+			# figure=fig.bar_chart("inputs"),
 			config={'displayModeBar': False}
 		),
 		dcc.Graph(
 			id='barchart3',
 			className="z-depth-1",
-			figure=fig.bar_chart("performance"),
+			# figure=fig.bar_chart("performance"),
 			config={'displayModeBar': False}
 		),
 		html.H4("Attributes",id="barchart1-heading",className="p-2 text-left h-25"),
@@ -174,10 +176,20 @@ app.layout = html.Div(
 	]
 )
 
+
+
+
+
+
+
+""" CALLBACKS """
+
 @app.callback(dash.dependencies.Output('projects-panel','children'),
 	[dash.dependencies.Input('tags-selection','value'),
 		dash.dependencies.Input('record-set-selection','value')])
-def updateTotalProjectCount(tag, element_tag):
+
+def callback_project_count(tag, element_tag):
+	""" callback function for updating the project count """
 	queries = dict(
 		tag = tag,
 		element_tag = element_tag
@@ -188,10 +200,13 @@ def updateTotalProjectCount(tag, element_tag):
 	]
 	return children
 
+
 @app.callback(dash.dependencies.Output('publications-panel','children'),
 	[dash.dependencies.Input('tags-selection','value'),
 		dash.dependencies.Input('record-set-selection','value')])
-def updateTotalPublicationCount(tag, element_tag):
+
+def callback_publication_count(tag, element_tag):
+	""" callback function for updating the publication count """
 	queries = dict(
 		tag = tag,
 		element_tag = element_tag
@@ -202,10 +217,13 @@ def updateTotalPublicationCount(tag, element_tag):
 	]
 	return children
 
+
 @app.callback(dash.dependencies.Output('project-count-map','figure'),
 	[dash.dependencies.Input('tags-selection','value'),
 		dash.dependencies.Input('record-set-selection','value')])
-def updateProjectCountMap(tag, element_tag):
+
+def callback_project_count_map(tag, element_tag):
+	""" callback function for updating the project count map """
 	queries = dict(
 		tag = tag,
 		element_tag = element_tag
@@ -214,32 +232,75 @@ def updateProjectCountMap(tag, element_tag):
 	figure = fig.project_count_map(data=data)
 	return figure
 
-@app.callback(dash.dependencies.Output('barchart1','figure'),[dash.dependencies.Input('tags-selection','value')])
-def updateBarChart1(selection):
-	if selection == 'all' or selection == "":
-		query = None
-	else:
-		query = selection
-	figure = fig.bar_chart("attributes", query=query)
+
+@app.callback(dash.dependencies.Output('barchart1','figure'),
+	[dash.dependencies.Input('tags-selection','value'),
+		dash.dependencies.Input('record-set-selection','value')])
+
+def callback_attribute_barchart(topic_selection, element_selection):
+	""" callback function for updating attribute bar chart """
+
+	# format bar labels
+	attributes=['construction_quality','design_and_details','material_specifications']
+	formatted_attributes=[attr.title().replace("_"," ").replace("And","&") for attr in attributes]
+	labels=["<br>".join(textwrap.wrap(label, width=15)) for label in formatted_attributes]
+
+	# get project counts
+	counts=[aggregate.project_count_by_topic(topic=attr, 
+				element=element_selection, 
+				topic_selection=topic_selection) for attr in attributes]
+
+	# generate figure
+	figure = fig.bar_chart(labels=labels, counts=counts)
+
 	return figure
 
-@app.callback(dash.dependencies.Output('barchart2','figure'),[dash.dependencies.Input('tags-selection','value')])
-def updateBarChart2(selection):
-	if selection == 'all' or selection == "":
-		query = None
-	else:
-		query = selection
-	figure = fig.bar_chart("inputs", query=query)
+
+@app.callback(dash.dependencies.Output('barchart2','figure'),
+	[dash.dependencies.Input('tags-selection','value'),
+		dash.dependencies.Input('record-set-selection','value')])
+
+def callback_input_barchart(topic_selection, element_selection):
+	""" callback function for updating inputs bar chart """
+
+	# format bar labels
+	inputs=['live_load', 'environment', 'maintenance_and_preservation']
+	formatted_inputs=[inp.title().replace("_"," ").replace("And","&") for inp in inputs]
+	labels=["<br>".join(textwrap.wrap(label, width=15)) for label in formatted_inputs]
+
+	# get project counts
+	counts=[aggregate.project_count_by_topic(topic=inp, 
+				element=element_selection, 
+				topic_selection=topic_selection) for inp in inputs]
+
+	# generate figure
+	figure = fig.bar_chart(labels=labels, counts=counts)
+	
 	return figure
 
-@app.callback(dash.dependencies.Output('barchart3','figure'),[dash.dependencies.Input('tags-selection','value')])
-def updateBarChart2(selection):
-	if selection == 'all' or selection == "":
-		query = None
-	else:
-		query = selection
-	figure = fig.bar_chart("performance", query=query)
+
+@app.callback(dash.dependencies.Output('barchart3','figure'),
+	[dash.dependencies.Input('tags-selection','value'),
+		dash.dependencies.Input('record-set-selection','value')])
+
+def callback_performance_barchart(topic_selection, element_selection):
+	""" callback function for updating performance bar chart """
+
+	# format bar labels
+	performance=['structural_integrity', 'structural_condition', 'functionality', 'cost']
+	formatted_performance=[perf.title().replace("_"," ").replace("And","&") for perf in performance]
+	labels=["<br>".join(textwrap.wrap(label, width=15)) for label in formatted_performance]
+
+	# get project counts
+	counts=[aggregate.project_count_by_topic(topic=perf, 
+				element=element_selection, 
+				topic_selection=topic_selection) for perf in performance]
+
+	# generate figure
+	figure = fig.bar_chart(labels=labels, counts=counts)
+	
 	return figure
+
 
 @app.callback(dash.dependencies.Output('funding-heatmap','figure'),[dash.dependencies.Input('tags-selection','value')])
 def updateHeatMap(selection):

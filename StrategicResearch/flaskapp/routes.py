@@ -8,22 +8,21 @@ import json
 def home():
 
   # get request args
-  page = request.args.get('page', 1, type=int)
+  # page = request.args.get('page', 1, type=int)
 
   # get and handle form data
   # TODO: screen form inputs
   doc_type = request.form.get('recordType','projects')
   sort_by = request.form.get('sortBy','_score')
-  rpp = request.form.get('rpp','5')
+  # rpp = request.form.get('rpp','5')
 
   filters=dict(
-    record_set = request.form.get('recordSet','all'),
-    status = request.form.get('status','all'),
-    date_range = request.form.get('dateRange','10'),
-    tags = request.form.get('tags','all'),
+    element = request.form.get('element','untreated_deck'),
+    status = request.form.get('status','active'),
+    date_range = request.form.get('dateRange','1'),
     sort_by=sort_by,
     doc_type=doc_type,
-    rpp=rpp
+    # rpp=rpp
   )
   
   categories = ['construction_quality','design_and_details','material_specifications',
@@ -33,26 +32,24 @@ def home():
 
   content=dict()
   for category in categories:
+
     # specify index
     index = doc_type
     if index == 'all':
       index = ['projects','publications']
+
     # run query
-    q = query.get_query(category, filters, index)
-    s = query.run_query(index, q)
-    # sorting
-    if sort_by == 'date':
-      if index == 'projects':
-        s.sort({"actual_complete_date": {"order": "desc"}})
-      elif index == 'publications':
-        s.sort("-publication_date")
+    q = query.get_topic_query(category, filters=filters, index=index)
+    s = query.run_query(index, q, filters=filters)
+
     # pagination
-    s = s[(page - 1)*int(rpp):page*int(rpp)]
+    # s = s[(page - 1)*int(rpp):page*int(rpp)]
+
     # execute and store in content strucutre
     r = s.execute()
     content[category] = r
 
-  return render_template('explore.html',content=content, buttonStates=filters, page=page, heading='Strategic Research Matrices')
+  return render_template('explore.html',content=content, buttonStates=filters, heading='Strategic Research Matrices')
 
 @application.route("/analysis")
 def analysis():

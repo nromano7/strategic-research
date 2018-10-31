@@ -39,7 +39,7 @@ def remove_tags(index):
 remove_tags(index)
 
 for category in categories:
-  q = query.get_query(category, None, index)
+  q = query.get_topic_query(category, None, index)
   r = query.run_query(index, q)
   hits = query.process_response(r)
   for id in hits:
@@ -61,7 +61,7 @@ for category in categories:
 
 
 for element in elements:
-  q = query.get_query(element, None, index)
+  q = query.get_topic_query(element, None, index)
   r = query.run_query(index, q)
   hits = query.process_response(r)
   for id in hits:

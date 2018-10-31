@@ -2,7 +2,6 @@ import dashapp.aggregate as aggregate
 import plotly.graph_objs as go
 import json
 import os
-import textwrap
 
 with open("./dashapp/app/static/statesGeo.json") as f:
 	geo = json.load(f)
@@ -227,31 +226,17 @@ def funding_heatmap(data=None):
 
 	return figure
 
-def bar_chart(category, query=None):
-
-	categories=dict(
-		attributes=['construction_quality','design_and_details','material_specifications'],
-		inputs=['live_load', 'environment', 'maintenance_and_preservation'],
-		performance=['structural_integrity', 'structural_condition', 'functionality', 'cost']
-	)
-
-	tags=[tag.title().replace("_"," ").replace("And","&") for tag in categories.get(category)]
-	labels=["<br>".join(textwrap.wrap(tag,width=15)) for tag in tags]
-
-	if query == None:
-		counts=[aggregate.project_count_by_tag(tag) for tag in categories.get(category)]
-	else:
-		counts=[aggregate.project_count_by_tag(tag, query=query) for tag in categories.get(category)]
+def bar_chart(**kwargs):
 
 	trace = go.Bar(
-		x=labels,
-		y=counts,
-		text=[label for label in labels],
+		x=kwargs.get('labels'),
+		y=kwargs.get('counts'),
+		text=[label for label in kwargs.get('labels')],
 		textposition="auto",
 		# opacity=0.5,
 		marker=dict(color="#3F729B"),
 		hoverinfo="text",
-		hovertext=counts,
+		hovertext=kwargs.get('counts'),
 		insidetextfont=dict(
 			color="black",
 			size=14
@@ -261,7 +246,6 @@ def bar_chart(category, query=None):
 			size=14
 		),
 	)
-
 
 	layout = go.Layout(
 		margin={'l':35,'r':25,'t':50,'b':15,},

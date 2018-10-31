@@ -1,9 +1,9 @@
 from elasticsearch import Elasticsearch
 from elasticsearch_dsl import Search, A, Q
-from elastic import query
+from elastic import query, client
 
-AWS_EP = "https://search-strategic-research-67yfnme5nbl3c45vigirwnko4q.us-east-2.es.amazonaws.com/"
-client = Elasticsearch(AWS_EP)
+# AWS_EP = "https://search-strategic-research-67yfnme5nbl3c45vigirwnko4q.us-east-2.es.amazonaws.com/"
+# client = Elasticsearch(AWS_EP)
 index = 'projects'
 
 
@@ -17,7 +17,7 @@ def project_count_by_state(queries=None):
 		tag = queries.get("tag")
 		element_tag = queries.get("element_tag")
 
-		q = query.get_query(tag, {"record_set": element_tag}, index)
+		q = query.get_topic_query(tag, {"record_set": element_tag}, index)
 		s = query.run_query(index, q)
 
 	# aggregations
@@ -59,7 +59,7 @@ def project_count(queries=None):
 		tag = queries.get("tag")
 		element_tag = queries.get("element_tag")
 
-		q = query.get_query(tag, {"record_set": element_tag}, index)
+		q = query.get_topic_query(tag, {"record_set": element_tag}, index)
 		s = query.run_query(index, q)
 
 		res={}
@@ -96,31 +96,19 @@ def project_count(queries=None):
 
 	return res
 
-def project_count_by_tag(tag, query=None):
+def project_count_by_topic(**kwargs):
 
-	# search object
-	s = Search(using=client,index=index)
-
-	if query == None:
-		must = [{"match":{"tags": tag}}]
-	else:
-		must = [
-			{"match":{"tags": tag}},
-			{"match":{"tags": query}}
-		]
-
-	# construct query
-	# q = Q({"match":{"tags": tag}})
-	q = Q(
-		{"bool":{
-			"must": must,
-			"should": [],
-			"must_not": []
-			}
-		}
+	topic_query = kwargs.get("topic")
+	topic_filter = kwargs.get("topic_selection")
+	element_filter = kwargs.get("element")
+	filters = dict(
+		element = element_filter,
+		topic = topic_filter
 	)
-	s = s.query(q)
 
+	# run query
+	q = query.get_topic_query(topic_query, filters, index)
+	s = query.run_query(index, q)
 	count = s.count()
 
 	return count
@@ -136,7 +124,7 @@ def publication_count(queries=None):
 		element_tag = queries.get("element_tag")
 
 		index = 'publications'
-		q = query.get_query(tag, {"record_set": element_tag}, index)
+		q = query.get_topic_query(tag, {"record_set": element_tag}, index)
 		s = query.run_query(index, q)
 
 		# if query == "all":
@@ -238,3 +226,11 @@ def funding_by_state(query=None):
 		res[state] = buckets
 	
 	return res
+
+# topic_selection = "all"
+# element_selection = "all"
+
+# attributes=['live_load', 'environment', 'maintenance_and_preservation',]
+# counts=[project_count_by_topic(topic=attr, element=element_selection, topic_selection=topic_selection) for attr in attributes]
+
+# print()
