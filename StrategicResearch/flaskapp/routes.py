@@ -1,59 +1,54 @@
+# from StrategicResearch import TOPIC_TAGS, ELEMENT_TAGS
 from flask import render_template, request, session, url_for
 from flaskapp import application
 from elastic import query
-from dashapp.dashapp import app as dashapp
+# from dashapp.dashapp import app as dashapp
 import json
 
 @application.route("/", methods=['GET', 'POST'])
 def home():
 
-  # get request args
-  # page = request.args.get('page', 1, type=int)
-
   # get and handle form data
   # TODO: screen form inputs
   doc_type = request.form.get('recordType','projects')
   sort_by = request.form.get('sortBy','_score')
-  # rpp = request.form.get('rpp','5')
 
   filters=dict(
     element = request.form.get('element','bridges'),
     status = request.form.get('status','all'),
     date_range = request.form.get('dateRange','5'),
     sort_by=sort_by,
-    doc_type=doc_type,
-    # rpp=rpp
+    doc_type=doc_type
   )
 
-  
-  categories = ['construction_quality','design_and_details','material_specifications',
+  TOPIC_TAGS = [
+    'construction_quality','design_and_details','material_specifications',
     'live_load', 'environment', 'maintenance_and_preservation',
     'structural_integrity', 'structural_condition', 'functionality', 'cost'
   ]
 
-  content=dict()
-  for category in categories:
+  content = dict()
+  for topic in TOPIC_TAGS:
 
     # specify index
     index = doc_type
     if index == 'all':
       index = ['projects','publications']
 
-    # run query
-    q = query.get_topic_query(category, filters=filters, index=index)
-    s = query.run_query(index, q, filters=filters)
+    # run query and process response
+    kwargs = query.get_query_arguments(topic)
+    q = query.Query(**kwargs)
+    s = query.run_query(q.query, index=index, filters=filters)
+    # _, response = query.process_search_response(s, last=s.count())
+    r = s.execute()
+    content[topic] = r
 
     # pagination
-    # s = s[(page - 1)*int(rpp):page*int(rpp)]
     s = s[:100]
-
-    # execute and store in content strucutre
-    r = s.execute()
-    content[category] = r
-
+    
   return render_template('explore.html',content=content, buttonStates=filters, heading='Strategic Research Matrices')
 
 @application.route("/analysis")
 def analysis():
-  # return "Analysis"
-  return render_template('analyze.html', title='Analysis', heading='Analyze')
+  return "Analysis"
+  # return render_template('analyze.html', title='Analysis', heading='Analyze')

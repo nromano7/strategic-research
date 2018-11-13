@@ -1,565 +1,232 @@
+from elastic import client
+import elasticsearch as es
 from elasticsearch_dsl import Q, Search
+import json
 
-# from StrategicResearch.elastic import client
-from elasticsearch import Elasticsearch
-AWS_EP = "https://search-strategic-research-67yfnme5nbl3c45vigirwnko4q.us-east-2.es.amazonaws.com/"
-client = Elasticsearch(AWS_EP)
+class Query(object):
+	"""
+	The Query class construts and returns an Elasticsearch
+	query object.
 
 
-def get_element_filter(name):
+	"""
+	def __init__(self, must_match=[], 
+		should_match=[], must_not_match=[]):
 
-	ALL = {
-		"bool":{
-			"must":[],
-			"should":[],
-			"must_not":[]
-		}
-	}
+		self.set_must(must_match)
+		self.set_should(should_match)
+		self.set_must_not(must_not_match)
+		self.construct_query()
 
-	bridges = {
-		"bool":{
-			"must":[
-				{
-					"bool": {
-					"should": [
-						{"match": {"title":"bridge"}},
-						{"match": {"abstract": "bridge"}}
-					]
+	def match(self, query, field, name='match'):
+		"""
+		Return 'match' query object for the provided
+		query and field.
+
+		Parameters
+		----------
+		query : str
+			The provided query string.
+		field : str
+			The field to be queried.
+		[name] : str
+			A name given to the query.
+
+		Returns
+		-------
+		A query object for the provided query and field.
+
+		"""
+		# construct the query
+		q = Q(
+			{
+				"match": {
+					f"{field}": {
+						"query": query,
+						"_name": f"{name}:{field}:{query.replace(' ','_')}"
 					}
 				}
-			],
-			"should":[],
-			"must_not":[]
-		}
-	}
+			}
+		)
 
-	deck = {
-		"bool": {
-			"must": [
-				{
-					"bool": {
-					"should": [
-						{"match": {"title":"decks"}},
-						{"match": {"abstract":"decks"}}
-					]
-					}
-				}
-			],
-			"should": [],
-			"must_not":[
-				{
-					"bool": {
-						"should": [
-							{"match": {"title":"overlay"}},
-							{"match": {"abstract": "overlay"}},
-							{"match": {"title.bigram":"wearing surface"}},
-							{"match": {"abstract.bigram": "wearing surface"}}
-						]
-					}
-				}
-			]
-		}
-	}
+		return q
 
-	overlay = {
-		"bool":{
-			"must":[
-				{
-					"bool": {
-						"should": [
-							{"match": {"title":"overlay"}},
-							{"match": {"abstract": "overlay"}},
-							{"match": {"title.bigram":"wearing surface"}},
-							{"match": {"abstract.bigram": "wearing surface"}}
-						]
-					}
-				}
-			],
-			"should":[],
-			"must_not":[]
-		}
-	}
+	def construct_boolean_clause(self, must_queries=[], 
+		should_queries=[], must_not_queries=[]):
+		"""
+		Return 'bool' query object for the provided 'must',
+		'should', and 'must_not' queries.
 
-	joints = {
-		"bool":{
-			"must":[
-				{
-					"bool": {
-						"should": [
-							{"match": {"title":"joints"}},
-							{"match": {"abstract": "joints"}}
-						]
-					}
-				}
-			],
-			"should":[],
-			"must_not":[]
-		}
-	}
+		'must' queries require a document to match the query in
+		the provided field for the specified query type.
 
-	bearings = {
-		"bool":{
-			"must":[
-				{
-					"bool": {
-					"should": [
-						{"match": {"title":"bearings"}},
-						{"match": {"abstract": "bearings"}}
-					]
-					}
-				}
-			],
-			"should":[],
-			"must_not":[]
-		}
-	}
+		'must_not' queries exclude documenta that match the query
+		in the provided field for the specified query type.
+
+		'should' queries only affect the relevance score of the
+		matched documents (i.e. the ordering of the documents returned).
+
+		Parameters
+		----------
+		must : list [(field,query),...]
+		should : list [(field,query),...]
+		must_not : list [(field,query),...]
+
+		Returns
+		-------
+		A query object for the provided queries and field(s).
+
+		"""
+
+		def get_queries(field_query_list):
+			# example input: queries=[(field,query),...]
+			queries = []
+			for field, query in field_query_list:
+				queries.append(self.match(query, field))
+			return queries
+
+		must = []
+		should = [] 
+		must_not = []
+
+		# must queries
+		if must_queries:
+			must = get_queries(must_queries)
+		# get should queries
+		if should_queries:
+			should = get_queries(should_queries)
+		# get must_not queries
+		if must_not_queries:
+			must_not = get_queries(must_not_queries)
+
+		# construct the query
+		return Q("bool", must=must, should=should, must_not=must_not)
+
+	def set_must(self, field_query_list):
+		must = []
+		if field_query_list:
+			must = self.construct_boolean_clause(should_queries=field_query_list)
+		self.must = must
+
+	def set_should(self, field_query_list):
+		should = []
+		if field_query_list:
+			should = self.construct_boolean_clause(should_queries=field_query_list)
+		self.should = should
+
+	def set_must_not(self, field_query_list):
+		must_not = []
+		if field_query_list:
+			must_not = self.construct_boolean_clause(should_queries=field_query_list)
+		self.must_not = must_not
+
+	def construct_query(self):
+		q = Q("bool", must=self.must, should=self.should, must_not=self.must_not)
+		self.query = q
+
+	def to_dict(self):
+		return self.query.to_dict()
+
+	def __str__(self):
+		return json.dumps(self.to_dict(), indent=2)
 
 
-	filters = dict(
-		all=ALL,
-		bridges=bridges,
-		untreated_deck=deck,
-		treated_deck=overlay,
-		joints=joints,
-		bearings=bearings
+def get_query_fields(query):
+
+	fields = ["title","abstract"]
+	all_ngrams = ["bigram", "trigram", "quadragram", "pentagram"]
+
+	n_terms = len(query.split())
+	if n_terms > 1:
+		ngrams = all_ngrams[:n_terms-1]
+		fields = [".".join([field, ngram]) for field in fields for ngram in ngrams]
+	
+	return fields
+
+
+def get_query_terms(query):
+
+	# topics
+
+	construction_quality = dict(
+		must_match=["construction"],
+		should_match=["quality", "construction quality"]
 	)
 
-	return filters.get(name)
+	design_and_details = dict(
+		must_match=["design"],
+	)
+
+	material_specifications = dict(
+		must_match=["materials"],
+		should_match=["material specifications"]
+	)
+
+	live_load = dict(
+		must_match=["live load"]
+	)
+
+	environment = dict(
+		must_match=["environment"]
+	)
+
+	maintenance_and_preservation = dict(
+		must_match=["maintenance", "preservation"],
+		should_match=["maintenance and preservation"]
+	)
+
+	structural_integrity = dict(
+		must_match=["structural integrity"]
+	)
+
+	structural_condition = dict(
+		must_match=["condition"],
+		should_match=["structural condition"]
+	)
+
+	functionality = dict(
+		must_match=["functionality"]
+	)
+
+	cost = dict(
+		must_match=["cost"]
+	)
+
+	# Elements
+
+	bridges = dict(
+		must_match=["bridge"]
+	)
+
+	untreated_deck = dict(
+		must_match=["decks"],
+		must_not_match=["overlay", "wearing surface"]
+	)
+
+	treated_deck = dict(
+		must_match=["overlay", "wearing surface"]
+	)
+
+	joints = dict(
+		must_match=["joints"]
+	)
+
+	bearings = dict(
+		must_match=["bearings"]
+	)
+
+	coatings = dict(
+		must_match=["coating"],
+		should_match=["steel coating"]
+	)
+
+	prestressing = dict(
+		must_match=["prestress", "pre-stress"],
+		should_match=["strands"]
+	)
 
 
-def get_filter_clause(filters, index=None):
-
-	element = get_element_filter(filters.get("element"))
-
-	selected_status = filters.get("status")
-	if selected_status == "all":
-		status = {
-			"bool":{
-				"must":[],
-				"should":[],
-				"must_not":[]
-			}
-		}
-	elif selected_status != None:
-		status = {
-			"bool":{
-				"must":[{"term": {"status": selected_status}}],
-				"should":[],
-				"must_not":[]
-			}
-		}
-	else:
-		status = None
-
-	selected_date_range = filters.get('date_range')
-	if index == 'projects':
-		if selected_date_range == 10 or selected_date_range == "10":
-		
-			date_range = {
-				"bool": {
-					"must": [
-						{"range": { "start_date": { "gte": "now-50y"}}}
-					]
-				}
-			}
-
-		elif selected_date_range != None:
-			if selected_date_range != 'future':
-				
-				date_range = {
-					"bool": {
-						"must": [
-							{"range": { "start_date": { "gte": f"now-{filters.get('date_range')}y"}}}
-						]
-					}
-				}
-
-			else:
-
-				date_range = {
-					"bool": {
-						"must": [
-							{"range": { "start_date": { "gte": f"now+10y"}}}
-						]
-					}
-				}
-		
-			
-		else:
-			date_range = None
-	else:
-		if selected_date_range == 10 or selected_date_range == "10":
-			date_range = {
-				"bool": {
-					"must": [
-						{"range": { "publication_date": { "gte": "now-50y"}}}
-					]
-				}
-			}
-		elif selected_date_range != None:
-			date_range = {
-				"bool": {
-					"must": [
-						{"range": { "publication_date": { "gte": f"now-{filters.get('date_range')}y"}}}
-					]
-				}
-			}
-		else:
-			date_range = None
-
-	topic_query = filters.get("topic")
-	if topic_query == "all":
-		topic = {
-			"bool":{
-				"must":[],
-				"should":[],
-				"must_not":[]
-			}
-		}
-	elif topic_query != None:
-		# topic = {
-		# 	"bool":{
-		# 		"must":[get_topic_query(topic, index=index)],
-		# 	}
-		# }
-		topic = get_topic_query(topic_query, index=index)
-	else:
-		topic = None
-
-	# sort_by = filters.get("sort_by")
-	# "sort" : [{"price" : {"order" : "asc", "mode" : "avg"}}]
-
-	must = []
-	if index == 'projects':
-		_filters = [
-				element,
-				status,
-				date_range,
-				topic
-			]
-		for f in _filters:
-			if f:
-				must.append(f)
-	else:
-		_filters = [
-				element,
-				date_range,
-				topic
-			]
-		for f in _filters:
-			if f:
-				must.append(f)
-
-
-	f = [
-		{
-			"bool":{
-				"must":must,
-				"should":[],
-				"must_not":[]
-			}
-		}
-	]
-
-	return f
-
-
-def get_topic_query(name, filters=None, index=None):
-
-	if filters:
-		filter_clause=get_filter_clause(filters, index)
-	else:
-		filter_clause = []
-
-	ALL = {
-		"bool":{
-			"must":[],
-			"filter": filter_clause,
-			"should":[],
-			"must_not":[]
-		}
-	}
-
-	deck = {
-		"bool": {
-			"must": [
-				{
-					"bool": {
-						"should": [
-							{"match": {"title":"decks"}},
-							{"match": {"abstract":"decks"}}
-						]
-					}
-				}
-			],
-			"filter": filter_clause,
-			"should": [],
-			"must_not":[
-				{
-					"bool": {
-						"should": [
-							{"match": {"title":"overlay"}},
-							{"match": {"abstract": "overlay"}},
-							{"match": {"title.bigram":"wearing surface"}},
-							{"match": {"abstract.bigram": "wearing surface"}}
-						]
-					}
-				}
-			]
-		}	
-	}
-
-	overlay = {
-		"bool":{
-			"must":[
-				{
-					"bool": {
-					"should": [
-						{"match": {"title":"overlay"}},
-						{"match": {"abstract": "overlay"}},
-						{"match": {"title.bigram":"wearing surface"}},
-						{"match": {"abstract.bigram": "wearing surface"}}
-					]
-					}
-				}
-			],
-			"filter": filter_clause,
-			"should":[],
-			"must_not":[]
-		}
-	}
-
-	joints = {
-		"bool":{
-			"must":[
-				{
-					"bool": {
-					"should": [
-						{"match": {"title":"joints"}},
-						{"match": {"abstract": "joints"}}
-					]
-					}
-				}
-			],
-			"filter": filter_clause,
-			"should":[],
-			"must_not":[]
-		}
-	}
-
-	bearings = {
-		"bool":{
-			"must":[
-				{
-					"bool": {
-					"should": [
-						{"match": {"title":"bearings"}},
-						{"match": {"abstract": "bearings"}}
-					]
-					}
-				}
-			],
-			"filter": filter_clause,
-			"should":[],
-			"must_not":[]
-		}
-	}
-
-	construction_quality = {
-		"bool": {
-			"must": [
-				{
-					"bool": {
-					"should": [
-						{"match": {"title":"construction"}},
-						{"match": {"abstract":"construction"}}
-					]
-					}
-				}
-			],
-			"filter": filter_clause,
-			"should": [
-				{"match":{"title":"quality"}},
-				{"match":{"abstract":"quality"}},
-				{"match":{"title.bigram":"construction quality"}},
-				{"match":{"abstract.bigram":"construction quality"}}
-			],
-			"must_not":[]
-		}
-	}
-
-	design_and_details = {
-		"bool":{
-			"must":[
-				{
-					"bool": {
-					"should": [
-						{"match": {"title":"design"}},
-						{"match": {"abstract":"design"}}
-					]
-					}
-				}
-			],
-			"filter": filter_clause,
-			"should":[],
-			"must_not":[]
-		}
-	}
-
-	material_specifications = {
-		"bool":{
-			"must":[
-				{
-					"bool": {
-					"should": [
-						{"match": {"title":"materials"}},
-						{"match": {"abstract":"materials"}}
-					]
-					}
-				}
-			],
-			"filter": filter_clause,
-			"should":[
-				{"match": {"title.bigram":"material specifications"}},
-				{"match": {"abstract.bigram":"material specifications"}}
-			],
-			"must_not":[]
-		}
-	}
-
-	live_load = {
-		"bool":{
-			"must":[
-				{
-					"bool": {
-					"should": [
-						{"match": {"title.bigram":"live load"}},
-						{"match": {"abstract.bigram":"live load"}}
-					]
-					}
-				}
-			],
-			"filter": filter_clause,
-			"should":[],
-			"must_not":[]
-		}
-	}
-
-	environment = {
-		"bool":{
-			"must":[
-				{
-					"bool": {
-					"should": [
-						{"match": {"title":"environment"}},
-						{"match": {"abstract":"environment"}}
-					]
-					}
-				}
-			],
-			"filter": filter_clause,
-			"should":[],
-			"must_not":[]
-		}
-	}
-
-	maintenance_and_preservation = {
-		"bool":{
-			"must":[
-				{
-					"bool": {
-						"should": [
-							{"match": {"title":"maintenance"}},
-							{"match": {"abstract":"maintenance"}},
-							{"match": {"title":"preservation"}},
-							{"match": {"abstract":"preservation"}}
-						]
-					}
-				}
-			],
-			"filter": filter_clause,
-			"should":[
-				{"match": {"title.bigram":"maintenance and preservation"}},
-				{"match": {"abstract.bigram":"maintenance and preservation"}}
-			],
-			"must_not":[]
-		}
-	}
-
-	structural_integrity = {
-		"bool":{
-			"must":[
-				{
-					"bool": {
-						"should": [
-							{"match": {"title.bigram":"structural integrity"}},
-							{"match": {"abstract.bigram":"structural integrity"}}
-						]
-					}
-				}
-			],
-			"filter": filter_clause,
-			"should":[],
-			"must_not":[]
-		}
-	}
-
-	structural_condition = {
-		"bool":{
-			"must":[
-				{
-					"bool": {
-						"should": [
-							{"match": {"title.bigram":"structural condition"}},
-							{"match": {"abstract.bigram":"structural condition"}}
-						]
-					}
-				}
-			],
-			"filter": filter_clause,
-			"should":[],
-			"must_not":[]
-		}
-	}
-
-	functionality = {
-		"bool":{
-			"must":[
-				{
-					"bool": {
-						"should": [
-							{"match": {"title":"functionality"}},
-							{"match": {"abstract":"functionality"}}
-						]
-					}
-				}
-			],
-			"filter": filter_clause,
-			"should":[],
-			"must_not":[]
-		}
-	}
-
-	cost = {
-		"bool":{
-			"must":[
-				{
-					"bool": {
-					"should": [
-						{"match": {"title":"cost"}},
-						{"match": {"abstract":"cost"}}
-					]
-					}
-				}
-			],
-			"filter": filter_clause,
-			"should":[],
-			"must_not":[]
-		}
-	}
-
-	queries = dict(
-		all=ALL,
+	query_terms = dict(
 		construction_quality=construction_quality,
 		design_and_details=design_and_details,
 		material_specifications=material_specifications,
@@ -570,293 +237,121 @@ def get_topic_query(name, filters=None, index=None):
 		structural_condition=structural_condition,
 		functionality=functionality,
 		cost=cost,
-		deck=deck,
-		overlay=overlay,
+		bridges=bridges,
+		untreated_deck=untreated_deck,
+		treated_deck=treated_deck,
 		joints=joints,
-		bearings=bearings
+		bearings=bearings,
+		coatings=coatings,
+		prestressing=prestressing
 	)
 
-	return queries.get(name)
+	return query_terms.get(query)
 
 
-def run_query(index, q, filters=None):
+def apply_filters(s, filters):
 
-	# initialize search object
-	s = Search(using=client, index=index)
+	status = filters.get("status")
+	if status and status != "all":
+		s = s.filter("term", status=status)
 
-	if filters:
-		sort_by = filters.get('sort_by', '_score')
+	start_date = filters.get('start_date')
+	if start_date:
+		s = s.filter("range", **{"start_date":{"gte":start_date}})
 
-		# sorting
-		if sort_by == 'date':
-			if index == 'projects':
-				s.sort("start_date")
-				# {"start_date": {"order": "desc"}}
-			elif index == 'publications':
-				s.sort("-publication_date")
+	publication_date = filters.get('publication_date')
+	if publication_date:
+		s = s.filter("range", **{"publication_date":{"gte":publication_date}})
 
-	# query and return the response
-	r = s.query(q)
+	topic = filters.get('topic')
+	if topic:
+		s = s.filter("term", tags=topic)
+
+	element = filters.get('element')
+	if element and element != "all":
+		s = s.filter("term", tags=element)
+
+	return s
+
+
+def get_query_arguments(query):
+
+	query_terms = get_query_terms(query)
+	args = dict()
+	for key in query_terms:
+		args[key] = [(field, term) 
+			for term in query_terms.get(key) 
+			for field in get_query_fields(term)]
 	
-	return r
+	return args
 
 
-def process_response(r):
+def run_query(q, index, filters=None):
+	
+	s = Search(
+		using=client, 
+		index=index
+		)
+		
+	if filters:
+		s = apply_filters(s, filters)
+	s = s.query(q)
+
+	return s
+
+
+def process_search_response(s, first=0, last=10):
+	""" function that process response from elasticsearch and formats
+	the response for front end """
 	# process documents returned by the search
 	hits = {}
-	for h in r.scan():
+	response = []
+	for h in s[first:last]:
 		# get data from document fields
 		doc_id = h.meta.id
 		title = h.title
 		abstract = h.abstract
-		# matched_queries = list(h.meta.matched_queries)
+		matched_queries = list(h.meta.matched_queries)
 		score = h.meta.score
-		trid_terms = h.TRID_INDEX_TERMS
-		trid_subjects = h.TRID_SUBJECT_AREAS
+		trid_terms = [term for term in h.TRID_INDEX_TERMS]
+		trid_subjects = [subject for subject in h.TRID_SUBJECT_AREAS]
+		
 		# store documents returned by the search
 		hits[doc_id] = dict(
+			id =  doc_id,
 			title = title,
 			abstract = abstract,
 			trid_terms = trid_terms,
 			trid_subjects = trid_subjects,
-			# matched_queries = matched_queries,
-			score = score
+			matched_queries = matched_queries,
+			score = score,
+			# start_date = start_date,
+			# completion_date = actual_completion_date,
+			# funding=funding,
+			# funding_agencies=funding_agencies,
+			# performing_agencies=performing_agencies,
+			# managing_agencies=managing_agencies
+			# topic_tags = topic_tags,
+			# element_tags=element_tags
 		)
-	return hits
+		response.append(hits[doc_id])
+	return hits, response
 
 
-# filters=dict(
-#     element = 'untreated_deck',
-#     status = "active",
-#     date_range = 1,
-#     sort_by = 'date',
-#     doc_type = 'projects',
+# filters = dict(
+# 	status='all'
 # )
-# category = "construction_quality"
-# index = 'projects'
-# q = get_topic_query(category, filters=filters, index=index)
-# s = run_query(index, q, filters=filters)
-# r = s.execute()
-
-# import json
-# print(json.dumps(r,indent=2))
-
-
+# kwargs = get_query_arguments("structural_condition")
+# q = Query(**kwargs)
+# print(q)
+# s = run_query(q.query, index="publications")
+# print(s.count())
+# hits, response = process_search_response(s, last=s.count())
+# print()
+# print(json.dumps(response[:5], indent=2))
 
 
-# def match(query, field, name='match'):
-# 	"""
-# 	Return 'match' query object for the provided
-# 	query and field.
-
-# 	Parameters
-# 	----------
-# 	query : str
-# 	The provided query string.
-# 	field : str
-# 	The field to be queried.
-# 	[name] : str
-# 	A name given to the query.
-
-# 	Returns
-# 	-------
-# 	A query object for the provided query and field.
-
-# 	"""
-# 	# construct the query
-# 	q = Q(
-# 	{
-# 		"match": {
-# 		f"{field}": {
-# 			"query": query,
-# 			"_name": f"[{name}]{field}:{query}"
-# 		}
-# 		}
-# 	}
-# 	)
-
-# 	return q
 
 
-# def wildcard(query, field, name='wildcard'):
-# 	"""
-# 	Return 'wildcard' query object for the provided
-# 	query and field.
 
-# 	Parameters
-# 	----------
-# 	query : str
-# 	The provided query string.
-# 	field : str
-# 	The field to be queried.
-# 	[name] : str
-# 	A name given to the query.
-
-# 	Returns
-# 	-------
-# 	A query object for the provided query and field.
-
-# 	"""
-# 	# construct the query
-# 	q = Q(
-# 	{
-# 		"wildcard": {
-# 		f"{field}": {
-# 			"value": query,
-# 			"_name": f"[{name}]{field}:{query}"
-# 		}
-# 		}
-# 	}
-# 	)
-
-# 	return q
-
-
-# def get_query_func(query_type):
-# 	"""
-# 	Return query function for provided query_type.
-
-# 	Parameters
-# 	----------
-# 	query_type : str
-# 	The provided query type.
-
-# 	Returns
-# 	-------
-# 	A query function for the provided query type.
-# 	"""
-# 	query_functions = {
-# 	"match": match,
-# 	"wildcard": wildcard,
-# 	}
-# 	return query_functions.get(query_type)
-
-
-# def boolean(must=None, should=None, must_not=None):
-# 	"""
-# 	Return 'bool' query object for the provided 'must',
-# 	'should', and 'must_not' queries.
-
-# 	'must' queries require a document to match the query in
-# 	the provided field for the specified query type.
-
-# 	'must_not' queries exclude documenta that match the query
-# 	in the provided field for the specified query type.
-
-# 	'should' queries only affect the relevance score of the
-# 	matched documents (i.e. the ordering of the documents returned).
-
-# 	Parameters
-# 	----------
-# 	must      : dict
-# 	Dictionary in the form of {type:[(field,query),...]} for
-# 	queries that must match in the provided field for the
-# 	specified query type.
-# 	should    : dict
-# 	Dictionary in the form of {type:[(field,query),...]} for
-# 	queries that must match in the provided field for the
-# 	specified query type.
-# 	must_not  : dict
-# 	Dictionary in the form of {type:[(field,query),...]} for
-# 	queries that must match in the provided field for the
-# 	specified query type.
-
-# 	Returns
-# 	-------
-# 	A query object for the provided queries and field(s).
-
-# 	"""
-# def get_bool_queries(clause, name):
-# 	# example input: clause=dict(type=[(field,query),...])
-# 	queries = []
-# 	if clause is not None:
-# 		# construct list of boolean clauses
-# 		for query_type in clause.keys():
-# 		query_func = get_query_func(query_type)
-# 		for field, query in clause.get(query_type):
-# 			queries.append(query_func(query, field, name=name))
-# 	return queries
-
-# 	# get must queries
-# 	must_clauses = get_bool_queries(must, 'must')
-# 	# get should queries
-# 	should_clauses = get_bool_queries(should, 'should')
-# 	# get must_not queries
-# 	not_clauses = get_bool_queries(must_not, 'must_not')
-
-# 	# construct the query
-# 	q = Q("bool",
-# 	must=must_clauses,
-# 	should=should_clauses,
-# 	must_not=not_clauses
-# 	)
-
-# 	return q
-
-
-# def multimatch(query, fields, query_type='match'):
-# 	"""
-# 	Return 'multi_match' query object for the provided query
-# 	and list of fields.
-
-# 	Parameters
-# 	----------
-# 	query : str
-# 	The provided query string.
-# 	fields : list
-# 	The list of fields to be queried.
-# 	[query_type] : str
-# 	The default query type.
-
-# 	Returns
-# 	-------
-# 	A query object for the provided queries and field(s).
-# 	"""
-# 	# check if wildcard query is needed
-# 	if "*" in query:
-# 	query_type='wildcard'
-
-# 	# construct 'should' data strucutre
-# 	should = {query_type: []}
-# 	for field in fields:
-# 	should[query_type].append((field,query))
-
-# 	# this bool query is equivalent to the multi_match query
-# 	# with a most_fields type
-# 	q = boolean(should=should)
-
-# 	return q
-
-# 	# function that constructs should clause for queries and fields
-# def construct_bool_clause(queries, fields):
-# 	all_queries=[]
-# 	for query in queries:
-# 	for field in fields:
-# 		query_field = get_query_field(query, field)
-# 		all_queries.append((query_field,query))
-# 	should = dict(match=all_queries)
-# 	return should
-
-# 	# function that returns a list of fields based on provided query
-# def get_query_field(query, field):
-# 	n_terms = len(query.split(" "))
-# 	if n_terms == 1:
-# 	return field
-# 	if n_terms == 2:
-# 	return field + ".bigram"
-# 	if n_terms == 3:
-# 	return field + ".trigram"
-# 	if n_terms == 4:
-# 	return field + ".quadragram"
-# 	if n_terms == 5:
-# 	return field + ".pentagram"
-# 	# otherwise
-# 	return field
-
-# 	# function that constructs phrase from query term and prefixes
-# def construct_phrase_queries(query, prefixes):
-# 	phrase_queries = []
-# 	for prefix in prefixes:
-# 		phrase_queries.append(f"{prefix} {query}")
-# 	return phrase_queries
 
