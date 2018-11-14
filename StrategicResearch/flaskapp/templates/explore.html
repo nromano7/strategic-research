@@ -18,26 +18,28 @@
     <p class='text-muted'>
       Select from the following options to filter the results in the matrix.
     </p>
-    <form action="{{ url_for('home') }}" method="post" class="text-left white border border-light p-3">
+    <form name="filter_form" action="{{ url_for('home') }}" method="post" class="text-left white border border-light p-3">
       <label for="element">Bridge Elements</label>
       <select name="element" class="browser-default custom-select form-select">
         <option value="" disabled>Choose Option</option>
         <option value="all">All Bridges & Structures</option>
-        <option value="bridges">Bridges: All Elements</option>
+        <option value="superstructure">All Superstructure</option>
         <option value="untreated_deck" selected>Untreated Bridge Decks</option>
         <option value="treated_deck">Treated Bridge Decks</option>
         <option value="joints">Joints</option>
         <option value="bearings">Bearings</option>
+        <option value="coatings">Steel Coatings</option>
+        <option value="prestressing">Pre-stressing</option>
       </select>
       <hr>
       <label>Record Type</label>
       <div class="custom-control custom-radio">
-        <input value="projects" type="radio" onclick="enableStatus()" class="custom-control-input" id="rt2" name="recordType"
+        <input value="project" type="radio" onclick="enableStatus(); setSortOption('project')" class="custom-control-input" id="rt2" name="recordType"
           checked>
         <label class="custom-control-label" for="rt2">Projects</label>
       </div>
       <div class="custom-control custom-radio">
-        <input value="publications" type="radio" onclick="disableStatus()" class="custom-control-input" id="rt3" name="recordType">
+        <input value="publication" type="radio" onclick="disableStatus(); setSortOption('publication')" class="custom-control-input" id="rt3" name="recordType">
         <label class="custom-control-label" for="rt3">Publications</label>
       </div>
       <hr>
@@ -65,7 +67,7 @@
         <label class="custom-control-label" for="dr2">5 Years</label>
       </div>
       <div class="custom-control custom-radio">
-        <input value=10 type="radio" class="custom-control-input" id="dr3" name="dateRange">
+        <input value=50 type="radio" class="custom-control-input" id="dr3" name="dateRange">
         <label class="custom-control-label" for="dr3">10+ Years</label>
       </div>
       <hr>
@@ -88,8 +90,8 @@
       <label for="sortBy">Sort By</label>
       <select name="sortBy" class="browser-default custom-select">
         <option value="" disabled>Choose Option</option>
-        <option value="_score" selected>Relevance</option>
-        <option value="date">Start Date</option>
+        <option value="sortBy_score" selected>Relevance</option>
+        <option value="sortBy_date">Start Date</option>
       </select>
       <hr>
       <button class="btn btn-info btn-block btn-blue-grey mt-3" type="submit">
@@ -388,6 +390,14 @@
     document.getElementById("status").disabled = false
   }
 
+  function setSortOption(docType) {
+    if (docType == 'project') {
+      document.getElementsByName("sortBy")[0].options[2].text = "Start Date"
+    } else if (docType == 'publication') {
+      document.getElementsByName("sortBy")[0].options[2].text = "Publication Date"
+    }
+  }
+
   function setButtonState() {
 
     let element = "{{ buttonStates['element']|safe }}"
@@ -398,10 +408,11 @@
     let sortBy = "{{ buttonStates['sort_by']|safe }}"
     let rpp = "{{ buttonStates['rpp']|safe }}"
 
+
     // update 'element' selection
     if (element == 'all') {
       document.getElementsByName('element')[0].options.selectedIndex = 1
-    } else if (element == 'bridges') {
+    } else if (element == 'superstructure') {
       document.getElementsByName('element')[0].options.selectedIndex = 2
     } else if (element == 'untreated_deck') {
       document.getElementsByName('element')[0].options.selectedIndex = 3
@@ -411,14 +422,20 @@
       document.getElementsByName('element')[0].options.selectedIndex = 5
     } else if (element == 'bearings') {
       document.getElementsByName('element')[0].options.selectedIndex = 6
+    } else if (element == 'coatings') {
+      document.getElementsByName('element')[0].options.selectedIndex = 7
+    } else if (element == 'prestressing') {
+      document.getElementsByName('element')[0].options.selectedIndex = 8
     }
 
     //  update record type selection
-    if (docType == 'projects') {
+    if (docType == 'project') {
       document.getElementById('rt2').checked = true
+      setSortOption(docType)
       enableStatus()
     } else {
       document.getElementById('rt3').checked = true
+      setSortOption(docType)
       disableStatus()
     }
 
@@ -436,14 +453,12 @@
     }
 
     // update date range selection
-    // if (dateRange == '0') {
-    //   document.getElementById('dr0').checked = true
-    // } else 
+  
     if (dateRange == '1') {
       document.getElementById('dr1').checked = true
     } else if (dateRange == '5') {
       document.getElementById('dr2').checked = true
-    } else if (dateRange == '10') {
+    } else if (dateRange == '50') {
       document.getElementById('dr3').checked = true
     }
 
@@ -457,9 +472,9 @@
     }
 
     // update sort selection
-    if (sortBy == '_score') {
+    if (sortBy == 'sortBy_score') {
       document.getElementsByName('sortBy')[0].options.selectedIndex = 1
-    } else if (sortBy == 'date') {
+    } else if (sortBy == 'sortBy_date') {
       document.getElementsByName('sortBy')[0].options.selectedIndex = 2
     }
 

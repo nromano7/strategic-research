@@ -8,47 +8,52 @@ import json
 @application.route("/", methods=['GET', 'POST'])
 def home():
 
-  # get and handle form data
-  # TODO: screen form inputs
-  doc_type = request.form.get('recordType','projects')
-  sort_by = request.form.get('sortBy','_score')
+	# get and handle form data
+	# TODO: screen form inputs
+	doc_type = request.form.get('recordType','project')
+	sort_by = request.form.get('sortBy','sortBy_score')
 
-  filters=dict(
-    element = request.form.get('element','bridges'),
-    status = request.form.get('status','all'),
-    date_range = request.form.get('dateRange','5'),
-    sort_by=sort_by,
-    doc_type=doc_type
-  )
+	filters=dict(
+		element = request.form.get('element','superstructure'),
+		status = request.form.get('status','all'),
+		date_range = request.form.get('dateRange','5'),
+		sort_by=sort_by,
+		doc_type=doc_type
+	)
 
-  TOPIC_TAGS = [
-    'construction_quality','design_and_details','material_specifications',
-    'live_load', 'environment', 'maintenance_and_preservation',
-    'structural_integrity', 'structural_condition', 'functionality', 'cost'
-  ]
+	TOPIC_TAGS = [
+		'construction_quality','design_and_details','material_specifications',
+		'live_load', 'environment', 'maintenance_and_preservation',
+		'structural_integrity', 'structural_condition', 'functionality', 'cost'
+	]
 
-  content = dict()
-  for topic in TOPIC_TAGS:
+	content = dict()
+	for topic in TOPIC_TAGS:
 
-    # specify index
-    index = doc_type
-    if index == 'all':
-      index = ['projects','publications']
+		# specify index
+		if doc_type == 'project':
+			index = 'projects'
+		elif doc_type == 'publication':
+			index = 'publications'
 
-    # run query and process response
-    kwargs = query.get_query_arguments(topic)
-    q = query.Query(**kwargs)
-    s = query.run_query(q.query, index=index, filters=filters)
-    # _, response = query.process_search_response(s, last=s.count())
-    r = s.execute()
-    content[topic] = r
+		# run query and process response
+		kwargs = query.get_query_arguments(topic)
+		q = query.Query(**kwargs)
+		s = query.run_query(q.query, index=index, filters=filters)
+		# _, response = query.process_search_response(s, last=s.count())
+		
+		# if topic == 'construction_quality':
+		# 	content[topic] = response
+		# else:
+		s = s[:100] # pagination
+		r = s.execute()
+		content[topic] = r
 
-    # pagination
-    s = s[:100]
-    
-  return render_template('explore.html',content=content, buttonStates=filters, heading='Strategic Research Matrices')
+		
+		
+	return render_template('explore.html',content=content, buttonStates=filters, heading='Strategic Research Matrices')
 
 @application.route("/analysis")
 def analysis():
-  return "Analysis"
-  # return render_template('analyze.html', title='Analysis', heading='Analyze')
+	return "Analysis"
+	# return render_template('analyze.html', title='Analysis', heading='Analyze')

@@ -180,7 +180,7 @@ def get_query_terms(query):
 	)
 
 	structural_condition = dict(
-		must_match=["condition"],
+		# must_match=["condition"],
 		should_match=["structural condition"]
 	)
 
@@ -194,7 +194,7 @@ def get_query_terms(query):
 
 	# Elements
 
-	bridges = dict(
+	superstructure = dict(
 		must_match=["bridge"]
 	)
 
@@ -237,7 +237,7 @@ def get_query_terms(query):
 		structural_condition=structural_condition,
 		functionality=functionality,
 		cost=cost,
-		bridges=bridges,
+		superstructure=superstructure,
 		untreated_deck=untreated_deck,
 		treated_deck=treated_deck,
 		joints=joints,
@@ -251,25 +251,38 @@ def get_query_terms(query):
 
 def apply_filters(s, filters):
 
-	status = filters.get("status")
-	if status and status != "all":
-		s = s.filter("term", status=status)
-
-	start_date = filters.get('start_date')
-	if start_date:
-		s = s.filter("range", **{"start_date":{"gte":start_date}})
-
-	publication_date = filters.get('publication_date')
-	if publication_date:
-		s = s.filter("range", **{"publication_date":{"gte":publication_date}})
-
 	topic = filters.get('topic')
 	if topic:
 		s = s.filter("term", tags=topic)
 
 	element = filters.get('element')
 	if element and element != "all":
-		s = s.filter("term", tags=element)
+		s = s.filter("term", element_tags=element)
+
+	doc_type = filters.get('doc_type')
+	if doc_type:
+		s = s.filter("term", doc_type=doc_type)
+
+	status = filters.get("status")
+	if status and status != "all":
+		s = s.filter("term", status=status)
+
+	date_range = filters.get('date_range')
+	if date_range:
+		if filters.get('doc_type') == 'project':
+			s = s.filter("range", **{"start_date":{"gte":f"now-{date_range}y"}})
+		if filters.get('doc_type') == 'publication':
+			s = s.filter("range", **{"publication_date":{"gte":f"now-{date_range}y"}})
+
+	sort_by = filters.get('sort_by')
+	if sort_by:
+		if sort_by == 'sortBy_score':
+			s = s.sort()
+		if sort_by == 'sortBy_date':
+			if filters.get('doc_type') == 'project':
+				s = s.sort('-start_date')
+			if filters.get('doc_type') == 'publication':
+				s = s.sort('-publication_date')
 
 	return s
 
@@ -299,13 +312,17 @@ def run_query(q, index, filters=None):
 
 	return s
 
+class response_dict(dict):
+	__getattr__ = dict.get
+	__setattr__ = dict.__setitem__
+	__delattr__ = dict.__delitem__
 
 def process_search_response(s, first=0, last=10):
 	""" function that process response from elasticsearch and formats
 	the response for front end """
 	# process documents returned by the search
-	hits = {}
-	response = []
+	hits = dict()
+	response = response_dict()
 	for h in s[first:last]:
 		# get data from document fields
 		doc_id = h.meta.id
@@ -341,10 +358,11 @@ def process_search_response(s, first=0, last=10):
 # filters = dict(
 # 	status='all'
 # )
-# kwargs = get_query_arguments("structural_condition")
+# kwargs = get_query_arguments("construction_quality")
 # q = Query(**kwargs)
 # print(q)
-# s = run_query(q.query, index="publications")
+# s = run_query(q.query, index="projects")
+# print()
 # print(s.count())
 # hits, response = process_search_response(s, last=s.count())
 # print()

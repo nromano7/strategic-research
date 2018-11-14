@@ -1,4 +1,9 @@
-from .. import TOPIC_TAGS, ELEMENT_TAGS
+# from .. import TOPIC_TAGS, ELEMENT_TAGS
+import sys
+import os
+print(os.getcwd())
+sys.path.append(os.getcwd())
+
 from datetime import datetime
 from elastic import client, models, query, PROJECT_FILES_PATH, PUB_FILES_PATH
 from elasticsearch_dsl import Index, Q
@@ -199,14 +204,14 @@ topic_tags = [
 ]
 	
 element_tags = [
-	'untreated_deck', 'treated_deck', 'joints', 
+	'superstructure', 'untreated_deck', 'treated_deck', 'joints', 
 	'bearings', 'coatings', 'prestressing'
 ]
 
 
 # create_index("publications")
 # index_documents("publications", PUB_FILES_PATH)
-tag_documents("publications", topic_tags, element_tags)
+# tag_documents("publications", topic_tags, element_tags)
 
 
 # its intell trans systems 
