@@ -47,17 +47,17 @@
       <ul class="navbar-nav mr-auto">
         {% if title %}
         <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('home') }}">Explore </a>
+            <a class="nav-link" href="{{ url_for('explore') }}">Explore </a>
         </li>
         <li class="nav-item active">
-            <a class="nav-link" href="{{ url_for('analysis') }}">Analyze <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="{{ url_for('analyze') }}">Analyze <span class="sr-only">(current)</span></a>
         </li>
         {% else %}
         <li class="nav-item active">
-            <a class="nav-link" href="{{ url_for('home') }}">Explore <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="{{ url_for('explore') }}">Explore <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('analysis') }}">Analyze</a>
+            <a class="nav-link" href="{{ url_for('analyze') }}">Analyze</a>
         </li>
         {% endif %}
         

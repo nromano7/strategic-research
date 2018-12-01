@@ -6,7 +6,7 @@ from dashapp.dashapp import app as dashapp
 import json
 
 @application.route("/", methods=['GET', 'POST'])
-def home():
+def explore():
 
 	# get and handle form data
 	# TODO: screen form inputs
@@ -49,9 +49,14 @@ def home():
 		r = s.execute()
 		content[topic] = r
 
-	return render_template('explore.html',content=content, buttonStates=filters, heading='Strategic Research Matrices')
+	return render_template('explore.html', 
+							content=content, 
+							buttonStates=filters, 
+							heading='Explore')
 
-@application.route("/analysis")
-def analysis():
+@application.route("/analyze")
+def analyze():
 	# return "Analysis"
-	return render_template('analyze.html', title='Analysis', heading='Analyze')
+	return render_template('analyze.html', 
+							title='Dashboard', 
+							heading='Analyze')
