@@ -2,7 +2,7 @@
 from flask import render_template, request, session, url_for
 from flaskapp import application
 from elastic import query
-# from dashapp.dashapp import app as dashapp
+from dashapp.dashapp import app as dashapp
 import json
 
 @application.route("/", methods=['GET', 'POST'])
@@ -49,11 +49,9 @@ def home():
 		r = s.execute()
 		content[topic] = r
 
-		
-		
 	return render_template('explore.html',content=content, buttonStates=filters, heading='Strategic Research Matrices')
 
 @application.route("/analysis")
 def analysis():
-	return "Analysis"
-	# return render_template('analyze.html', title='Analysis', heading='Analyze')
+	# return "Analysis"
+	return render_template('analyze.html', title='Analysis', heading='Analyze')

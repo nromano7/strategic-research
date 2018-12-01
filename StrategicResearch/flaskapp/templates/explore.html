@@ -154,10 +154,8 @@
               {% for doc in content['construction_quality'] %}
               {% if doc.doc_type == 'project' %}
               {{ project_record(doc) }}
-              {{ project_record_modal(doc) }}
               {% else %}
               {{ publication_record(doc) }}
-              {{ publication_record_modal(doc) }}
               {% endif %}
               {% endfor %}
             </div>
@@ -165,10 +163,8 @@
               {% for doc in content['design_and_details'] %}
               {% if doc.doc_type == 'project' %}
               {{ project_record(doc) }}
-              {{ project_record_modal(doc) }}
               {% else %}
               {{ publication_record(doc) }}
-              {{ publication_record_modal(doc) }}
               {% endif %}
               {% endfor %}
             </div>
@@ -176,10 +172,8 @@
               {% for doc in content['material_specifications'] %}
               {% if doc.doc_type == 'project' %}
               {{ project_record(doc) }}
-              {{ project_record_modal(doc) }}
               {% else %}
               {{ publication_record(doc) }}
-              {{ publication_record_modal(doc) }}
               {% endif %}
               {% endfor %}
 
@@ -229,10 +223,8 @@
               {% for doc in content['live_load'] %}
               {% if doc.doc_type == 'project' %}
               {{ project_record(doc) }}
-              {{ project_record_modal(doc) }}
               {% else %}
               {{ publication_record(doc) }}
-              {{ publication_record_modal(doc) }}
               {% endif %}
               {% endfor %}
             </div>
@@ -240,10 +232,8 @@
               {% for doc in content['environment'] %}
               {% if doc.doc_type == 'project' %}
               {{ project_record(doc) }}
-              {{ project_record_modal(doc) }}
               {% else %}
               {{ publication_record(doc) }}
-              {{ publication_record_modal(doc) }}
               {% endif %}
               {% endfor %}
             </div>
@@ -251,10 +241,8 @@
               {% for doc in content['maintenance_and_preservation'] %}
               {% if doc.doc_type == 'project' %}
               {{ project_record(doc) }}
-              {{ project_record_modal(doc) }}
               {% else %}
               {{ publication_record(doc) }}
-              {{ publication_record_modal(doc) }}
               {% endif %}
               {% endfor %}
             </div>
@@ -308,10 +296,8 @@
               {% for doc in content['structural_integrity'] %}
               {% if doc.doc_type == 'project'%}
               {{ project_record(doc) }}
-              {{ project_record_modal(doc) }}
               {% else %}
               {{ publication_record(doc) }}
-              {{ publication_record_modal(doc) }}
               {% endif %}
               {% endfor %}
             </div>
@@ -319,10 +305,8 @@
               {% for doc in content['structural_condition'] %}
               {% if doc.doc_type == 'project'%}
               {{ project_record(doc) }}
-              {{ project_record_modal(doc) }}
               {% else %}
               {{ publication_record(doc) }}
-              {{ publication_record_modal(doc) }}
               {% endif %}
               {% endfor %}
             </div>
@@ -330,10 +314,8 @@
               {% for doc in content['functionality'] %}
               {% if doc.doc_type == 'project'%}
               {{ project_record(doc) }}
-              {{ project_record_modal(doc) }}
               {% else %}
               {{ publication_record(doc) }}
-              {{ publication_record_modal(doc) }}
               {% endif %}
               {% endfor %}
             </div>
@@ -341,10 +323,8 @@
               {% for doc in content['cost'] %}
               {% if doc.doc_type == 'project'%}
               {{ project_record(doc) }}
-              {{ project_record_modal(doc) }}
               {% else %}
               {{ publication_record(doc) }}
-              {{ publication_record_modal(doc) }}
               {% endif %}
               {% endfor %}
             </div>
@@ -353,6 +333,91 @@
       </div>
     </div>
 
+  </div>
+
+  <div id="modals">
+    <!-- ATTRIBUTES MODALS -->
+    {% for doc in content['construction_quality'] %}
+    {% if doc.doc_type == 'project' %}
+    {{ project_record_modal(doc) }}
+    {% else %}
+    {{ publication_record_modal(doc) }}
+    {% endif %}
+    {% endfor %}
+
+    {% for doc in content['design_and_details'] %}
+    {% if doc.doc_type == 'project' %}
+    {{ project_record_modal(doc) }}
+    {% else %}
+    {{ publication_record_modal(doc) }}
+    {% endif %}
+    {% endfor %}
+
+    {% for doc in content['material_specifications'] %}
+    {% if doc.doc_type == 'project' %}
+    {{ project_record_modal(doc) }}
+    {% else %}
+    {{ publication_record_modal(doc) }}
+    {% endif %}
+    {% endfor %}
+
+    <!-- INPUTS MODALS -->
+    {% for doc in content['live_load'] %}
+    {% if doc.doc_type == 'project' %}
+    {{ project_record_modal(doc) }}
+    {% else %}
+    {{ publication_record_modal(doc) }}
+    {% endif %}
+    {% endfor %}
+
+    {% for doc in content['environment'] %}
+    {% if doc.doc_type == 'project' %}
+    {{ project_record_modal(doc) }}
+    {% else %}
+    {{ publication_record_modal(doc) }}
+    {% endif %}
+    {% endfor %}
+
+    {% for doc in content['maintenance_and_preservation'] %}
+    {% if doc.doc_type == 'project' %}
+    {{ project_record_modal(doc) }}
+    {% else %}
+    {{ publication_record_modal(doc) }}
+    {% endif %}
+    {% endfor %}
+
+    <!-- PERFORMANCE MODALS -->
+    {% for doc in content['structural_integrity'] %}
+    {% if doc.doc_type == 'project'%}
+    {{ project_record_modal(doc) }}
+    {% else %}
+    {{ publication_record_modal(doc) }}
+    {% endif %}
+    {% endfor %}
+
+    {% for doc in content['structural_condition'] %}
+    {% if doc.doc_type == 'project' %}
+    {{ project_record_modal(doc) }}
+    {% else %}
+    {{ publication_record_modal(doc) }}
+    {% endif %}
+    {% endfor %}
+
+    {% for doc in content['functionality'] %}
+    {% if doc.doc_type == 'project' %}
+    {{ project_record_modal(doc) }}
+    {% else %}
+    {{ publication_record_modal(doc) }}
+    {% endif %}
+    {% endfor %}
+
+    {% for doc in content['cost'] %}
+    {% if doc.doc_type == 'project' %}
+    {{ project_record_modal(doc) }}
+    {% else %}
+    {{ publication_record_modal(doc) }}
+    {% endif %}
+    {% endfor %}
   </div>
 
 
@@ -381,6 +446,30 @@
 
     }
   }
+
+  // function toggleCollapseButton() {
+
+  //   // check if any collapse element is collapsed
+  //   var oneCollapsed = (
+  //     document.getElementById("collapseOne").className == "collapse"
+  //   )
+  //   var twoCollapsed = (
+  //     document.getElementById("collapseTwo").className == "collapse"
+  //   )
+  //   var threeCollapsed = (
+  //     document.getElementById("collapseThree").className == "collapse"
+  //   )
+    
+  //   if (oneCollapsed || twoCollapsed || threeCollapsed) {
+  //     // if any collapsed
+  //     document.getElementById("collapse-icon").className = "fa fa-plus-circle";
+  //   } else if !(oneCollapsed || twoCollapsed || threeCollapsed) {
+  //     // if any one open
+  //     document.getElementById("collapse-icon").className = "fa fa-minus-circle";
+  //   }
+    
+    
+  // }
 
   function disableStatus() {
     document.getElementById("status").disabled = true
