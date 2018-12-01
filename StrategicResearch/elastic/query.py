@@ -252,7 +252,7 @@ def get_query_terms(query):
 def apply_filters(s, filters):
 
 	topic = filters.get('topic')
-	if topic:
+	if topic and topic != "all":
 		s = s.filter("term", tags=topic)
 
 	element = filters.get('element')
