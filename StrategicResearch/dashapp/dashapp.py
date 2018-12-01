@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 import dash
-import dash_core_components as dcc #import Graph, Input, Dropdown
-import dash_html_components as html#import Div, H1, H2, H3, H4, H5, H6, P, A, Span, Big, Main, Button
+import dash_core_components as dcc
+import dash_html_components as html
 import plotly.graph_objs as go
 import dashapp.figure as fig
 import dashapp.aggregate as aggregate
-from flask import url_for
 from flaskapp import application as flaskapp
 import textwrap
 
@@ -23,8 +22,6 @@ external_scripts = [
 	'https://cdn.plot.ly/plotly-1.37.0.min.js'
 ]
 
-mapbox_access_token = r"pk.eyJ1IjoibnJvbWFubzciLCJhIjoiY2ppa2prYjQ2MWszczNsbnh5YnhkZTh1aSJ9.5qBV5E8g3oxlo3ZFL4n6Zw"
-
 # initialize dash app
 app = dash.Dash(__name__, 
 	server=flaskapp, 
@@ -32,9 +29,14 @@ app = dash.Dash(__name__,
 	external_scripts=external_scripts,
 	external_stylesheets=external_stylesheets
 )
-
+app.config.suppress_callback_exceptions = True
 app.layout = html.Div([
-	dcc.Location(id='url', refresh=False),
+    dcc.Location(id='url', refresh=False),
+    html.Div(id='page-content')
+])
+
+""" ----------------------------- DASHBOARD -------------------------------- """
+dashboard_layout = html.Div([
 	html.Div(
 		className="dash-grid-container grey lighten-3",
 		children=[
@@ -183,21 +185,6 @@ app.layout = html.Div([
 		]
 	)
 ])
-
-
-
-####
-
-
-""" ------------------------ CALLBACKS --------------------------- """
-
-""" calback function for redirecting on click """
-# @app.callback(dash.dependencies.Output('page-content', 'children'),
-#               [dash.dependencies.Input('url', 'pathname')])
-# def display_page(pathname):
-# 	print(pathname)
-# 	return {}
-
 
 
 """ callback function for redirecting user on performance barchart click """
@@ -360,6 +347,69 @@ def callback_funding_heamap(topic_selection, element_selection):
 	figure = fig.funding_heatmap(data=data)
 	return figure
 
+
+
+""" ------------------------------ RESULTS --------------------------------- """
+
+results_layout = html.Div([
+    html.H3('Results'),
+    dcc.Dropdown(
+        id='app-1-dropdown',
+        options=[
+            {'label': 'App 1 - {}'.format(i), 'value': i} for i in [
+                'NYC', 'MTL', 'LA'
+            ]
+        ]
+    ),
+    html.Div(id='app-1-display-value'),
+    html.A('Back', href='http://127.0.0.1:5000/analyze'),
+    dcc.Link('Go to Record', href='/dashboard/results/record')
+])
+
+@app.callback(dash.dependencies.Output('app-1-display-value', 'children'),
+    			[dash.dependencies.Input('app-1-dropdown', 'value')])
+def display_value(value):
+    return 'You have selected "{}"'.format(value)
+
+
+
+""" ------------------------------- RECORD --------------------------------- """
+
+record_layout = html.Div([
+    html.H2('Record'),
+    dcc.Input(id='input-1-state', type='text', value='Montreal'),
+    dcc.Input(id='input-2-state', type='text', value='Canada'),
+    html.Button(id='submit-button', n_clicks=0, children='Submit'),
+    html.Div(id='output-state'),
+    html.Br(),
+    dcc.Link('Back', href='/dashboard/results'),
+])
+
+@app.callback(dash.dependencies.Output('output-state', 'children'),
+              [dash.dependencies.Input('submit-button', 'n_clicks')],
+              [dash.dependencies.State('input-1-state', 'value'),
+               dash.dependencies.State('input-2-state', 'value')])
+def update_output(n_clicks, input1, input2):
+    return ('The Button has been pressed {} times,'
+            'Input 1 is "{}",'
+            'and Input 2 is "{}"').format(n_clicks, input1, input2)
+
+
+
+
+""" callback function for redirecting to other apps """
+@app.callback(dash.dependencies.Output('page-content', 'children'), 
+				[dash.dependencies.Input('url', 'pathname')])
+def display_page(pathname):
+	print(pathname)
+	if pathname == '/dashboard/' :
+		return dashboard_layout
+	elif pathname == '/dashboard/results':
+		return results_layout
+	elif pathname == '/dashboard/results/record':
+		return record_layout
+	else:
+		return '404'
 
 
 application = app.server
