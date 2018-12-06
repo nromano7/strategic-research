@@ -290,11 +290,14 @@ def apply_filters(s, filters):
 def get_query_arguments(query):
 
 	query_terms = get_query_terms(query)
-	args = dict()
-	for key in query_terms:
-		args[key] = [(field, term) 
-			for term in query_terms.get(key) 
-			for field in get_query_fields(term)]
+	if query_terms:
+		args = dict()
+		for key in query_terms:
+			args[key] = [(field, term) 
+				for term in query_terms.get(key) 
+				for field in get_query_fields(term)]
+	else:
+		args = [(field, query) for field in get_query_fields(query)]
 	
 	return args
 

@@ -13,7 +13,7 @@ with open("./dashapp/app/static/statesGeo.json") as f:
 # 	return geo
 
 
-def project_count_map(data=None):
+def project_count_map(data=None, params=None):
 
 	MAPBOX_ACCESS_TOKEN = r"pk.eyJ1IjoibnJvbWFubzciLCJhIjoiY2ppa2prYjQ2MWszczNsbnh5YnhkZTh1aSJ9.5qBV5E8g3oxlo3ZFL4n6Zw"
 	STATES_SHAPEFILE_PATH = r"./dashapp/app/static/geojson"
@@ -62,7 +62,7 @@ def project_count_map(data=None):
 					size=14
 				),
 				text=f"{min(bin)} - {max(bin)}" if min(bin) != max(bin) else f"{min(bin)}",
-				x=0.95,
+				x=0.13,
 				y=0.75-(i/20)
 			)
 		)
@@ -78,19 +78,21 @@ def project_count_map(data=None):
 			accesstoken=MAPBOX_ACCESS_TOKEN,
 			center=dict(
 				lat=39, 
-				lon=-96
+				lon=-99
 			),
 			layers=[],
 			pitch=0,
 			style='light',
-			zoom=3.1,
+			zoom=3.0,
 		),
 		margin=dict(
 			l=0.01,
 			r=0.01,
 			t=0.01,
 			b=0.01
-		)
+		),
+		paper_bgcolor='rgba(0,0,0,0)',
+    	plot_bgcolor='rgba(0,0,0,0)'
 	)
 
 	# set up layers for states 
@@ -119,8 +121,9 @@ def project_count_map(data=None):
 			count = data.get(state).get('doc_count')
 		else:
 			count = 0
-		hovertext = (f"{geo[state]['full']}" +
-					 f"<br>Total Projects: {count}")
+		hovertext = (f"{geo[state]['full']}<br>" +
+					 f"<a href='/analyze/results?state={state}&{params}' target='_blank'>" +
+					 f"Total Projects</a>: {count}")
 		text.append(hovertext)
 
 		# append geolayers to layout
@@ -162,7 +165,8 @@ def project_count_map(data=None):
 	figure = dict(data=[trace], layout=layout)
 	return figure
 
-def bar_chart(labels, counts, ids):
+def bar_chart(labels, counts, ids, params=None):
+
 
 	# set up trace
 	trace = go.Bar(
@@ -170,14 +174,14 @@ def bar_chart(labels, counts, ids):
 		customdata=[id for id in ids],
 		insidetextfont=dict(
 			color="black",
-			size=14
+			size=15
 		),
 		marker=dict(color="#3F729B"),
 		outsidetextfont=dict(
 			color="black",
-			size=14
+			size=15
 		),
-		text=[count for count in counts],
+		text=[f"<a href='/analyze/results?{params[i]}' target='_blank' style='color:black'>{count}</a>" for i, count in enumerate(counts)],
 		textposition="auto",
 		x=labels,
 		y=counts
@@ -185,9 +189,11 @@ def bar_chart(labels, counts, ids):
 
 	# set up layout
 	layout = go.Layout(
-		margin={'l': 70, 'r': 25, 't': 60, 'b': 40, },
+		margin={'l': 10, 'r': 10, 't': 50, 'b': 40, },
+		paper_bgcolor='rgba(0,0,0,0)',
+    	plot_bgcolor='rgba(0,0,0,0)',
 		xaxis=dict(showticklabels=True),
-		yaxis=dict(title="Record Counts")
+		yaxis=dict(showgrid=False, showticklabels=False)
 	)
 
 	figure = go.Figure(data=[trace], layout=layout)
@@ -222,13 +228,26 @@ def funding_heatmap(data=None):
 
 	# format hover text for heatmap
 	hovertext = []
-	for yi, yy in enumerate(Y):
+	xx, yy = [], []
+	for yi, amount in enumerate(Y):
 		hovertext.append([])
-		for xi, xx in enumerate(X):
+		for xi, state in enumerate(X):
+			# if xi == 0 and yi == 0:
 			hovertext[-1].append(
-				f'State:  {xx}<br />Dollar Amount:  {yy}<br />Project Count:  {Z[yi][xi]}')
+				(f"State:  {state}<br>" +
+					f"Dollar Amount: {amount}<br>"+ 
+					f"<a href='/analyze/results?state=all&all' target='_blank'>" +
+					f"Project Count</a> :  {Z[yi][xi]}")
+			)
+			xx.append(xi)
+			yy.append(yi)
+			# else:
+			# 	hovertext[-1].append(
+			# 		(f"State:  {xx}<br>" +
+			# 			f"Dollar Amount: {yy}<br>"+ 
+			# 			f"Project Count:  {Z[yi][xi]}"))
 
-	trace = go.Heatmap(
+	trace1 = go.Heatmap(
 		z=Z,
 		x=X,
 		y=Y,
@@ -246,6 +265,17 @@ def funding_heatmap(data=None):
 		text=hovertext
 	)
 
+	trace2 = go.Scatter(
+		x=X,
+		y=[Y]*len(states),
+		mode="markers",
+		marker=dict(size= 14,
+                    line= dict(width=1),
+                    opacity= 0.3,
+                   ),
+		# text=hovertext
+	)
+
 	layout = go.Layout(
 		xaxis=dict(title="States"),
 		yaxis=dict(
@@ -253,9 +283,12 @@ def funding_heatmap(data=None):
 			tickprefix="  "
 		),
 		margin={'l': 110, 'r': 10, 't': 50, 'b': 70, },
+		hovermode='closest',
+		hoverdistance=1,
+		spikedistance=1,
 	)
 
-	figure = go.Figure(data=[trace], layout=layout)
+	figure = go.Figure(data=[trace1], layout=layout)
 
 	return figure
 
