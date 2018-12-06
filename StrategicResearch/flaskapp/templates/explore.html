@@ -13,12 +13,12 @@
     {{ heading }}
   </h1>
 
-  <div id="sidenav" class="content-section">
+  <div id="sidenav-explore" class="content-section">
     <h4>Filter Options</h4>
     <p class='text-muted'>
       Select from the following options to filter the results in the matrix.
     </p>
-    <form name="filter_form" action="{{ url_for('home') }}" method="post" class="text-left white border border-light p-3">
+    <form name="filter_form" action="{{ url_for('explore') }}" method="post" class="text-left white border border-light p-3">
       <label for="element">Bridge Elements</label>
       <select name="element" class="browser-default custom-select form-select">
         <option value="" disabled>Choose Option</option>

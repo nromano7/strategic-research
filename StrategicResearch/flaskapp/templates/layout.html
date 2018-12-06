@@ -44,27 +44,40 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav mr-auto">
-        {% if title %}
+      <ul class="navbar-nav mr-3">
+        {% if heading == 'Analyze' %}
         <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('home') }}">Explore </a>
+            <a class="nav-link" href="{{ url_for('explore') }}">Explore </a>
         </li>
         <li class="nav-item active">
-            <a class="nav-link" href="{{ url_for('analysis') }}">Analyze <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="{{ url_for('analyze') }}">Analyze <span class="sr-only">(current)</span></a>
+        </li>
+        {% elif heading == 'Explore' %}
+        <li class="nav-item active">
+            <a class="nav-link" href="{{ url_for('explore') }}">Explore <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('analyze') }}">Analyze</a>
         </li>
         {% else %}
         <li class="nav-item active">
-            <a class="nav-link" href="{{ url_for('home') }}">Explore <span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="{{ url_for('explore') }}">Explore</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('analysis') }}">Analyze</a>
+            <a class="nav-link" href="{{ url_for('analyze') }}">Analyze</a>
         </li>
         {% endif %}
         
-        <a class="nav-item nav-link disabled" href="#">
+        <!-- <a class="nav-item nav-link disabled" href="#">
           Search
-        </a>
+        </a> -->
       </ul>
+      <form target="{{ url_for('results') }}" action="{{ url_for('results') }}" method="get" class="form-inline mr-auto">
+        <input name="search" class="form-control p-1" type="text" 
+          placeholder="Search" aria-label="Search" 
+          style="width: 300px; border: none">
+      </form>
+
       <div class="navbar-nav" style="margin-right: 10%">
         <a class="nav-item nav-link disabled mr-auto" href="#">
           <i class="fa fa-refresh" aria-hidden="true"></i> Last Updated: 2018-08-03
