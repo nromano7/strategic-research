@@ -190,8 +190,8 @@ def bar_chart(labels, counts, ids, params=None):
 	# set up layout
 	layout = go.Layout(
 		margin={'l': 10, 'r': 10, 't': 50, 'b': 40, },
-		paper_bgcolor='rgba(0,0,0,0)',
-    	plot_bgcolor='rgba(0,0,0,0)',
+		# paper_bgcolor='rgba(0,0,0,0)',
+    	# plot_bgcolor='rgba(0,0,0,0)',
 		xaxis=dict(showticklabels=True),
 		yaxis=dict(showgrid=False, showticklabels=False)
 	)
