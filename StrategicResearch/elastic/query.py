@@ -325,7 +325,8 @@ def process_search_response(s, first=0, last=10):
 	the response for front end """
 	# process documents returned by the search
 	hits = dict()
-	response = response_dict()
+	# response = response_dict()
+	ids = []
 	for h in s[first:last]:
 		# get data from document fields
 		doc_id = h.meta.id
@@ -354,8 +355,8 @@ def process_search_response(s, first=0, last=10):
 			# topic_tags = topic_tags,
 			# element_tags=element_tags
 		)
-		response.append(hits[doc_id])
-	return hits, response
+		ids.append(doc_id)
+	return ids, hits
 
 
 # filters = dict(

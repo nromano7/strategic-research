@@ -197,26 +197,27 @@ def tag_documents(index_name, topic_tags, element_tags):
 			print(f'{index_name} - doc ({id}): updated with {tag}')
 
 
-topic_tags = [
-	'construction_quality','design_and_details','material_specifications',
-	'live_load', 'environment', 'maintenance_and_preservation',
-	'structural_integrity', 'structural_condition', 'functionality', 'cost'
-]
-	
-element_tags = [
-	'superstructure', 'untreated_deck', 'treated_deck', 'joints', 
-	'bearings', 'coatings', 'prestressing'
-]
+if __name__ == '__main__':
+
+	topic_tags = [
+		'construction_quality','design_and_details','material_specifications',
+		'live_load', 'environment', 'maintenance_and_preservation',
+		'structural_integrity', 'structural_condition', 'functionality', 'cost'
+	]
+		
+	element_tags = [
+		'superstructure', 'untreated_deck', 'treated_deck', 'joints', 
+		'bearings', 'coatings', 'prestressing'
+	]
+
+	create_index("projects")
+	index_documents("projects", PROJECT_FILES_PATH)
+	tag_documents("projects", topic_tags, element_tags)
+
+	create_index("publications")
+	index_documents("publications", PUB_FILES_PATH)
+	tag_documents("publications", topic_tags, element_tags)
 
 
-# create_index("publications")
-# index_documents("publications", PUB_FILES_PATH)
-# tag_documents("publications", topic_tags, element_tags)
 
-
-# its intell trans systems 
-# tans systematics
-# cdm smith
-# cambridge systematics
-# michael baker
 
