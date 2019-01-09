@@ -45,32 +45,36 @@
 
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav mr-3">
+
         {% if heading == 'Analyze' %}
-        <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('explore') }}">Explore </a>
-        </li>
         <li class="nav-item active">
             <a class="nav-link" href="{{ url_for('analyze') }}">Analyze <span class="sr-only">(current)</span></a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('explore') }}">Explore </a>
+        </li>
+        <!-- <script>console.log('analyze')</script> -->
         {% elif heading == 'Explore' %}
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('analyze') }}">Analyze</a>
+        </li>
         <li class="nav-item active">
             <a class="nav-link" href="{{ url_for('explore') }}">Explore <span class="sr-only">(current)</span></a>
         </li>
+        
+        <!-- <script>console.log('explore')</script> -->
+        {% else %}
         <li class="nav-item">
             <a class="nav-link" href="{{ url_for('analyze') }}">Analyze</a>
         </li>
-        {% else %}
-        <li class="nav-item active">
+        <li class="nav-item">
           <a class="nav-link" href="{{ url_for('explore') }}">Explore</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('analyze') }}">Analyze</a>
-        </li>
+        
+        <!-- <script>console.log('Search')</script> -->
         {% endif %}
         
-        <!-- <a class="nav-item nav-link disabled" href="#">
-          Search
-        </a> -->
+     <!-- SEARCH BAR -->
       </ul>
       <form target="{{ url_for('results') }}" action="{{ url_for('results') }}" method="get" class="form-inline mr-auto">
         <input name="search" class="form-control p-1" type="text" 

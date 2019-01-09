@@ -84,19 +84,10 @@ def results():
 	selected_funding = request.args.get('fund')
 	filter_topic = request.args.get('topic')
 	filter_element = request.args.get('element')
-
-
-	# handle post requests
 	doc_type = request.form.get('recordType','project')
-	# sort_by = request.form.get('sortBy','sortBy_score')
-	# filters=dict(
-	# 	topic = filter_topic,
-	# 	element = request.form.get('element','superstructure'),
-	# 	status = request.form.get('status','all'),
-	# 	date_range = request.form.get('dateRange','5'),
-	# 	sort_by=sort_by,
-	# 	doc_type=doc_type
-	# )
+
+	# format for front end display
+	formatstr = lambda s: s.replace("_"," ")
 
 	# specify index
 	if doc_type == 'project':
@@ -105,36 +96,66 @@ def results():
 		index = 'publications'
 
 	# handle queries
-	if all_: # if user clicked project count in dashboard
-		clicked = f"{formatted_topic[filter_topic]}"
+	if all_: 
+	# if user clicked project or pub count in dashboard
+
+		if filter_topic != 'all' and filter_element != 'all': 
+		# user filtered topic and elements in dashboard
+			clicked = f'for "{formatstr(filter_topic)}" and "{formatstr(filter_element)}"'
+		elif filter_topic != 'all' and filter_element =='all':
+		# user filtered topic in dashboard
+			clicked = f'for "{formatstr(filter_topic)}"'
+		elif filter_topic == 'all' and filter_element != 'all':
+		# user filtered element in dashboard
+			clicked = f'for "{formatstr(filter_element)}"'
+		elif filter_topic == 'all' and filter_element == 'all':
+		# no filters
+			clicked = f"for all topics and elements"
+
 		if all_ == 'PRJ':
 			index = 'projects'
 			doc_type = 'project'
 		elif all_ == 'PUB':
 			index = 'publications'
 			doc_type = 'publication'
+
 		filters = dict(
 			topic=filter_topic,
 			element=filter_element,
 			doc_type=doc_type,
-			date_range='50'
+			date_range='50',
+			sort_by='sortBy_date'
 		)
-		kwargs = query.get_query_arguments(filter_topic)
-		q = query.Query(**kwargs)
-		s = query.run_query(q.query, index=index, filters=filters)
 
-	elif selected_state and selected_funding: # if user clicked cell in heat map
-		clicked = f"{selected_state} {selected_funding}"
+		q = Q({"match_all": {}})
+		s = query.run_query(q, index=index, filters=filters)
 
-	elif selected_state: # if user clicked state on map
-		clicked = f"{selected_state}"
+	
+	elif selected_state:
+	# if user clicked state on map
+
+		if filter_topic != 'all' and filter_element != 'all': 
+		# user filtered topic and elements in dashboard
+			clicked = f'for "{selected_state}", "{formatstr(filter_topic)}" and "{formatstr(filter_element)}"'
+		elif filter_topic != 'all' and filter_element =='all':
+		# user filtered topic in dashboard
+			clicked = f'for "{selected_state}", "{formatstr(filter_topic)}"'
+		elif filter_topic == 'all' and filter_element != 'all':
+		# user filtered element in dashboard
+			clicked = f'for "{selected_state}", "{formatstr(filter_element)}"'
+		elif filter_topic == 'all' and filter_element == 'all':
+		# no filters
+			clicked = f'for "{selected_state}", and all topics and elements'
+
 		filters = dict(
 			topic=filter_topic,
 			element=filter_element,
 			doc_type=doc_type,
 			status = request.form.get('status','all'),
-			date_range = request.form.get('dateRange','50')
+			date_range = request.form.get('dateRange','50'),
+			sort_by='sortBy_date'
 		)
+
 		q = Q({"nested" : {
 					"path" : "funding_agencies",
 					"query" : {
@@ -150,10 +171,30 @@ def results():
 		)
 			
 		s = query.run_query(q, index=index, filters=filters)
-		
 
-	elif cat: # if user clicked on bar chart
-		clicked = formatted_topic[cat]
+
+	elif cat: 
+	# if user clicked on bar chart
+
+		if cat == filter_topic and filter_element != 'all': 
+		# user filtered topic and elements in dashboard
+			clicked = f'for "{formatstr(cat)}" and "{formatstr(filter_element)}"'
+		elif cat == filter_topic and filter_element =='all':
+		# user filtered topic in dashboard
+			clicked = f'for "{formatstr(cat)}"'
+		elif cat != filter_topic and filter_topic != 'all' and filter_element != 'all':
+		# user filtered topic and elements in dashboard, and clicked on different bar
+			clicked = f'for "{formatstr(cat)}", "{formatstr(filter_topic)}", and "{formatstr(filter_element)}"'
+		elif cat != filter_topic and filter_topic != 'all' and  filter_element == 'all':
+		# user filtered topic in dashboard, and clicked on different bar
+			clicked = f'for "{formatstr(cat)}", and "{formatstr(filter_topic)}"'
+		elif cat != filter_topic and filter_topic == 'all' and  filter_element != 'all':
+		# user filtered elements in dashboard, and clicked on different bar
+			clicked = f'for "{formatstr(cat)}", and "{formatstr(filter_element)}"'
+		else:
+		# no filters
+			clicked = f'for "{formatstr(cat)}"'
+
 		filters = dict(
 			topic=filter_topic,
 			element=filter_element,
@@ -161,12 +202,18 @@ def results():
 			status = request.form.get('status','all'),
 			date_range = request.form.get('dateRange','50')
 		)
+
 		kwargs = query.get_query_arguments(cat)
 		q = query.Query(**kwargs)
 		s = query.run_query(q.query, index=index, filters=filters)
 
+
+	elif selected_state and selected_funding: # if user clicked cell in heat map
+		clicked = f"for {selected_state} {selected_funding}"
+
+
 	elif search: # if a free search was requested by the user
-		clicked = search
+		clicked = f'for "{search}"'
 		match_args = query.get_query_arguments(search)
 		q = query.Query(must_match=match_args)
 		s = query.run_query(q.query, index=index, filters=None)
