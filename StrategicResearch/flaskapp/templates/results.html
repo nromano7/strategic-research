@@ -17,7 +17,7 @@
     <p class='text-muted'>
       Select from the following options to filter the results in the matrix.
     </p>
-    <form name="filter_form" action="{{ url_for('explore') }}" method="post" class="text-left white border border-light p-3">
+    <form name="filter_form" action="{{ url_for('search') }}" method="post" class="text-left white border border-light p-3">
       <label for="element">Bridge Elements</label>
       <select name="element" class="browser-default custom-select form-select">
         <option value="" disabled>Choose Option</option>
@@ -129,53 +129,7 @@
 </main>
 
 <script>
-  function toggleCollapse() {
-
-    var isCollapsed = (
-      document.getElementById("collapse-icon").className == "fa fa-plus-circle"
-    )
-
-    if (isCollapsed != true) {
-
-      document.getElementById("collapseOne").className = "collapse";
-      document.getElementById("collapseTwo").className = "collapse";
-      document.getElementById("collapseThree").className = "collapse";
-      document.getElementById("collapse-icon").className = "fa fa-plus-circle";
-
-    } else {
-
-      document.getElementById("collapseOne").className = "collapse show";
-      document.getElementById("collapseTwo").className = "collapse show";
-      document.getElementById("collapseThree").className = "collapse show";
-      document.getElementById("collapse-icon").className = "fa fa-minus-circle";
-
-    }
-  }
-
-  // function toggleCollapseButton() {
-
-  //   // check if any collapse element is collapsed
-  //   var oneCollapsed = (
-  //     document.getElementById("collapseOne").className == "collapse"
-  //   )
-  //   var twoCollapsed = (
-  //     document.getElementById("collapseTwo").className == "collapse"
-  //   )
-  //   var threeCollapsed = (
-  //     document.getElementById("collapseThree").className == "collapse"
-  //   )
-    
-  //   if (oneCollapsed || twoCollapsed || threeCollapsed) {
-  //     // if any collapsed
-  //     document.getElementById("collapse-icon").className = "fa fa-plus-circle";
-  //   } else if !(oneCollapsed || twoCollapsed || threeCollapsed) {
-  //     // if any one open
-  //     document.getElementById("collapse-icon").className = "fa fa-minus-circle";
-  //   }
-    
-    
-  // }
-
+  
   function disableStatus() {
     document.getElementById("status").disabled = true
   }
@@ -273,6 +227,7 @@
     }
 
   }
+
   setButtonState()
 
   let page = "{{ page|safe }}"

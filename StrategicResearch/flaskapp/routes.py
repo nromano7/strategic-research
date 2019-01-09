@@ -62,7 +62,7 @@ def explore():
 		# if topic == 'construction_quality':
 		# 	content[topic] = response
 		# else:
-		s = s[:100] # pagination
+		s = s[:500] # pagination
 		r = s.execute()
 		content[topic] = r
 
@@ -75,6 +75,8 @@ def explore():
 @application.route("/analyze/results", methods=['GET'])
 def results():
 	# return "Analysis"
+	
+	print(request.args)
 
 	# hande get requests
 	all_ = request.args.get('all')
@@ -200,7 +202,8 @@ def results():
 			element=filter_element,
 			doc_type=doc_type,
 			status = request.form.get('status','all'),
-			date_range = request.form.get('dateRange','50')
+			date_range = request.form.get('dateRange','50'),
+			sort_by='sortBy_date'
 		)
 
 		kwargs = query.get_query_arguments(cat)
@@ -220,19 +223,28 @@ def results():
 		filters = dict(
 			doc_type=doc_type,
 			status = request.form.get('status','all'),
-			date_range = request.form.get('dateRange','50')
+			date_range = request.form.get('dateRange','50'),
+			sort_by='sortBy_date'
 		)
 	
-		
-
 	s = s[:1000] # pagination
 	r = s.execute()
 	
+	buttonStates=dict(
+		element = filter_element,
+		status = request.form.get('status','all'),
+		date_range = request.form.get('dateRange','50'),
+		sort_by='sortBy_date',
+		doc_type=doc_type
+	)
 	
 	return render_template('results.html', 
 							title='Results', 
 							heading=f'Search Results',
 							content=r, 
 							clicked=clicked,
-							filters=filters,
-							buttonStates=filters)
+							buttonStates=buttonStates)
+
+@application.route("/search", methods=['GET', 'POST'])
+def search():
+	return "Search"
