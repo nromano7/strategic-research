@@ -110,7 +110,7 @@
 
         <!-- title -->
         <h3 class="modal-title w-100 pl-4 pr-4" id="ModalLabel">
-          {{ doc.title }}
+          {{ doc.title.title() }}
         </h3>
 
         <!-- close button -->
@@ -121,6 +121,10 @@
       </div>
 
       <div class="modal-body pl-5 pr-5 pb-5">
+
+        <!-- <div class="d-inline">
+          <i class="fa fa-2x fa-bookmark-o" aria-hidden="true"></i>&nbsp;
+        </div> -->
 
         <!-- record type -->
         <h4 class="d-inline mb-0">
@@ -152,9 +156,7 @@
         </h4>
         {% endfor %}
         {% endif %}
-        <br>
         <hr>
-
         <div class="modal-grid-container">
           <div class="modal-record-content">
 
@@ -246,59 +248,69 @@
           </div>
           <div class="modal-record-options">
             <div id="sidenav" class="content-section">
-              <h3 class="mb-2 mt-2">LTBP Objectives</h3>
-              <p class='text-muted'>
-                Mark documents that satisfy LTBP objectives.
-              </p>
               <form name="record_form" action="#" method="post" class="text-left white border border-light p-3">
+                <h3 class="mb-2 mt-2">LTBP Objectives</h3>
+                <p class='text-muted'>
+                  Mark documents that satisfy LTBP objectives.
+                </p>
                 <div class="custom-control custom-checkbox">
                   <input type="checkbox" class="custom-control-input" id="objective1">
-                  <label class="custom-control-label" for="objective1"><h5>Objective 1</h5></label>
+                  <label class="custom-control-label" for="objective1">
+                    <h5>Objective 1</h5>
+                  </label>
                 </div>
                 <p class='text-muted'> Advance research in deterioration and predictive modeling.</p>
                 <p>
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="objective2">
-                  <label class="custom-control-label" for="objective2"><h5>Objective 2</h5></label>
-                </div>
-                <p class='text-muted'>Advance research in cost analysis.</p>
-                <p>
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="objective3">
-                  <label class="custom-control-label" for="objective3"><h5>Objective 3</h5></label>
-                </div>
-                <p class='text-muted'>Support the development and identification of improved design methods.</p>
-                <p>
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="objective4">
-                  <label class="custom-control-label" for="objective4"><h5>Objective 4</h5></label>
-                </div>
-                <p class='text-muted'>Quantify the effectiveness and support the development of improved
-                  assessment, maintenance, preservation, repair, and rehabilitation strategies.</p>
-                <br>
-                <fieldset disabled="disabled">
-                  <button class="btn btn-info btn-block btn-blue-grey mt-3" type="submit">
-                    Apply
-                  </button>
-                </fieldset>
-                
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="objective2">
+                    <label class="custom-control-label" for="objective2">
+                      <h5>Objective 2</h5>
+                    </label>
+                  </div>
+                  <p class='text-muted'>Advance research in cost analysis.</p>
+                  <p>
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" id="objective3">
+                      <label class="custom-control-label" for="objective3">
+                        <h5>Objective 3</h5>
+                      </label>
+                    </div>
+                    <p class='text-muted'>Support the development and identification of improved design methods.</p>
+                    <p>
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="objective4">
+                        <label class="custom-control-label" for="objective4">
+                          <h5>Objective 4</h5>
+                        </label>
+                      </div>
+                      <p class='text-muted'>Quantify the effectiveness and support the development of improved
+                        assessment, maintenance, preservation, repair, and rehabilitation strategies.</p>
+                      <div class="form-group green-border-focus">
+                        <textarea class="form-control text-muted" id="exampleFormControlTextarea6" rows="3" placeholder="Notes..."></textarea>
+                      </div>
+                      <fieldset disabled="disabled">
+                        <button class="btn btn-info btn-block btn-blue-grey mt-3" type="submit">
+                          Apply
+                        </button>
+                      </fieldset>
+
               </form>
               <!-- <h4 class="mb-2 mt-2">Potential Partners</h4>
               <p class='text-muted'>
                 The following agencies may be conducting similar research.
               </p>
               <div class="text-left white border border-light p-3"> -->
-                 
-              </div>
 
             </div>
+
           </div>
         </div>
-
-
       </div>
+
+
     </div>
   </div>
+</div>
 </div>
 {% endmacro %}
 
@@ -379,7 +391,7 @@
 
         <!-- title -->
         <h3 class="modal-title w-100 pl-4 pr-4" id="ModalLabel">
-          {{ doc.title }}
+          {{ doc.title.title() }}
         </h3>
 
         <!-- close button -->
@@ -460,58 +472,70 @@
 
           <div class="modal-record-options">
             <div id="sidenav" class="content-section">
-              <h4 class="mb-2 mt-2">LTBP Objectives</h4>
-              <p class='text-muted'>
-                Mark documents that satisfy LTBP objectives.
-              </p>
               <form name="record_form" action="#" method="post" class="text-left white border border-light p-3">
+                <h3 class="mb-2 mt-2">LTBP Objectives</h3>
+                <p class='text-muted'>
+                  Mark documents that satisfy LTBP objectives.
+                </p>
                 <div class="custom-control custom-checkbox">
                   <input type="checkbox" class="custom-control-input" id="objective1">
-                  <label class="custom-control-label" for="objective1"><h5>Objective 1</h5></label>
+                  <label class="custom-control-label" for="objective1">
+                    <h5>Objective 1</h5>
+                  </label>
                 </div>
                 <p class='text-muted'> Advance research in deterioration and predictive modeling.</p>
                 <p>
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="objective2">
-                  <label class="custom-control-label" for="objective2"><h5>Objective 2</h5></label>
-                </div>
-                <p class='text-muted'>Advance research in cost analysis.</p>
-                <p>
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="objective3">
-                  <label class="custom-control-label" for="objective3"><h5>Objective 3</h5></label>
-                </div>
-                <p class='text-muted'>Support the development and identification of improved design methods.</p>
-                <p>
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="objective4">
-                  <label class="custom-control-label" for="objective4"><h5>Objective 4</h5></label>
-                </div>
-                <p class='text-muted'>Quantify the effectiveness and support the development of improved
-                  assessment, maintenance, preservation, repair, and rehabilitation strategies.</p>
-                <br>
-                <fieldset disabled="disabled">
-                  <button class="btn btn-info btn-block btn-blue-grey mt-3" type="submit">
-                    Apply
-                  </button>
-                </fieldset>
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="objective2">
+                    <label class="custom-control-label" for="objective2">
+                      <h5>Objective 2</h5>
+                    </label>
+                  </div>
+                  <p class='text-muted'>Advance research in cost analysis.</p>
+                  <p>
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" id="objective3">
+                      <label class="custom-control-label" for="objective3">
+                        <h5>Objective 3</h5>
+                      </label>
+                    </div>
+                    <p class='text-muted'>Support the development and identification of improved design methods.</p>
+                    <p>
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="objective4">
+                        <label class="custom-control-label" for="objective4">
+                          <h5>Objective 4</h5>
+                        </label>
+                      </div>
+                      <p class='text-muted'>Quantify the effectiveness and support the development of improved
+                        assessment, maintenance, preservation, repair, and rehabilitation strategies.</p>
+                      <div class="form-group green-border-focus">
+                        <textarea class="form-control text-muted" id="exampleFormControlTextarea6" rows="3" placeholder="Notes..."></textarea>
+                      </div>
+                      <fieldset disabled="disabled">
+                        <button class="btn btn-info btn-block btn-blue-grey mt-3" type="submit">
+                          Apply
+                        </button>
+                      </fieldset>
+
               </form>
               <!-- <h4 class="mb-2 mt-2">Potential Partners</h4>
               <p class='text-muted'>
                 The following agencies may be conducting similar research.
               </p>
-              <div class="text-left white border border-light p-3">
-                  -->
-              </div>
+              <div class="text-left white border border-light p-3"> -->
+
             </div>
+
           </div>
-
-
         </div>
 
-        <br>
+
       </div>
+
+      <br>
     </div>
   </div>
+</div>
 </div>
 {% endmacro %}

@@ -31,7 +31,8 @@
 }
 
 .results {
-  height: 60vh; /* percent relative to viewport height */
+  height: 60vh;
+  /* percent relative to viewport height */
   width: 100%;
   float: left;
   overflow-y: scroll;
@@ -74,7 +75,8 @@
 }
 
 #results {
-  height: 110vh; /* percent relative to viewport height */
+  height: 110vh;
+  /* percent relative to viewport height */
   width: 100%;
   float: left;
   overflow-y: scroll;
@@ -95,10 +97,8 @@
 }
 
 #toggleCollapse {
-  grid-column:3/4; 
-  grid-row:4; 
-  align-self: end; 
-  justify-self: end; 
+  grid-column: 3/4;
+  grid-row: 4;
+  align-self: end;
+  justify-self: end;
 }
-
-
