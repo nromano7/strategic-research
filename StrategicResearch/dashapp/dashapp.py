@@ -148,12 +148,12 @@ app.layout = html.Div(
 			config={'displayModeBar': False}
 		),
 		html.H4("Count by State",id="project-count-map-heading",className="p-2 text-left"),
-		dcc.Graph(
-			id='funding-heatmap',
-			className="z-depth-1",
-			config={'displayModeBar': False}
-		),
-		html.H4("Funding by State",id="funding-heatmap-heading",className="p-2 text-left"),
+		# dcc.Graph(
+		# 	id='funding-heatmap',
+		# 	className="z-depth-1",
+		# 	config={'displayModeBar': False}
+		# ),
+		# html.H4("Funding by State",id="funding-heatmap-heading",className="p-2 text-left"),
 		dcc.Graph(
 			id='barchart1',
 			className="z-depth-1",
@@ -323,14 +323,14 @@ def callback_performance_barchart(topic_selection, element_selection):
 	return figure
 
 
-""" callback function for updating funding heat map """
-@app.callback(dash.dependencies.Output('funding-heatmap','figure'),
-	[dash.dependencies.Input('tags-selection','value'),
-		dash.dependencies.Input('record-set-selection','value')])
-def callback_funding_heamap(topic_selection, element_selection):
-	data = aggregate.funding_by_state(topic=topic_selection, element=element_selection)
-	figure = fig.funding_heatmap(data=data)
-	return figure
+# """ callback function for updating funding heat map """
+# @app.callback(dash.dependencies.Output('funding-heatmap','figure'),
+# 	[dash.dependencies.Input('tags-selection','value'),
+# 		dash.dependencies.Input('record-set-selection','value')])
+# def callback_funding_heamap(topic_selection, element_selection):
+# 	data = aggregate.funding_by_state(topic=topic_selection, element=element_selection)
+# 	figure = fig.funding_heatmap(data=data)
+# 	return figure
 
 
 application = app.server
