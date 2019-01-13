@@ -26,49 +26,58 @@ def analyze():
 def explore():
 
 	# get and handle form data
-	# TODO: screen form inputs
-	doc_type = request.form.get('recordType','project')
-	sort_by = request.form.get('sortBy','sortBy_score')
+	search_type = request.form.get('type','search')
+	search_query = request.form.get('query')
+	index = request.form.get('index','projects')
+	filter_topic = request.form.get('topic','all')
+	filter_element = request.form.get('element','all')
+	filter_status = request.form.get('status','all')
+	date_range = request.form.get('dateRange','50')
+	sort_by = request.form.get('sortBy','date')
+	doc_type = index[:-1]
+	# doc_type = request.form.get('recordType','project')
+	# sort_by = request.form.get('sortBy','sortBy_score')
 
 	filters=dict(
-		element = request.form.get('element','superstructure'),
-		status = request.form.get('status','all'),
-		date_range = request.form.get('dateRange','5'),
-		sort_by=sort_by,
-		doc_type=doc_type
+		element = filter_element,
+		status = filter_status,
+		date_range = date_range,
+		sort_by = sort_by,
+		doc_type = doc_type
 	)
 
-	TOPIC_TAGS = [
-		'construction_quality','design_and_details','material_specifications',
-		'live_load', 'environment', 'maintenance_and_preservation',
-		'structural_integrity', 'structural_condition', 'functionality', 'cost'
-	]
-
 	content = dict()
-	for topic in TOPIC_TAGS:
+	for topic in topics:
 
 		# specify index
-		if doc_type == 'project':
-			index = 'projects'
-		elif doc_type == 'publication':
-			index = 'publications'
+		# if doc_type == 'project':
+		# 	index = 'projects'
+		# elif doc_type == 'publication':
+		# 	index = 'publications'
 
 		# run query and process response
 		kwargs = query.get_query_arguments(topic)
 		q = query.Query(**kwargs)
 		s = query.run_query(q.query, index=index, filters=filters)
-		# _, response = query.process_search_response(s, last=s.count())
-		
-		# if topic == 'construction_quality':
-		# 	content[topic] = response
-		# else:
 		s = s[:500] # pagination
 		r = s.execute()
 		content[topic] = r
 
+	formdata = dict(
+		type=search_type,
+		query=search_query,
+		index=index,
+		topic=filter_topic,
+		element=filter_element,
+		status=filter_status,
+		date_range=date_range,
+		sort_by=sort_by
+	)
+
 	return render_template('explore.html', 
 							content=content, 
 							buttonStates=filters, 
+							formdata=formdata,
 							heading='Explore')
 
 
@@ -79,7 +88,7 @@ def results():
 	formatstr = lambda s: s.replace("_"," ")
 
 	if request.method == 'GET':
-		# retrieve get requests
+	# retrieve get requests
 		search_type = request.args.get('type','search')
 		search_query = request.args.get('query')
 		index = request.args.get('index','projects')

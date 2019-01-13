@@ -34,12 +34,12 @@
       <hr>
       <label>Record Type</label>
       <div class="custom-control custom-radio">
-        <input value="project" type="radio" onclick="enableStatus(); setSortOption('project')" class="custom-control-input" id="rt2" name="recordType"
+        <input value="projects" type="radio" onclick="enableStatus(); setSortOption('project')" class="custom-control-input" id="rt2" name="index"
           checked>
         <label class="custom-control-label" for="rt2">Projects</label>
       </div>
       <div class="custom-control custom-radio">
-        <input value="publication" type="radio" onclick="disableStatus(); setSortOption('publication')" class="custom-control-input" id="rt3" name="recordType">
+        <input value="publications" type="radio" onclick="disableStatus(); setSortOption('publication')" class="custom-control-input" id="rt3" name="index">
         <label class="custom-control-label" for="rt3">Publications</label>
       </div>
       <hr>
@@ -339,83 +339,83 @@
     <!-- ATTRIBUTES MODALS -->
     {% for doc in content['construction_quality'] %}
     {% if doc.doc_type == 'project' %}
-    {{ project_record_modal(doc) }}
+    {{ project_record_modal(doc, formdata) }}
     {% else %}
-    {{ publication_record_modal(doc) }}
+    {{ publication_record_modal(doc, formdata) }}
     {% endif %}
     {% endfor %}
 
     {% for doc in content['design_and_details'] %}
     {% if doc.doc_type == 'project' %}
-    {{ project_record_modal(doc) }}
+    {{ project_record_modal(doc, formdata) }}
     {% else %}
-    {{ publication_record_modal(doc) }}
+    {{ publication_record_modal(doc, formdata) }}
     {% endif %}
     {% endfor %}
 
     {% for doc in content['material_specifications'] %}
     {% if doc.doc_type == 'project' %}
-    {{ project_record_modal(doc) }}
+    {{ project_record_modal(doc, formdata) }}
     {% else %}
-    {{ publication_record_modal(doc) }}
+    {{ publication_record_modal(doc, formdata) }}
     {% endif %}
     {% endfor %}
 
     <!-- INPUTS MODALS -->
     {% for doc in content['live_load'] %}
     {% if doc.doc_type == 'project' %}
-    {{ project_record_modal(doc) }}
+    {{ project_record_modal(doc, formdata) }}
     {% else %}
-    {{ publication_record_modal(doc) }}
+    {{ publication_record_modal(doc, formdata) }}
     {% endif %}
     {% endfor %}
 
     {% for doc in content['environment'] %}
     {% if doc.doc_type == 'project' %}
-    {{ project_record_modal(doc) }}
+    {{ project_record_modal(doc, formdata) }}
     {% else %}
-    {{ publication_record_modal(doc) }}
+    {{ publication_record_modal(doc, formdata) }}
     {% endif %}
     {% endfor %}
 
     {% for doc in content['maintenance_and_preservation'] %}
     {% if doc.doc_type == 'project' %}
-    {{ project_record_modal(doc) }}
+    {{ project_record_modal(doc, formdata) }}
     {% else %}
-    {{ publication_record_modal(doc) }}
+    {{ publication_record_modal(doc, formdata) }}
     {% endif %}
     {% endfor %}
 
     <!-- PERFORMANCE MODALS -->
     {% for doc in content['structural_integrity'] %}
     {% if doc.doc_type == 'project'%}
-    {{ project_record_modal(doc) }}
+    {{ project_record_modal(doc, formdata) }}
     {% else %}
-    {{ publication_record_modal(doc) }}
+    {{ publication_record_modal(doc, formdata) }}
     {% endif %}
     {% endfor %}
 
     {% for doc in content['structural_condition'] %}
     {% if doc.doc_type == 'project' %}
-    {{ project_record_modal(doc) }}
+    {{ project_record_modal(doc, formdata) }}
     {% else %}
-    {{ publication_record_modal(doc) }}
+    {{ publication_record_modal(doc, formdata) }}
     {% endif %}
     {% endfor %}
 
     {% for doc in content['functionality'] %}
     {% if doc.doc_type == 'project' %}
-    {{ project_record_modal(doc) }}
+    {{ project_record_modal(doc, formdata) }}
     {% else %}
-    {{ publication_record_modal(doc) }}
+    {{ publication_record_modal(doc, formdata) }}
     {% endif %}
     {% endfor %}
 
     {% for doc in content['cost'] %}
     {% if doc.doc_type == 'project' %}
-    {{ project_record_modal(doc) }}
+    {{ project_record_modal(doc, formdata) }}
     {% else %}
-    {{ publication_record_modal(doc) }}
+    {{ publication_record_modal(doc, formdata) }}
     {% endif %}
     {% endfor %}
   </div>
