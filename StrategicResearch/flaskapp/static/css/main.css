@@ -1,24 +1,54 @@
 .explore-grid-container {
   display: grid;
-  grid-template-columns: 10% 15% 65% 10%;
-  grid-template-rows: 70px minmax(50px, 10%) 25px 25px repeat(3, minmax(500px, 10%));
+  grid-template-columns: 5% 15% 75% 5%;
+  grid-template-rows: 70px minmax(50px, 10%) 10px 30px repeat(2, minmax(400px, 10%));
   grid-gap: 5px 5px;
   margin: 0px 0px 20px 0px
 }
 
 .analyze-grid-container {
   display: grid;
-  grid-template-columns: 10% 80% 10%;
-  grid-template-rows: 70px minmax(50px, 10%) 15px 2000px;
+  grid-template-columns: 5% 90% 5%;
+  grid-template-rows: 70px minmax(50px, 10%) 10px 1200px;
   grid-gap: 5px 5px;
   margin: 0px 0px 20px 0px
 }
 
+.modal-grid-container {
+  display: grid;
+  grid-template-columns: 75% 25%;
+  /* grid-template-rows: 70px minmax(50px, 10%) 25px 25px repeat(2, minmax(500px, 10%)); */
+  grid-gap: 10px 10px;
+}
+
+.modal-record-content {
+  grid-column: 1;
+}
+
+.modal-record-options {
+  padding-left: 20px;
+  grid-column: 2;
+}
+
 .results {
-  height: 100vh; /* percent relative to viewport height */
+  height: 60vh;
+  /* percent relative to viewport height */
+  width: 100%;
   float: left;
   overflow-y: scroll;
   overflow-x: hidden;
+  margin-bottom: 10px;
+}
+
+.ellipses {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.modal-custom {
+  padding-left: 300px;
+  padding-right: 300px
 }
 
 #heading {
@@ -27,15 +57,38 @@
   align-self: end;
 }
 
-#sidenav {
+#sidenav-explore {
   margin-right: 20px;
   grid-column: 2/3;
   grid-row: 4/end
 }
 
+#sidenav-results {
+  margin-right: 20px;
+  grid-column: 2/3;
+  grid-row: 5/end
+}
+
 #collapse {
   grid-column: 3/4;
-  grid-row: 4/end
+  grid-row: 5/end
+}
+
+#results {
+  height: 110vh;
+  /* percent relative to viewport height */
+  width: 100%;
+  float: left;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  margin-bottom: 10px;
+  grid-column: 3/4;
+  grid-row: 5/end
+}
+
+#results-summary {
+  grid-column: 2/end;
+  grid-row: 4
 }
 
 #dashboard-container {
@@ -44,8 +97,8 @@
 }
 
 #toggleCollapse {
-  grid-column:3/4; 
-  grid-row:3/3; 
-  align-self: end; 
-  justify-self: end; 
+  grid-column: 3/4;
+  grid-row: 4;
+  align-self: end;
+  justify-self: end;
 }

@@ -1,8 +1,10 @@
+<!-- PROJECT RECORD CARD -->
 {% macro project_record(doc) %}
 <div class="card m-2 z-depth-0" style="border: 1px solid #dee2e6">
   <div class="card-body">
-    <h5 class="card-title">
+    <h5 class="card-title mb-1">
       <a data-toggle="modal" data-target="#{{ doc.meta.id }}">{{ doc.title }}</a>
+      <!-- onclick="$('#{{ doc.meta.id }}').modal({'backdrop': 'static'});" -->
     </h5>
     <table class="table table-borderless mb-0">
       <tbody class="card-text">
@@ -11,30 +13,40 @@
         <col width="30%">
         <tr>
           <td class="p-1 pb-2">
+
             <!-- record type -->
-            <h5 class="d-inline mb-0"><span class="badge primary-color-dark text-capitalize z-depth-0">{{doc.doc_type.title()}}</span></h5>
+            <h5 class="d-inline mb-0">
+              <span class="badge primary-color-dark text-capitalize z-depth-0 mr-1">
+                {{doc.doc_type.title()}}
+              </span>
+            </h5>
+
             <!-- record tag -->
             {% if doc.tags %}
             {% for tag in doc.tags %}
+            {% if tag %}
             <h5 class="d-inline">
-              <span class="badge badge-pill teal darken-1 z-depth-0 ml-1">
+              <span class="badge teal darken-1 z-depth-0 mr-1">
                 {{ tag.title().replace("_"," ").replace("And","and") }}
               </span>
             </h5>
-            {% endfor %}
-            {% else %}
-            {{ doc.tags }}
             {% endif %}
+            {% endfor %}
+            {% endif %}
+
+            <!-- element tags -->
             {% if doc.element_tags %}
             {% for tag in doc.element_tags %}
+            {% if tag %}
             <h5 class="d-inline">
-              <span class="badge orange darken-3 z-depth-0 ml-1">
+              <span class="badge orange darken-3 z-depth-0 mr-1">
                 {{ tag.title().replace("_"," ").replace("And","&") }}
               </span>
             </h5>
+            {% endif %}
             {% endfor %}
             {% endif %}
-            <!-- <p class="d-inline ml-1">[{{doc.meta.score}}]</p> -->
+            <p class="d-inline ml-1">[{{doc.meta.score}}]</p>
           </td>
         </tr>
 
@@ -49,20 +61,20 @@
           <!-- start date -->
           <td class="pl-3 pb-0 pt-0" style="border-top: none; text-align: left">
             <strong>Start Date: </strong> {{doc.start_date if
-              doc.start_date else " -"}}
+            doc.start_date else " -"}}
           </td>
         </tr>
-        <tr>
-          <!-- completion date -->
-          <td class="pl-3 pb-0 pt-0" style="border-top: none; text-align: left">
+        <!-- <tr> -->
+        <!-- completion date -->
+        <!-- <td class="pl-3 pb-0 pt-0" style="border-top: none; text-align: left">
             <strong>Completion Date: </strong> {{doc.actual_complete_date if
             doc.actual_complete_date else " -"}}
           </td>
-        </tr>
+        </tr> -->
 
-        <tr>
-          <!-- funding -->
-          <td class="pl-3 pb-0 pt-0" style="border-top: none; text-align: left">
+        <!-- <tr> -->
+        <!-- funding -->
+        <!-- <td class="pl-3 pb-0 pt-0" style="border-top: none; text-align: left">
             <strong>Funding: </strong>
             {% if doc.funding %}
             {{ '${:,.2f}'.format(doc.funding) }}
@@ -70,10 +82,10 @@
             {{ "-" }}
             {% endif %}
           </td>
-        </tr>
+        </tr> -->
 
         <tr>
-          <!-- status -->
+          <!-- organizations -->
           <td class="pl-3 pb-0 pt-0" style="border-top: none; text-align: left">
             <strong>Organizations: </strong>
             {% for agency in doc.funding_agencies %}
@@ -91,120 +103,249 @@
 </div>
 {% endmacro %}
 
-{% macro project_record_modal(doc) %}
-<!-- Modal -->
+
+<!-- PROJECT RECORD MODAL -->
+{% macro project_record_modal(doc, formdata) %}
 <div class="modal fade" id="{{ doc.meta.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
+  <div class="modal-dialog modal-fluid modal-notify modal-custom" role="document">
     <div class="modal-content">
+
       <div class="modal-header">
-        <h4 class="modal-title w-100" id="ModalLabel">
-          {{ doc.title }}
-        </h4>
+
+        <!-- title -->
+        <h3 class="modal-title w-100 pl-4 pr-4" id="ModalLabel">
+          {{ doc.title.title() }}
+        </h3>
+
+        <!-- close button -->
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
+
       </div>
-      <div class="modal-body p-5 font-weight-normal">
+
+      <div class="modal-body pl-5 pr-5 pb-5">
+
+        <!-- <div class="d-inline">
+          <i class="fa fa-2x fa-bookmark-o" aria-hidden="true"></i>&nbsp;
+        </div> -->
+
         <!-- record type -->
-        <h5 class="d-inline mb-0"><span class="badge primary-color-dark text-capitalize z-depth-0">{{doc.doc_type.title()}}</span></h5>
+        <h4 class="d-inline mb-0">
+          <span class="badge primary-color-dark text-capitalize z-depth-0">
+            {{doc.doc_type.title()}}
+          </span>
+        </h4>
+
         <!-- record tag -->
         {% if doc.tags %}
         {% for tag in doc.tags %}
-        <h5 class="d-inline">
-          <span class="badge badge-pill teal darken-1 z-depth-0 mr-1">
+        {% if tag %}
+        <h4 class="d-inline">
+          <span class="badge teal darken-1 z-depth-0 ml-1">
             {{ tag.title().replace("_"," ").replace("And","and") }}
           </span>
-        </h5>
-        {% endfor %}
-        {% else %}
-        {{ doc.tags }}
+        </h4>
         {% endif %}
+        {% endfor %}
+        {% endif %}
+
+        <!-- element tags -->
         {% if doc.element_tags %}
         {% for tag in doc.element_tags %}
-        <h5 class="d-inline">
+        {% if tag %}
+        <h4 class="d-inline">
           <span class="badge orange darken-3 z-depth-0 ml-1">
             {{ tag.title().replace("_"," ").replace("And","&") }}
           </span>
-        </h5>
+        </h4>
+        {% endif %}
         {% endfor %}
         {% endif %}
-        <br>
         <hr>
-        <strong>
-          Status:
-        </strong>
-        {{ doc.status }}
-        <br>
-        <h4 class="mb-2 mt-2">
-          Abstract:
-        </h4>
-        {{ doc.abstract }}
-        <br>
-        <h4 class="mb-2 mt-2">
-          Fund Amount:
-        </h4>
-        {% if doc.funding %}
-        {{ '${:,.2f}'.format(doc.funding) }}
-        {% else %}
-        {{ "-" }}
-        {% endif %}
-        <br>
-        <h4 class="mb-2 mt-2">
-          Funding Organizations:
-        </h4>
-        {% for agency in doc.funding_agencies %}
-        {{ agency['name'] }},
-        {% endfor %}
-        <br>
-        <h4 class="mb-2 mt-2">
-          Performing Agencies:
-        </h4>
-        {% for agency in doc.performing_agencies %}
-        {% if agency['name'] %}
-        {{ agency['name'] }},
-        {% endif %}
+        <div class="modal-grid-container">
+          <div class="modal-record-content">
 
-        {% endfor %}
-        <br>
-        <h4 class="mb-2 mt-2">
-          Project Managers/Investigators:
-        </h4>
-        {% for manager in doc.project_investigators %}
-        {% if manager['last_name'] %}
-        {{ manager['last_name'] }},
-        {% endif %}
-        {% endfor %}
-        <br>
-        <h4 class="mb-2 mt-2">
-          Start Date:
-        </h4>
-        {{ doc.start_date if doc.start_date else "-" }}
-        <br>
-        <h4 class="mb-2 mt-2">
-          Expexcted/Actual Completion Date:
-        </h4>
-        {{ doc.expected_complete_date if doc.expected_complete_date else "-" }} /
-        {{ doc.actual_complete_date if doc.actual_complete_date else "-" }}
-        <br>
-        <h4 class="mb-2 mt-2">
-          URLs:
-        </h4>
-        {% for url in doc.urls %}
-        <a href="{{url}}">{{url}}</a> ,
-        {% endfor %}
-        
-        <br>
+            <!-- abstract -->
+            <h3 class="mb-2 mt-2">
+              Abstract/Objectives:
+            </h3>
+            <p class="m-0">{{ doc.abstract }}</p>
+
+            <!-- project status -->
+            <h3 class="mb-2 mt-2">
+              Status:
+            </h3>
+            <p class="m-0">{{ doc.status }}</p>
+
+
+            <!-- funding -->
+            {% if doc.funding %}
+            <h3 class="mb-2 mt-2">
+              Fund Amount:
+            </h3>
+            <p class="m-0">{{ '${:,.2f}'.format(doc.funding) }}</p>
+            {% endif %}
+
+            <!-- funding organization -->
+            {% if doc.funding_agencies %}
+            <h3 class="mb-2 mt-2">
+              Funding Organizations:
+            </h3>
+            {% for agency in doc.funding_agencies %}
+            <p class="m-0">{{ agency['name'] }}</p>
+            {% endfor %}
+            {% endif %}
+
+            <!-- performing agencies -->
+            {% if doc.performing_agencies %}
+            <h3 class="mb-2 mt-2">
+              Performing Agencies:
+            </h3>
+            {% for agency in doc.performing_agencies %}
+            {% if agency['name'] %}
+            <p class="m-0">{{ agency['name'] }}</p>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+
+            <!-- project invesigators -->
+            <!-- {% if doc.project_investigators %}
+            <h4 class="mb-2 mt-2">
+              Project Managers/Investigators:
+            </h4>
+            {% endif %}
+            {% for manager in doc.project_investigators %}
+            {% if manager['last_name'] %}
+            <p>{{ manager['last_name'] }}</p>
+            {% endif %}
+            {% endfor %} -->
+
+            <!-- start date -->
+            {% if doc.start_date %}
+            <h3 class="mb-2 mt-2">
+              Start Date:
+            </h3>
+            <p class="m-0">{{ doc.start_date }}</p>
+            {% endif %}
+
+            <!-- expected/actual completion -->
+            {% if doc.expected_complete_date or doc.actual_complete_date %}
+            <h3 class="mb-2 mt-2">
+              Expexcted/Actual Completion Date:
+            </h3>
+            <p class="m-0">
+              {{ doc.expected_complete_date if doc.expected_complete_date else "-" }} /
+              {{ doc.actual_complete_date if doc.actual_complete_date else "-" }}
+            </p>
+            {% endif %}
+
+            <!-- urls -->
+            {% if doc.urls %}
+            <h3 class="mb-2 mt-2">
+              URLs:
+            </h3>
+            <p class="ellipses w-50 m-0">
+              {% for url in doc.urls %}
+              <a href="{{url}}">{{url}}</a><br>
+              {% endfor %}
+            </p>
+            {% endif %}
+          </div>
+          <div class="modal-record-options">
+            <div id="sidenav" class="content-section">
+
+              <form name="record_form" action="{{ url_for('results') }}" method="post" class="text-left white border border-light p-3">
+                <h3 class="mb-2 mt-2">LTBP Objectives</h3>
+                <p class='text-muted'>
+                  Mark documents that satisfy LTBP objectives.
+                </p>
+                <div class="custom-control custom-checkbox">
+                  {% if 'objective1' in doc.objectives %}
+                  <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective1" name="objective1" checked>
+                  {% else %}
+                  <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective1" name="objective1">
+                  {% endif %}
+                  <label class="custom-control-label" for="{{ doc.meta.id }}_objective1">
+                    <h5>Objective 1</h5>
+                  </label>
+                </div>
+                <p class='text-muted'> Advance research in deterioration and predictive modeling.</p>
+                <p>
+                <div class="custom-control custom-checkbox">
+                  {% if 'objective2' in doc.objectives %}
+                  <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective2" name="objective2" checked>
+                  {% else %}
+                  <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective2" name="objective2">
+                  {% endif %}
+                  <label class="custom-control-label" for="{{ doc.meta.id }}_objective2">
+                    <h5>Objective 2</h5>
+                  </label>
+                </div>
+                <p class='text-muted'>Advance research in cost analysis.</p>
+                <p>
+                <div class="custom-control custom-checkbox">
+                  {% if 'objective3' in doc.objectives %}
+                  <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective3" name="objective3" checked>
+                  {% else %}
+                  <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective3" name="objective3">
+                  {% endif %}
+                  <label class="custom-control-label" for="{{ doc.meta.id }}_objective3">
+                    <h5>Objective 3</h5>
+                  </label>
+                </div>
+                <p class='text-muted'>Support the development and identification of improved design methods.</p>
+                <p>
+                <div class="custom-control custom-checkbox">
+                  {% if 'objective4' in doc.objectives %}
+                  <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective4" name="objective4" checked>
+                  {% else %}
+                  <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective4" name="objective4">
+                  {% endif %}
+                  <label class="custom-control-label" for="{{ doc.meta.id }}_objective4">
+                    <h5>Objective 4</h5>
+                  </label>
+                </div>
+                <p class='text-muted'>Quantify the effectiveness and support the development of improved
+                  assessment, maintenance, preservation, repair, and rehabilitation strategies.</p>
+                <div class="form-group green-border-focus">
+                  <textarea class="form-control text-muted text-left" id="{{ doc.meta.id }}_notes" name="notes" rows="4" placeholder="Notes...">
+                    {%- set value = 'no spaces' -%}
+                    {%- if doc.notes -%}
+                    {{- doc.notes -}}
+                    {%- endif -%}
+                  </textarea>
+                </div>
+                <input type="hidden" value="{{ doc.meta.id }}" name="doc_id">
+                <input type="hidden" value="{{ doc.meta.index }}" name="index">
+                <input type="hidden" value="{{ formdata['type'] }}" name="type">
+                <input type="hidden" value="{{ formdata['query'] }}" name="query">
+                <input type="hidden" value="{{ formdata['topic'] }}" name="topic">
+                <input type="hidden" value="{{ formdata['element'] }}" name="element">
+                <input type="hidden" value="{{ formdata['status'] }}" name="status">
+                <input type="hidden" value="{{ formdata['date_range'] }}" name="dateRange">
+                <input type="hidden" value="{{ formdata['sort_by'] }}" name="sortBy">
+                <button class="btn btn-info btn-block btn-blue-grey mt-3" 
+                  type="submit" name="form" value="record">
+                  Apply
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
 {% endmacro %}
 
+
+<!-- PUBLICATION RECORD CARD -->
 {% macro publication_record(doc) %}
 <div class="card m-2 z-depth-0" style="border: 1px solid #dee2e6">
   <div class="card-body">
-    <h5 class="card-title">
+    <h5 class="card-title mb-1">
       <a data-toggle="modal" data-target="#{{ doc.meta.id }}">{{ doc.title.title().replace("And","and") }}</a>
     </h5>
     <table class="table table-borderless mb-0">
@@ -216,36 +357,41 @@
         <tr>
           <td class="p-1" style="text-align: left">
             <!-- record type -->
-            <h5 class="d-inline mb-0"><span class="badge deep-purple darken-4 text-capitalize z-depth-0">{{doc.doc_type.title()}}</span></h5> 
+            <h5 class="d-inline mb-0"><span class="badge deep-purple darken-4 text-capitalize z-depth-0">{{doc.doc_type.title()}}</span></h5>
             <!-- record tags -->
             {% if doc.tags %}
             {% for tag in doc.tags %}
+            {% if tag %}
             <h5 class="d-inline">
-              <span class="badge badge-pill teal darken-1 z-depth-0">
+              <span class="badge teal darken-1 z-depth-0">
                 {{ tag.title().replace("_"," ").replace("And","&") }}
               </span>
             </h5>
+            {% endif %}
             {% endfor %}
             {% endif %}
+            <!-- element tags -->
             {% if doc.element_tags %}
             {% for tag in doc.element_tags %}
+            {% if tag %}
             <h5 class="d-inline">
               <span class="badge orange darken-3 z-depth-0">
                 {{ tag.title().replace("_"," ").replace("And","&") }}
               </span>
             </h5>
+            {% endif %}
             {% endfor %}
             {% endif %}
-            <!-- <p class="d-inline ml-1">[{{doc.meta.score}}]</p> -->
+            <p class="d-inline ml-1">[{{doc.meta.score}}]</p>
           </td>
         </tr>
 
         <tr>
           <!-- authors -->
-          <td class="pb-0 pt-0" style="border-top: none; text-align: left">
+          <td class="pb-0 pt-1" style="border-top: none; text-align: left">
             <strong>Authors: </strong>
             {% for author in doc.authors %}
-            {{author.lastname}}, {{author.firstname}}; 
+            {{author.lastname}}, {{author.firstname}};
             {% endfor %}
           </td>
         </tr>
@@ -254,7 +400,7 @@
           <!-- publication date -->
           <td class="pb-0 pt-0" style="border-top: none; text-align: left">
             <strong>Publication Date: </strong> {{doc.publication_date if
-            doc.publication_date else "-"}}
+            doc.publication_date else "-"}} {{ doc.meta.score }}
           </td>
         </tr>
 
@@ -265,68 +411,163 @@
 </div>
 {% endmacro %}
 
-{% macro publication_record_modal(doc) %}
-<!-- Modal -->
+
+<!-- PUBLICATION RECORD MODAL -->
+{% macro publication_record_modal(doc, formdata) %}
 <div class="modal fade" id="{{ doc.meta.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
+
+  <div class="modal-dialog modal-fluid modal-notify modal-custom" role="document">
+
     <div class="modal-content">
+
       <div class="modal-header">
-        <h4 class="modal-title w-100" id="ModalLabel">
-          {{ doc.title }}
-        </h4>
+
+        <!-- title -->
+        <h3 class="modal-title w-100 pl-4 pr-4" id="ModalLabel">
+          {{ doc.title.title() }}
+        </h3>
+
+        <!-- close button -->
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
+
       </div>
-      <div class="modal-body p-5 font-weight-normal">
+
+      <div class="modal-body pl-5 pr-5 pb-5">
+
         <!-- record type -->
-        <h5 class="d-inline mb-0"><span class="badge deep-purple darken-4 text-capitalize z-depth-0">{{doc.doc_type.title()}}</span></h5> 
+        <h4 class="d-inline mb-0">
+          <span class="badge primary-color-dark text-capitalize z-depth-0">
+            {{doc.doc_type.title()}}
+          </span>
+        </h4>
+
         <!-- record tag -->
         {% if doc.tags %}
         {% for tag in doc.tags %}
-        <h5 class="d-inline">
-          <span class="badge badge-pill teal darken-1 z-depth-0 mr-1">
+        <h4 class="d-inline">
+          <span class="badge teal darken-1 z-depth-0 ml-1">
             {{ tag.title().replace("_"," ").replace("And","and") }}
           </span>
-        </h5>
+        </h4>
         {% endfor %}
         {% else %}
         {{ doc.tags }}
         {% endif %}
+
+        <!-- element tags -->
         {% if doc.element_tags %}
         {% for tag in doc.element_tags %}
-        <h5 class="d-inline">
+        <h4 class="d-inline">
           <span class="badge orange darken-3 z-depth-0 ml-1">
             {{ tag.title().replace("_"," ").replace("And","&") }}
           </span>
-        </h5>
+        </h4>
         {% endfor %}
         {% endif %}
         <br>
         <hr>
-        <h4>Authors: </h4>
-        {% for author in doc.authors %}
-        {{author.lastname}}, {{author.firstname}}; 
-        {% endfor %}
-        <br>
-        <br>
-        <h4>Publication Date: </h4> {{doc.publication_date if
-          doc.publication_date else "-"}}
-        <br>
-        <h4 class="mb-2 mt-2">
-            Abstract:
-        </h4>
-        {{ doc.abstract }}
-        <h4 class="mb-2 mt-2">
-            URLs:
-        </h4>
-        {% for url in doc.urls %}
-        <a href="{{url}}">{{url}}</a> ,
-        {% endfor %}
-        
-        <br>
+
+        <div class="modal-grid-container">
+
+          <div class="modal-record-content">
+
+            <!-- abstract -->
+            <h3 class="mb-2 mt-2">
+              Abstract:
+            </h3>
+            {{ doc.abstract }}
+
+            <!-- authors -->
+            <h3 class="mb-2 mt-2">Authors: </h3>
+            {% for author in doc.authors %}
+            {{author.lastname}}, {{author.firstname}} <br>
+            {% endfor %}
+
+            <!-- publication date -->
+            <h3 class="mb-2 mt-2">Publication Date: </h3> {{doc.publication_date if
+            doc.publication_date else "-"}}
+            <br>
+
+            <!-- urls -->
+            {% if doc.urls %}
+            <h3 class="mb-2 mt-2">
+              URLs:
+            </h3>
+            <p class="ellipses w-50 m-0">
+              {% for url in doc.urls %}
+              <a href="{{url}}">{{url}}</a><br>
+              {% endfor %}
+            </p>
+            {% endif %}
+          </div>
+
+          <div class="modal-record-options">
+            <div id="sidenav" class="content-section">
+              <form name="record_form" action="#" method="post" class="text-left white border border-light p-3">
+                <h3 class="mb-2 mt-2">LTBP Objectives</h3>
+                <p class='text-muted'>
+                  Mark documents that satisfy LTBP objectives.
+                </p>
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="objective1">
+                  <label class="custom-control-label" for="objective1">
+                    <h5>Objective 1</h5>
+                  </label>
+                </div>
+                <p class='text-muted'> Advance research in deterioration and predictive modeling.</p>
+                <p>
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="objective2">
+                    <label class="custom-control-label" for="objective2">
+                      <h5>Objective 2</h5>
+                    </label>
+                  </div>
+                  <p class='text-muted'>Advance research in cost analysis.</p>
+                  <p>
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" id="objective3">
+                      <label class="custom-control-label" for="objective3">
+                        <h5>Objective 3</h5>
+                      </label>
+                    </div>
+                    <p class='text-muted'>Support the development and identification of improved design methods.</p>
+                    <p>
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="objective4">
+                        <label class="custom-control-label" for="objective4">
+                          <h5>Objective 4</h5>
+                        </label>
+                      </div>
+                      <p class='text-muted'>Quantify the effectiveness and support the development of improved
+                        assessment, maintenance, preservation, repair, and rehabilitation strategies.</p>
+                      <div class="form-group green-border-focus">
+                        <textarea class="form-control text-muted" id="exampleFormControlTextarea6" rows="3" placeholder="Notes..."></textarea>
+                      </div>
+                      <fieldset disabled="disabled">
+                        <button class="btn btn-info btn-block btn-blue-grey mt-3" type="submit">
+                          Apply
+                        </button>
+                      </fieldset>
+
+              </form>
+              <!-- <h4 class="mb-2 mt-2">Potential Partners</h4>
+              <p class='text-muted'>
+                The following agencies may be conducting similar research.
+              </p>
+              <div class="text-left white border border-light p-3"> -->
+
+            </div>
+
+          </div>
+        </div>
+
+
       </div>
+
+      <br>
     </div>
   </div>
 </div>

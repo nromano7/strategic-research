@@ -1,0 +1,278 @@
+{% extends "layout.html" %}
+{% from "macros.html" import project_record with context %}
+{% from "macros.html" import project_record_modal with context %}
+{% from "macros.html" import publication_record with context %}
+{% from "macros.html" import publication_record_modal with context %}
+{% block content %}
+
+<main class="explore-grid-container" style="zoom: 90%">
+
+  <div class="unique-color-dark" style="grid-column: 1/end; grid-row: 1/3"></div>
+  <h1 id="heading" class="white-text mb-3">
+    {{ heading }}
+  </h1>
+
+  <div id="sidenav-results" class="content-section">
+
+    <h4>Filter Options</h4>
+
+    <p class='text-muted'>
+      Select from the following options to filter the results in the matrix.
+    </p>
+
+    <form name="filter_form" action="{{ url_for('results') }}" method="post" class="text-left white border border-light p-3">
+      <input type="hidden" value="{{ formdata['type'] }}" name="type">
+      <input type="hidden" value="{{ formdata['query'] }}" name="query">
+      <label for="topic">Topic Tags</label>
+      <select name="topic" class="browser-default custom-select form-select">
+        <option value="" disabled>Choose Option</option>
+        <option value="all">All Research Topics</option>
+        <option value="construction_quality">Construction Quality</option>
+        <option value="design_and_details">Design & Details</option>
+        <option value="material_specifications">Material Specifications</option>
+        <option value="live_load">Live Load</option>
+        <option value="environment">Environment</option>
+        <option value="maintenance_and_preservation">Maintenance & Preservation</option>
+        <option value="structural_integrity">Structural Integrity</option>
+        <option value="structural_condition">Structural Condition</option>
+        <option value="functionality">Functionality</option>
+        <option value="cost">Cost</option>
+      </select>
+      <hr>
+      <label for="element">Element Tags</label>
+      <select name="element" class="browser-default custom-select form-select">
+        <option value="" disabled>Choose Option</option>
+        <option value="all">All Bridges & Structures</option>
+        <option value="superstructure">All Superstructure</option>
+        <option value="untreated_deck">Untreated Bridge Decks</option>
+        <option value="treated_deck">Treated Bridge Decks</option>
+        <option value="joints">Joints</option>
+        <option value="bearings">Bearings</option>
+        <option value="coatings">Steel Coatings</option>
+        <option value="prestressing">Pre-stressing</option>
+      </select>
+      <hr>
+      <label>Record Type</label>
+      <div class="custom-control custom-radio">
+        <input value="projects" type="radio" onclick="enableStatus(); setSortOption('project')" class="custom-control-input"
+          id="rt2" name="index" checked>
+        <label class="custom-control-label" for="rt2">Projects</label>
+      </div>
+      <div class="custom-control custom-radio">
+        <input value="publications" type="radio" onclick="disableStatus(); setSortOption('publication')" class="custom-control-input"
+          id="rt3" name="index">
+        <label class="custom-control-label" for="rt3">Publications</label>
+      </div>
+      <hr>
+      <label for="status">Status</label>
+      <select id="status" name="status" class="browser-default custom-select form-select">
+        <option value="" disabled>Choose Option</option>
+        <option value="all" selected>All</option>
+        <option value="active">Active</option>
+        <option value="complete">Complete</option>
+        <option value="programmed">Programmed</option>
+        <option value="proposed">Proposed</option>
+      </select>
+      <hr>
+      <label>Date Range</label>
+      <div class="custom-control custom-radio">
+        <input value=1 type="radio" class="custom-control-input" id="dr1" name="dateRange" checked>
+        <label class="custom-control-label" for="dr1">1 Year</label>
+      </div>
+      <div class="custom-control custom-radio">
+        <input value=5 type="radio" class="custom-control-input" id="dr2" name="dateRange">
+        <label class="custom-control-label" for="dr2">5 Years</label>
+      </div>
+      <div class="custom-control custom-radio">
+        <input value=50 type="radio" class="custom-control-input" id="dr3" name="dateRange">
+        <label class="custom-control-label" for="dr3">10+ Years</label>
+      </div>
+      <hr>
+      <label for="sortBy">Sort By</label>
+      <select name="sortBy" class="browser-default custom-select">
+        <option value="" disabled>Choose Option</option>
+        <option value="score">Relevance</option>
+        <option value="date" selected>Start Date</option>
+        <option value="both">Relevance & Date</option>
+      </select>
+      <hr>
+      <button class="btn btn-info btn-block btn-blue-grey mt-3" type="submit" name="form" value="filters">
+        Apply
+      </button>
+    </form>
+  </div>
+
+  <div id="results-summary">
+    <h5>Showing {{ content.hits.total }} results {{ clicked }}.</h5>
+  </div>
+
+  <div id="results">
+    {% for doc in content %}
+    {% if doc.doc_type == 'project' %}
+    {{ project_record(doc) }}
+    {% else %}
+    {{ publication_record(doc) }}
+    {% endif %}
+    {% endfor %}
+  </div>
+
+  <div id="modals">
+    <!-- ATTRIBUTES MODALS -->
+    {% for doc in content %}
+    {% if doc.doc_type == 'project' %}
+    {{ project_record_modal(doc, formdata) }}
+    {% else %}
+    {{ publication_record_modal(doc, formdata) }}
+    {% endif %}
+    {% endfor %}
+  </div>
+
+
+</main>
+
+<script>
+
+  
+  // function updateModalFormData() {
+  //   document.getElementById("topic").value = ;
+  //   document.getElementById("element").submit();
+  // }
+  
+  function disableStatus() {
+    document.getElementById("status").disabled = true
+  }
+
+  function enableStatus() {
+    document.getElementById("status").disabled = false
+  }
+
+  function setSortOption(docType) {
+    if (docType == 'project') {
+      document.getElementsByName("sortBy")[0].options[2].text = "Start Date"
+    } else if (docType == 'publication') {
+      document.getElementsByName("sortBy")[0].options[2].text = "Publication Date"
+    }
+  }
+
+  function setButtonState() {
+
+    let topic = "{{ buttonStates['topic']|safe }}"
+    let element = "{{ buttonStates['element']|safe }}"
+    let docType = "{{ buttonStates['doc_type']|safe }}"
+    let status = "{{ buttonStates['status']|safe }}"
+    let dateRange = "{{ buttonStates['date_range']|safe }}"
+    let tags = "{{ buttonStates['tags']|safe }}"
+    let sortBy = "{{ buttonStates['sort_by']|safe }}"
+    let rpp = "{{ buttonStates['rpp']|safe }}"
+
+    // update 'topic' selection
+    if (topic == 'all') {
+      document.getElementsByName('topic')[0].options.selectedIndex = 1
+    } else if (topic == 'construction_quality') {
+      document.getElementsByName('topic')[0].options.selectedIndex = 2
+    } else if (topic == 'design_and_details') {
+      document.getElementsByName('topic')[0].options.selectedIndex = 3
+    } else if (topic == 'material_specifications') {
+      document.getElementsByName('topic')[0].options.selectedIndex = 4
+    } else if (topic == 'live_load') {
+      document.getElementsByName('topic')[0].options.selectedIndex = 5
+    } else if (topic == 'maintenance_and_preservation') {
+      document.getElementsByName('topic')[0].options.selectedIndex = 6
+    } else if (topic == 'structural_integrity') {
+      document.getElementsByName('topic')[0].options.selectedIndex = 7
+    } else if (topic == 'structural_condition') {
+      document.getElementsByName('topic')[0].options.selectedIndex = 8
+    } else if (topic == 'functionality') {
+      document.getElementsByName('topic')[0].options.selectedIndex = 9
+    } else if (topic == 'cost') {
+      document.getElementsByName('topic')[0].options.selectedIndex = 10
+    }
+
+
+    // update 'element' selection
+    if (element == 'all') {
+      document.getElementsByName('element')[0].options.selectedIndex = 1
+    } else if (element == 'superstructure') {
+      document.getElementsByName('element')[0].options.selectedIndex = 2
+    } else if (element == 'untreated_deck') {
+      document.getElementsByName('element')[0].options.selectedIndex = 3
+    } else if (element == 'treated_deck') {
+      document.getElementsByName('element')[0].options.selectedIndex = 4
+    } else if (element == 'joints') {
+      document.getElementsByName('element')[0].options.selectedIndex = 5
+    } else if (element == 'bearings') {
+      document.getElementsByName('element')[0].options.selectedIndex = 6
+    } else if (element == 'coatings') {
+      document.getElementsByName('element')[0].options.selectedIndex = 7
+    } else if (element == 'prestressing') {
+      document.getElementsByName('element')[0].options.selectedIndex = 8
+    }
+
+    //  update record type selection
+    if (docType == 'project') {
+      document.getElementById('rt2').checked = true
+      setSortOption(docType)
+      enableStatus()
+    } else {
+      document.getElementById('rt3').checked = true
+      setSortOption(docType)
+      disableStatus()
+    }
+
+    // update status selection
+    if (status == 'all') {
+      document.getElementsByName('status')[0].options.selectedIndex = 1
+    } else if (status == 'active') {
+      document.getElementsByName('status')[0].options.selectedIndex = 2
+    } else if (status == 'complete') {
+      document.getElementsByName('status')[0].options.selectedIndex = 3
+    } else if (status == 'programmed') {
+      document.getElementsByName('status')[0].options.selectedIndex = 4
+    } else if (status == 'proposed') {
+      document.getElementsByName('status')[0].options.selectedIndex = 5
+    }
+
+    // update date range selection
+  
+    if (dateRange == '1') {
+      document.getElementById('dr1').checked = true
+    } else if (dateRange == '5') {
+      document.getElementById('dr2').checked = true
+    } else if (dateRange == '50') {
+      document.getElementById('dr3').checked = true
+    }
+
+    // update tags selection
+
+    // update rpp selection
+    if (rpp == '5') {
+      document.getElementById('rpp1').checked = true
+    } else if (rpp == '10') {
+      document.getElementById('rpp2').checked = true
+    }
+
+    // update sort selection
+    if (sortBy == 'score') {
+      document.getElementsByName('sortBy')[0].options.selectedIndex = 1
+    } else if (sortBy == 'date') {
+      document.getElementsByName('sortBy')[0].options.selectedIndex = 2
+    } else if (sortBy == 'both') {
+      document.getElementsByName('sortBy')[0].options.selectedIndex = 3
+    }
+
+  }
+
+  setButtonState()
+
+  let page = "{{ page|safe }}"
+
+  if (page == '1') {
+    document.getElementById("leftArrow1").className = "page-item disabled mr-1"
+    document.getElementById("leftArrow2").className = "page-item disabled mr-1"
+    document.getElementById("leftArrow3").className = "page-item disabled mr-1"
+  }
+</script>
+
+
+
+{% endblock content %}

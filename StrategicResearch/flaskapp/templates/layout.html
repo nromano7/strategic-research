@@ -37,35 +37,52 @@
     <!-- <h2 class="navbar-brand mb-0" style="margin-left: 5%">
       <strong>LTBP | Strategic Research</strong>
     </h2> -->
-    <h3 class="navbar-brand mb-0" style="margin-left: 10%">LTBP | Strategic Research</h3>
+    <h3 class="navbar-brand mb-0" style="margin-left: 5%">LTBP | Strategic Research</h3>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
       aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav mr-auto">
-        {% if title %}
+      <ul class="navbar-nav mr-3">
+
+        {% if heading == 'Analyze' %}
+        <li class="nav-item active">
+            <a class="nav-link" href="{{ url_for('analyze') }}">Analyze <span class="sr-only">(current)</span></a>
+        </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('home') }}">Explore </a>
+            <a class="nav-link" href="{{ url_for('explore') }}">Explore </a>
+        </li>
+        <!-- <script>console.log('analyze')</script> -->
+        {% elif heading == 'Explore' %}
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('analyze') }}">Analyze</a>
         </li>
         <li class="nav-item active">
-            <a class="nav-link" href="{{ url_for('analysis') }}">Analyze <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="{{ url_for('explore') }}">Explore <span class="sr-only">(current)</span></a>
         </li>
+        
+        <!-- <script>console.log('explore')</script> -->
         {% else %}
-        <li class="nav-item active">
-            <a class="nav-link" href="{{ url_for('home') }}">Explore <span class="sr-only">(current)</span></a>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('analyze') }}">Analyze</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('analysis') }}">Analyze</a>
+          <a class="nav-link" href="{{ url_for('explore') }}">Explore</a>
         </li>
+        
+        <!-- <script>console.log('Search')</script> -->
         {% endif %}
         
-        <a class="nav-item nav-link disabled" href="#">
-          Search
-        </a>
+     <!-- SEARCH BAR -->
       </ul>
-      <div class="navbar-nav" style="margin-right: 10%">
+      <form target="{{ url_for('results') }}" action="{{ url_for('results') }}" method="get" class="form-inline mr-auto">
+        <input name="query" class="form-control p-1" type="text" 
+          placeholder="Search" aria-label="Search" 
+          style="width: 300px; border: none">
+      </form>
+
+      <div class="navbar-nav" style="margin-right: 5%">
         <a class="nav-item nav-link disabled mr-auto" href="#">
           <i class="fa fa-refresh" aria-hidden="true"></i> Last Updated: 2018-08-03
         </a>

@@ -1,0 +1,20 @@
+***need use case
+***slide talking about saerch engine
+    - use case is to shorten time taken for ordinary search
+
+***need analytics (talk to Abello and Sayad)
+	- x number of active projects
+	- $y spent in the previous year
+	- $z spent in the previous 5 years
+	- Top i performing agenies for this search
+	- Top j states performing this research
+	- k most common element for research topic
+	- h most common topics for element
+
+***add strategy to strategic search
+
+
+ideas:
+    - overlay charts on map
+    - functionality to allow user to dynamically add categories (from settings page?)
+	- Add "analytics boxes" over search results and in Dashboard
