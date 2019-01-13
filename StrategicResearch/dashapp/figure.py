@@ -6,13 +6,6 @@ import os
 with open("./dashapp/app/static/statesGeo.json") as f:
 	geo = json.load(f)
 
-# states geo JSON
-# def getStatesGeo():
-# 	with open('./statesGeo.json','r') as f:
-# 		geo = json.load(f)
-# 	return geo
-
-
 def project_count_map(data=None, params=None):
 
 	MAPBOX_ACCESS_TOKEN = r"pk.eyJ1IjoibnJvbWFubzciLCJhIjoiY2ppa2prYjQ2MWszczNsbnh5YnhkZTh1aSJ9.5qBV5E8g3oxlo3ZFL4n6Zw"
@@ -72,7 +65,10 @@ def project_count_map(data=None, params=None):
 		annotations=annotations,
 		hovermode="closest",
 		hoverlabel=dict(
-			bgcolor='#3E4551'
+			bgcolor='3E4551', #'3E4551'
+			font = dict(
+				size = 16
+			)
 		),
 		mapbox=dict(
 			accesstoken=MAPBOX_ACCESS_TOKEN,
@@ -122,7 +118,8 @@ def project_count_map(data=None, params=None):
 		else:
 			count = 0
 		hovertext = (f"{geo[state]['full']}<br>" +
-					 f"<a href='/analyze/results?state={state}&{params}' target='_blank'>" +
+					 f"<a href='/search?type=click_map&query={state}"\
+					 f"&index=projects&{params}' target='_blank'>" +
 					 f"Total Projects</a>: {count}")
 		text.append(hovertext)
 
@@ -174,14 +171,14 @@ def bar_chart(labels, counts, ids, params=None):
 		customdata=[id for id in ids],
 		insidetextfont=dict(
 			color="black",
-			size=15
+			size=16
 		),
 		marker=dict(color="#3F729B"),
 		outsidetextfont=dict(
 			color="black",
-			size=15
+			size=16
 		),
-		text=[f"<a href='/analyze/results?{params[i]}' target='_blank' style='color:black'>{count}</a>" for i, count in enumerate(counts)],
+		text=[f"<a href='/search?{params[i]}' target='_blank' style='color:black'>{count}</a>" for i, count in enumerate(counts)],
 		textposition="auto",
 		x=labels,
 		y=counts
@@ -199,9 +196,6 @@ def bar_chart(labels, counts, ids, params=None):
 	figure = go.Figure(data=[trace], layout=layout)
 
 	return figure
-
-
-
 
 def funding_heatmap(data=None):
 
@@ -236,7 +230,7 @@ def funding_heatmap(data=None):
 			hovertext[-1].append(
 				(f"State:  {state}<br>" +
 					f"Dollar Amount: {amount}<br>"+ 
-					f"<a href='/analyze/results?state=all&all' target='_blank'>" +
+					f"<a href='search?state=all&all' target='_blank'>" +
 					f"Project Count</a> :  {Z[yi][xi]}")
 			)
 			xx.append(xi)

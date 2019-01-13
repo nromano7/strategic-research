@@ -1,6 +1,6 @@
 .explore-grid-container {
   display: grid;
-  grid-template-columns: 10% 15% 65% 10%;
+  grid-template-columns: 5% 15% 75% 5%;
   grid-template-rows: 70px minmax(50px, 10%) 10px 30px repeat(2, minmax(400px, 10%));
   grid-gap: 5px 5px;
   margin: 0px 0px 20px 0px
@@ -8,7 +8,7 @@
 
 .analyze-grid-container {
   display: grid;
-  grid-template-columns: 10% 80% 10%;
+  grid-template-columns: 5% 90% 5%;
   grid-template-rows: 70px minmax(50px, 10%) 10px 1200px;
   grid-gap: 5px 5px;
   margin: 0px 0px 20px 0px

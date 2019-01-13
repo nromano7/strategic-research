@@ -276,13 +276,18 @@ def apply_filters(s, filters):
 
 	sort_by = filters.get('sort_by')
 	if sort_by:
-		if sort_by == 'sortBy_score':
+		if sort_by == 'score':
 			s = s.sort()
-		if sort_by == 'sortBy_date':
+		if sort_by == 'date':
 			if filters.get('doc_type') == 'project':
-				s = s.sort('-start_date')
+				s = s.sort('-start_date').extra(track_scores=True)
 			if filters.get('doc_type') == 'publication':
-				s = s.sort('-publication_date')
+				s = s.sort('-publication_date').extra(track_scores=True)
+		if sort_by == 'both':
+			if filters.get('doc_type') == 'project':
+				s = s.sort('-start_date','_score').extra(track_scores=True)
+			if filters.get('doc_type') == 'publication':
+				s = s.sort('-publication_date','_score', ).extra(track_scores=True)
 
 	return s
 

@@ -205,7 +205,9 @@ def callback_project_count(tag, element_tag):
 	queries = dict(tag=tag, element_tag=element_tag)
 	children=[
 		html.A(
-			href=f"/analyze/results?all=PRJ&cat={tag}&topic={tag}&element={element_tag}",
+			href=f"/search?type=click_count"\
+			f"&query={tag}&index=projects"\
+			f"&topic={tag}&element={element_tag}",
 			target="_blank",
 			children=[
 				"{:,d}".format(aggregate.project_count(queries=queries)['total'])
@@ -223,7 +225,9 @@ def callback_publication_count(tag, element_tag):
 	queries = dict(tag=tag, element_tag=element_tag)
 	children=[
 		html.A(
-			href=f"/analyze/results?all=PUB&cat={tag}&topic={tag}&element={element_tag}",
+			href=f"/search?type=click_count"\
+			f"&query={tag}&index=publications"\
+			f"&topic={tag}&element={element_tag}",
 			target="_blank",
 			children=[
 				"{:,d}".format(aggregate.publication_count(queries=queries))
@@ -263,7 +267,8 @@ def callback_attribute_barchart(topic_selection, element_selection):
 		counts.append(count)
 		ids.append(id)
 	# get request parameters
-	params = [f"cat={attr}&topic={topic_selection}&element={element_selection}" for attr in attributes]
+	params = [f"type=click_bar&query={attr}&index=projects&topic={topic_selection}&element={element_selection}" 
+				for attr in attributes]
 	# generate figure
 	figure = fig.bar_chart(labels=labels, counts=counts, ids=ids, params=params)
 	return figure
@@ -287,7 +292,8 @@ def callback_input_barchart(topic_selection, element_selection):
 		counts.append(count)
 		ids.append(id)
 	# get request parameters
-	params = [f"cat={i}&topic={topic_selection}&element={element_selection}" for i in inputs]
+	params = [f"type=click_bar&query={i}&index=projects&topic={topic_selection}&element={element_selection}" 
+				for i in inputs]
 	# generate figure
 	figure = fig.bar_chart(labels=labels, counts=counts, ids=ids, params=params)
 	return figure
@@ -311,7 +317,7 @@ def callback_performance_barchart(topic_selection, element_selection):
 		counts.append(count)
 		ids.append(id)
 	# get request parameters
-	params = [f"cat={perf}&topic={topic_selection}&element={element_selection}" for perf in performance]
+	params = [f"type=click_bar&query={perf}&index=projects&topic={topic_selection}&element={element_selection}" for perf in performance]
 	# generate figure
 	figure = fig.bar_chart(labels=labels, counts=counts, ids=ids, params=params)
 	return figure

@@ -69,7 +69,7 @@ class Record(Document):
     TRID_RECORD_TYPE = Text(fields={'keyword': Keyword()})
     TRID_SUBJECT_AREAS = Text(multi=True, fields={'keyword': Keyword(multi=True)})
     TRID_TRIS_FILE_CODES = Text(multi=True, fields={'keyword': Keyword(multi=True)})
-    bookmarked = Boolean(),
+    bookmarked = Boolean()
     doc_type = Text(fields={'keyword': Keyword()})
     abstract = Text(fields={'keyword': Keyword(), 
         'bigram': Text(analyzer=bigram), 
@@ -77,7 +77,7 @@ class Record(Document):
         'quadragram': Text(analyzer=quadragram),
         'pentagram': Text(analyzer=pentagram)}, analyzer=standard)
     notes = Text(fields={'keyword': Keyword()}),
-    objectives = Text(multi=True, fields={'keyword': Keyword(multi=True)}),
+    objectives = Text(multi=True, fields={'keyword': Keyword(multi=True)})
     title = Text(fields={'keyword': Keyword(), 
         'bigram': Text(analyzer=bigram), 
         'trigram': Text(analyzer=trigram),
