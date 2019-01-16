@@ -1,5 +1,5 @@
 # from StrategicResearch import TOPIC_TAGS, ELEMENT_TAGS
-from flask import render_template, request, session, url_for
+from flask import render_template, request, session, url_for, redirect
 from flaskapp import application
 from elastic import client, models, query
 from elasticsearch_dsl import Q
@@ -59,7 +59,7 @@ def explore():
 		kwargs = query.get_query_arguments(topic)
 		q = query.Query(**kwargs)
 		s = query.run_query(q.query, index=index, filters=filters)
-		s = s[:500] # pagination
+		s = s[:100] # pagination
 		r = s.execute()
 		content[topic] = r
 
@@ -83,6 +83,8 @@ def explore():
 
 @application.route("/search", methods=['GET', 'POST'])
 def results():
+
+	# print(request.base_url)
 
 	# format for front end display
 	formatstr = lambda s: s.replace("_"," ")
@@ -138,7 +140,7 @@ def results():
 		
 		index = request.form.get('index')
 		doc_id = request.form.get('doc_id')
-		print(doc_id)
+		# print(doc_id)
 		# update objectives and notes field for doc in database
 		client.update(index=index, doc_type='doc', id=doc_id,
                 body={"doc": {"objectives": objectives, "notes": notes }})
@@ -160,7 +162,7 @@ def results():
 			clicked = f'for "{formatstr(filter_element)}"'
 		elif filter_topic == 'all' and filter_element == 'all':
 		# no filters
-			clicked = f"for all topics and elements"
+			clicked = f"for all {index}"
 
 		filters = dict(
 			topic=filter_topic,
@@ -193,7 +195,7 @@ def results():
 			clicked = f'for "{formatstr(search_query)}", and "{formatstr(filter_element)}"'
 		else:
 		# no filters
-			clicked = f'for "{formatstr(search_query)}", all topics and elements'
+			clicked = f'for "{formatstr(search_query)}"'
 
 		filters = dict(
 			topic = filter_topic,
@@ -222,7 +224,7 @@ def results():
 			clicked = f'for "{search_query}", and "{formatstr(filter_element)}"'
 		elif filter_topic == 'all' and filter_element == 'all':
 		# no filters
-			clicked = f'for "{search_query}", all topics and elements'
+			clicked = f'for "{search_query}"'
 
 		filters = dict(
 			topic=filter_topic,
@@ -249,7 +251,7 @@ def results():
 			
 		s = query.run_query(q, index=index, filters=filters)
 
-	elif search_type == 'search': 
+	elif search_type == 'search' and search_query != 'None': 
 	# if a free search was requested by the user
 
 		if filter_topic != 'all' and filter_element != 'all': 
@@ -263,7 +265,7 @@ def results():
 			clicked = f'for "{search_query}", and "{formatstr(filter_element)}"'
 		elif filter_topic == 'all' and filter_element == 'all':
 		# no filters
-			clicked = f'for "{search_query}", all topics and elements'
+			clicked = f'for "{search_query}"'
 
 		filters = dict(
 			topic=filter_topic,
@@ -279,9 +281,14 @@ def results():
 			}
 		})
 		s = query.run_query(q, index=index, filters=filters)
+	else:
+		if request.referrer.split('/')[-1] == 'explore':
+			return redirect(url_for('explore'))
+
 
 	s = s[:1000] # pagination
 	r = s.execute()
+	# print(r[0].objectives)
 	
 	buttonStates=dict(
 		topic = filter_topic,

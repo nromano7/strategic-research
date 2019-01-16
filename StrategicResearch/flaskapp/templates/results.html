@@ -120,6 +120,7 @@
     <!-- ATTRIBUTES MODALS -->
     {% for doc in content %}
     {% if doc.doc_type == 'project' %}
+    <script>console.log("{{ doc.objectives | safe }}")</script>
     {{ project_record_modal(doc, formdata) }}
     {% else %}
     {{ publication_record_modal(doc, formdata) }}

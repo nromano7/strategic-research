@@ -46,7 +46,7 @@
             {% endif %}
             {% endfor %}
             {% endif %}
-            <p class="d-inline ml-1">[{{doc.meta.score}}]</p>
+            <!-- <p class="d-inline ml-1">[{{doc.meta.score}}]</p> -->
           </td>
         </tr>
 
@@ -326,10 +326,12 @@
                 <input type="hidden" value="{{ formdata['status'] }}" name="status">
                 <input type="hidden" value="{{ formdata['date_range'] }}" name="dateRange">
                 <input type="hidden" value="{{ formdata['sort_by'] }}" name="sortBy">
-                <button class="btn btn-info btn-block btn-blue-grey mt-3" 
-                  type="submit" name="form" value="record">
-                  Apply
-                </button>
+                <fieldset disabled="disabled">
+                  <button class="btn btn-info btn-block btn-blue-grey mt-3" 
+                    type="submit" name="form" value="record">
+                    Apply
+                  </button>
+                </fieldset>
               </form>
             </div>
           </div>
@@ -382,7 +384,7 @@
             {% endif %}
             {% endfor %}
             {% endif %}
-            <p class="d-inline ml-1">[{{doc.meta.score}}]</p>
+            <!-- <p class="d-inline ml-1">[{{doc.meta.score}}]</p> -->
           </td>
         </tr>
 
@@ -400,7 +402,7 @@
           <!-- publication date -->
           <td class="pb-0 pt-0" style="border-top: none; text-align: left">
             <strong>Publication Date: </strong> {{doc.publication_date if
-            doc.publication_date else "-"}} {{ doc.meta.score }}
+            doc.publication_date else "-"}} 
           </td>
         </tr>
 
