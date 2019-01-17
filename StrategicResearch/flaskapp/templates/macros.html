@@ -514,7 +514,7 @@
                   Mark documents that satisfy LTBP objectives.
                 </p>
                 <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="objective1">
+                  <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective1" name="objective1">
                   <label class="custom-control-label" for="objective1">
                     <h5>Objective 1</h5>
                   </label>
@@ -522,7 +522,7 @@
                 <p class='text-muted'> Advance research in deterioration and predictive modeling.</p>
                 <p>
                   <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="objective2">
+                    <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective2" name="objective2">
                     <label class="custom-control-label" for="objective2">
                       <h5>Objective 2</h5>
                     </label>
@@ -530,7 +530,7 @@
                   <p class='text-muted'>Advance research in cost analysis.</p>
                   <p>
                     <div class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" id="objective3">
+                      <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective3" name="objective3">
                       <label class="custom-control-label" for="objective3">
                         <h5>Objective 3</h5>
                       </label>
@@ -538,7 +538,7 @@
                     <p class='text-muted'>Support the development and identification of improved design methods.</p>
                     <p>
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="objective4">
+                        <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective4" name="objective4">
                         <label class="custom-control-label" for="objective4">
                           <h5>Objective 4</h5>
                         </label>
@@ -546,7 +546,8 @@
                       <p class='text-muted'>Quantify the effectiveness and support the development of improved
                         assessment, maintenance, preservation, repair, and rehabilitation strategies.</p>
                       <div class="form-group green-border-focus">
-                        <textarea class="form-control text-muted" id="exampleFormControlTextarea6" rows="3" placeholder="Notes..."></textarea>
+                        <textarea class="form-control text-muted" id="{{ doc.meta.id }}_notes" 
+                          rows="3" placeholder="Notes..."></textarea>
                       </div>
                       <fieldset disabled="disabled">
                         <button class="btn btn-info btn-block btn-blue-grey mt-3" type="submit">
