@@ -162,7 +162,7 @@ app.layout = html.Div(
 		html.Div(
 			id="barchart1-heading",
 			children=[
-				html.H4("Bridge Attributes",className="pl-2 pt-2 m-0 text-left"),
+				html.H4("Attributes",className="pl-2 pt-2 m-0 text-left"),
 				html.H6("(Total Records)",className="pl-2 text-left")
 			]
 		),
@@ -186,7 +186,7 @@ app.layout = html.Div(
 		html.Div(
 			id="barchart3-heading",
 			children=[
-				html.H4("Bridge Performance",className="pl-2 pt-2 m-0 text-left"),
+				html.H4("Performance",className="pl-2 pt-2 m-0 text-left"),
 				html.H6("(Total Records)",className="pl-2 text-left")
 			]
 		)
