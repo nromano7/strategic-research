@@ -1,2 +1,0 @@
-[TRIDXML_2018-06-06.xml] deteriorat* OR "service life" OR "long term performance" OR "long term bridge performance" OR ("bridge deck" AND performance)
-[bulk_20180608] (bridge OR bridges) NOT rail*, not specified subject area, all projects and publications, english only, 5 years, dateRange = recordCreated
