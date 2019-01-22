@@ -35,8 +35,6 @@ def explore():
 	date_range = request.form.get('dateRange','50')
 	sort_by = request.form.get('sortBy','date')
 	doc_type = index[:-1]
-	# doc_type = request.form.get('recordType','project')
-	# sort_by = request.form.get('sortBy','sortBy_score')
 
 	filters=dict(
 		element = filter_element,
@@ -48,12 +46,6 @@ def explore():
 
 	content = dict()
 	for topic in topics:
-
-		# specify index
-		# if doc_type == 'project':
-		# 	index = 'projects'
-		# elif doc_type == 'publication':
-		# 	index = 'publications'
 
 		# run query and process response
 		kwargs = query.get_query_arguments(topic)
@@ -74,9 +66,18 @@ def explore():
 		sort_by=sort_by
 	)
 
+	buttonStates=dict(
+		topic="None",
+		element = filter_element,
+		status = filter_status,
+		date_range = date_range,
+		sort_by = sort_by,
+		doc_type = doc_type
+	)
+
 	return render_template('explore.html', 
 							content=content, 
-							buttonStates=filters, 
+							buttonStates=buttonStates, 
 							formdata=formdata,
 							heading='Explore')
 
@@ -84,7 +85,10 @@ def explore():
 @application.route("/search", methods=['GET', 'POST'])
 def results():
 
-	# print(request.base_url)
+	print(request.referrer)
+
+	if request.referrer.split('/')[-1] == 'update':
+		return redirect(url_for('results'))
 
 	# format for front end display
 	formatstr = lambda s: s.replace("_"," ")
@@ -112,39 +116,6 @@ def results():
 		date_range = request.form.get('dateRange','50')
 		sort_by = request.form.get('sortBy','date')
 		doc_type = index[:-1]
-
-	if request.method == 'POST' and request.form['form'] == 'record':
-	# update record based on form submission
-		search_type = request.form.get('type','search')
-		search_query = request.form.get('query')
-		index = request.form.get('index','projects')
-		filter_topic = request.form.get('topic','all')
-		filter_element = request.form.get('element','all')
-		filter_status = request.form.get('status','all')
-		date_range = request.form.get('dateRange','50')
-		sort_by = request.form.get('sortBy','date')
-		doc_type = index[:-1]
-
-		objectives = []
-		notes= None
-		for key in request.form:
-			if key in {'index','doc_id'}:
-				continue
-			if 'objective' in key:
-			# store objectives 
-				objectives.append(key)
-			if 'notes' in key and request.form.get(key):
-			# store notes 
-				notes = request.form.get(key)
-				# notes = notes.strip()
-		
-		index = request.form.get('index')
-		doc_id = request.form.get('doc_id')
-		# print(doc_id)
-		# update objectives and notes field for doc in database
-		client.update(index=index, doc_type='doc', id=doc_id,
-                body={"doc": {"objectives": objectives, "notes": notes }})
-	
 	
 
 	# handle requests
@@ -275,12 +246,15 @@ def results():
 			date_range = date_range,
 			sort_by='both'
 		)
+		
 		q = Q({"multi_match" : {
 			"query" : search_query,
 			"fields" : [ "title", "abstract" ] 
 			}
 		})
+
 		s = query.run_query(q, index=index, filters=filters)
+
 	else:
 		if request.referrer.split('/')[-1] == 'explore':
 			return redirect(url_for('explore'))
@@ -318,3 +292,49 @@ def results():
 							buttonStates=buttonStates,
 							formdata=formdata)
 
+
+@application.route("/update", methods=['GET', 'POST'])
+def update():
+
+	if request.method == 'POST' and request.form['form'] == 'record':
+	# update record based on form submission
+		search_type = request.form.get('type','search')
+		search_query = request.form.get('query')
+		index = request.form.get('index','projects')
+		filter_topic = request.form.get('topic','all')
+		filter_element = request.form.get('element','all')
+		filter_status = request.form.get('status','all')
+		date_range = request.form.get('dateRange','50')
+		sort_by = request.form.get('sortBy','date')
+		doc_type = index[:-1]
+
+		objectives = []
+		notes= None
+		for key in request.form:
+			if key in {'index','doc_id'}:
+				continue
+			if 'objective' in key:
+			# store objectives 
+				objectives.append(key)
+			if 'notes' in key and request.form.get(key):
+			# store notes 
+				notes = request.form.get(key)
+				# notes = notes.strip()
+		
+		doc_id = request.form.get('doc_id')
+		# update objectives and notes field for doc in database
+		client.update(index=index, doc_type='doc', id=doc_id,
+                body={"doc": {"objectives": objectives, "notes": notes }})
+
+		args = dict(
+			type = search_type,
+			query = search_query,
+			index = index,
+			topic = filter_topic,
+			element = filter_element,
+			status = filter_status,
+			dateRange = date_range,
+			sortBy = sort_by
+		)
+
+	return redirect(url_for('results', **args))
