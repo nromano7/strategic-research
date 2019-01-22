@@ -256,7 +256,7 @@
           <div class="modal-record-options">
             <div id="sidenav" class="content-section">
 
-              <form name="record_form" action="{{ url_for('update') }}" method="post" class="text-left white border border-light p-3">
+              <form onsubmit="return false" id="{{ doc.meta.id }}_form" name="record_form" class="text-left white border border-light p-3">
                 <h3 class="mb-2 mt-2">LTBP Objectives</h3>
                 <p class='text-muted'>
                   Mark documents that satisfy LTBP objectives.
@@ -327,8 +327,8 @@
                 <input type="hidden" value="{{ formdata['date_range'] }}" name="dateRange">
                 <input type="hidden" value="{{ formdata['sort_by'] }}" name="sortBy">
                 <!-- <fieldset disabled="disabled"> -->
-                  <button class="btn btn-info btn-block btn-blue-grey mt-3" 
-                    type="submit" name="form" value="record">
+                  <button id="{{ doc.meta.id }}_submit" class="btn btn-info btn-block btn-blue-grey mt-3" 
+                    type="submit" name="form" value="record" > 
                     Apply
                   </button>
                 <!-- </fieldset> -->

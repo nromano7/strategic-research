@@ -92,11 +92,6 @@
 
   {% block content %}{% endblock %}
 
-  <!-- Custom JavaScript -->
-  {% block javascript %}
-    <script src="{{url_for('static', filename='js/main.js')}}"></script>
-  {% endblock %}
-
   <!-- JQuery -->
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <!-- <script type="text/javascript" src="../static/js/jquery-3.3.1.min.js"></script> -->
@@ -113,7 +108,12 @@
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.4/js/mdb.min.js"></script>
   <!-- <script type="text/javascript" src="../static/js/mdb.min.js"></script> -->
 
+  <!-- Custom JavaScript -->
+  {% block javascript %}
+    <script src="{{url_for('static', filename='js/main.js')}}"></script>
+  {% endblock %}
 
+  
 </body>
 
 </html>

@@ -1,5 +1,25 @@
 console.log('js loaded.')
 
+// bind click event to record form submit buttons
+$(document).ready(function() {
+    $("[id$=_submit]").click(function() {
+        let doc_id = this.id.split("_")[0]
+        var formData = $('#' + doc_id + '_form').serialize() // get form data
+        var self = $(this).html("<img src='/static/loading.gif'>"); // change button html to loading gif
+        setTimeout(function () {
+            $.post('/update', formData) // submit post request
+            .done(function(response) {
+                return false
+            }).fail(function() {
+                $('#'+doc_id+'_submit').text("{{ _('Error: Could not contact server.') }}");
+            });
+            self.html('Apply');
+        }, 1000);
+        return false;
+    })
+});
+
+
 function toggleCollapse() {
 
     var isCollapsed = (
@@ -65,16 +85,6 @@ function setSortOption(docType) {
 
 function setButtonState(buttonStates) {
 
-    console.log(buttonStates)
-
-    // let topic = "{{ buttonStates['topic']|safe }}"
-    // let element = "{{ buttonStates['element']|safe }}"
-    // let docType = "{{ buttonStates['doc_type']|safe }}"
-    // let status = "{{ buttonStates['status']|safe }}"
-    // let dateRange = "{{ buttonStates['date_range']|safe }}"
-    // let sortBy = "{{ buttonStates['sort_by']|safe }}"
-    // let rpp = "{{ buttonStates['rpp']|safe }}"
-
     let topic = buttonStates.topic
     let element = buttonStates.element
     let docType = buttonStates.doc_type
@@ -127,7 +137,6 @@ function setButtonState(buttonStates) {
     }
 
     //  update record type selection
-    console.log(docType)
     if (docType == 'project') {
         document.getElementById('rt2').checked = true
         setSortOption(docType)

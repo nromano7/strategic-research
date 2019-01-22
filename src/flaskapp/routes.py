@@ -106,7 +106,7 @@ def results():
 		doc_type = index[:-1]
 
 	if request.method == 'POST' and request.form['form'] == 'filters':
-	# update record based on form submission
+	# retrieve form submission
 		search_type = request.form.get('type','search')
 		search_query = request.form.get('query')
 		index = request.form.get('index','projects')
@@ -296,8 +296,8 @@ def results():
 @application.route("/update", methods=['GET', 'POST'])
 def update():
 
-	if request.method == 'POST' and request.form['form'] == 'record':
-	# update record based on form submission
+	if request.method == 'POST':
+	# update record from form submission
 		search_type = request.form.get('type','search')
 		search_query = request.form.get('query')
 		index = request.form.get('index','projects')
@@ -337,4 +337,4 @@ def update():
 			sortBy = sort_by
 		)
 
-	return redirect(url_for('results', **args))
+	return 'form submitted'
