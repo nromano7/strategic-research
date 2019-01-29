@@ -3,6 +3,7 @@ An application for research discovery and information management that allows the
 
 Technology Stack: Elasticsearch, Flask, Dash, Python.
 
+![screenshot](https://github.com/nromano7/strategic-research/blob/master/screenshots/poster.PNG)
 ![screenshot](https://github.com/nromano7/strategic-research/blob/master/screenshots/dashboard.PNG)
 ![screenshot](https://github.com/nromano7/strategic-research/blob/master/screenshots/search.PNG)
 ![screenshot](https://github.com/nromano7/strategic-research/blob/master/screenshots/explore.PNG)
