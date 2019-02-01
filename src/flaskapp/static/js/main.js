@@ -1,5 +1,25 @@
 console.log('js loaded.')
 
+//  bind click event to DB update button
+$(document).ready(function() {
+    $("#update-database").click(function() {
+        $("#loading-text").html('Updating local database. This could take several minutes...')
+        $("#loading").show()
+        setTimeout(function () {
+            $.post('/update_database') // submit post request
+            .done(function(response) {
+                $("#loading").hide()
+            }).fail(function() {
+                // $("#loading-spinner").hide()
+                $("#loading-text").html('Error: Could not update database.')
+                setTimeout(function () {
+                    $("#loading").hide()
+                }, 3000);
+            });
+        }, 2000);
+    })
+});
+
 // bind click event to record form submit buttons
 $(document).ready(function() {
     $("[id$=_submit]").click(function() {
@@ -7,7 +27,7 @@ $(document).ready(function() {
         var formData = $('#' + doc_id + '_form').serialize() // get form data
         var self = $(this).html("<img src='/static/loading.gif'>"); // change button html to loading gif
         setTimeout(function () {
-            $.post('/update', formData) // submit post request
+            $.post('/update_record', formData) // submit post request
             .done(function(response) {
                 return false
             }).fail(function() {

@@ -294,7 +294,7 @@ def results():
 
 
 @application.route("/update", methods=['GET', 'POST'])
-def update():
+def update_record():
 
 	if request.method == 'POST':
 	# update record from form submission
