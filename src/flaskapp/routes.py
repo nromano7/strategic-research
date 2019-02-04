@@ -1,10 +1,12 @@
-# from StrategicResearch import TOPIC_TAGS, ELEMENT_TAGS
 from flask import render_template, request, session, url_for, redirect
 from flaskapp import application
-from elastic import client, models, query
+from elastic import client, models, query, index, PROJECT_FILES_PATH, PUB_FILES_PATH
 from elasticsearch_dsl import Q
 from dashapp.dashapp import app as dashapp
 import json
+from webscrapper import trid_get as webscrapper
+import shutil
+import os
 
 topics = [
 	'construction_quality','design_and_details','material_specifications',
@@ -12,6 +14,11 @@ topics = [
 	'structural_integrity', 'structural_condition', 'functionality', 'cost'
 ]
 formatted_topic={t:t.title().replace("_"," ").replace("And","&") for t in topics}
+
+element_tags = [
+	'superstructure', 'untreated_deck', 'treated_deck', 'joints', 
+	'bearings', 'coatings', 'prestressing'
+]
 
 @application.route("/")
 @application.route("/analyze")
@@ -293,8 +300,8 @@ def results():
 							formdata=formdata)
 
 
-@application.route("/update", methods=['GET', 'POST'])
-def update_record():
+@application.route("/update/record/annotate", methods=['GET', 'POST'])
+def annotate():
 
 	if request.method == 'POST':
 	# update record from form submission
@@ -338,3 +345,37 @@ def update_record():
 		)
 
 	return 'form submitted'
+
+@application.route("/update/record/bookmark", methods=['GET', 'POST'])
+def bookmark():
+
+	index = request.form.get('index','projects')
+	doc_id = request.form.get('doc_id')
+	marked = request.form.get('marked')
+	# update objectives and notes field for doc in database
+	client.update(index=index, 
+			doc_type='doc', 
+			id=doc_id,
+			body={"doc": {"bookmarked":marked}})
+
+	return 'doc updated'
+
+
+@application.route("/update/database", methods=['GET', 'POST'])
+def update_database():
+
+	# scrape TRID site
+	webscrapper.scrape_trid()
+
+	# index documents
+	index.index_documents("projects", PROJECT_FILES_PATH)
+	index.tag_documents("projects", topics, element_tags)
+	index.index_documents("publications", PUB_FILES_PATH)
+	index.tag_documents("publications", topics, element_tags)
+
+	# delete temporary downloads directory
+	DOWNLOADS_DIRECTORY = os.getcwd() + r'\data'
+	shutil.rmtree(DOWNLOADS_DIRECTORY)
+
+
+	return "database updated"

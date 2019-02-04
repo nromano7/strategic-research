@@ -1,38 +1,72 @@
 console.log('js loaded.')
 
+// bind click event to bookmark buttons
+$(document).ready(function () {
+    $("[id$=_bookmark_btn]").click(function () {
+        let doc_id = this.id.split("_")[0]
+        let marked = $(this).hasClass('unmarked')
+        if (marked) {
+            // document was bookmarked
+            $("#" + doc_id + "_bookmark_icon").attr('class', 'fa fa-bookmark fa-lg pr-1');
+            $("#" + doc_id + "_bookmark_text").html('Marked');
+            $(this).addClass('marked').removeClass('unmarked');
+            $("#" + doc_id + "_modal_bookmark_icon").attr('class', 'fa fa-bookmark fa-lg pr-1');
+            $("#" + doc_id + "_modal_bookmark_text").html('Marked');
+            $("#" + doc_id + "_modal_bookmark_btn").addClass('marked').removeClass('unmarked');
+        } else {
+            //  document was unmarked
+            $("#" + doc_id + "_bookmark_icon").attr('class', 'fa fa-bookmark-o fa-lg pr-1');
+            $("#" + doc_id + "_bookmark_text").html('Bookmark');
+            $(this).addClass('unmarked').removeClass('marked');
+            $("#" + doc_id + "_modal_bookmark_icon").attr('class', 'fa fa-bookmark-o fa-lg pr-1');
+            $("#" + doc_id + "_modal_bookmark_text").html('Bookmark');
+            $("#" + doc_id + "_modal_bookmark_btn").addClass('unmarked').removeClass('marked');
+        }
+        $.post('/update/record/bookmark', {'doc_id':doc_id, 'index':this.value, 'marked':marked}) // submit post request
+        .done(function(response) {
+            return false
+        }).fail(function() {
+            alert('Failed to bookmark document')
+        });
+    })
+});
+
 //  bind click event to DB update button
-$(document).ready(function() {
-    $("#update-database").click(function() {
+$(document).ready(function () {
+    $("#update-database").click(function () {
         $("#loading-text").html('Updating local database. This could take several minutes...')
         $("#loading").show()
         setTimeout(function () {
-            $.post('/update_database') // submit post request
-            .done(function(response) {
-                $("#loading").hide()
-            }).fail(function() {
-                // $("#loading-spinner").hide()
-                $("#loading-text").html('Error: Could not update database.')
-                setTimeout(function () {
-                    $("#loading").hide()
-                }, 3000);
-            });
+            $.post('/update/database') // submit post request
+                .done(function (response) {
+                    $("#loading-text").html('Success!')
+                    setTimeout(function () {
+                        $("#loading").hide()
+                    }, 5000);
+                }).fail(function () {
+                    // $("#loading-spinner").hide()
+                    $("#loading-text").html('Error: Could not update database.')
+                    setTimeout(function () {
+                        $("#loading").hide()
+                    }, 3000);
+                });
         }, 2000);
     })
 });
 
 // bind click event to record form submit buttons
-$(document).ready(function() {
-    $("[id$=_submit]").click(function() {
+$(document).ready(function () {
+    $("[id$=_submit]").click(function () {
         let doc_id = this.id.split("_")[0]
         var formData = $('#' + doc_id + '_form').serialize() // get form data
         var self = $(this).html("<img src='/static/loading.gif'>"); // change button html to loading gif
         setTimeout(function () {
-            $.post('/update_record', formData) // submit post request
-            .done(function(response) {
-                return false
-            }).fail(function() {
-                $('#'+doc_id+'_submit').text("{{ _('Error: Could not contact server.') }}");
-            });
+            $.post('/update/record/annotate', formData) // submit post request
+                .done(function (response) {
+                    return false
+                }).fail(function () {
+                    $('#' + doc_id + '_submit').text("{{ _('Error: Could not contact server.') }}");
+                });
             self.html('Apply');
         }, 1000);
         return false;

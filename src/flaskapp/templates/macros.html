@@ -1,11 +1,31 @@
 <!-- PROJECT RECORD CARD -->
 {% macro project_record(doc) %}
-<div class="card m-2 z-depth-0" style="border: 1px solid #dee2e6">
+<div class="card m-2 z-depth-1" style="border: 1px solid #dee2e6">
   <div class="card-body">
-    <h5 class="card-title mb-1">
-      <a data-toggle="modal" data-target="#{{ doc.meta.id }}">{{ doc.title }}</a>
-      <!-- onclick="$('#{{ doc.meta.id }}').modal({'backdrop': 'static'});" -->
-    </h5>
+    <div class="card-title d-inline">
+      <h5 class="mb-1">
+        <a class="mr-5" data-toggle="modal" data-target="#{{ doc.meta.id }}">{{ doc.title }}</a>
+        {% if doc.bookmarked == True %}
+        <button id="{{ doc.meta.id }}_bookmark_btn" type="button" value="{{ doc.meta.index }}"
+          class="btn btn-sm d-inline mb-1 mt-0 float-right p-1 pl-2 pr-2 waves-effect red darken-4 marked">
+          <i id="{{ doc.meta.id }}_bookmark_icon" class="fa fa-bookmark fa-lg pr-1" aria-hidden="true"></i>
+            <div id="{{ doc.meta.id }}_bookmark_text" class="d-inline">
+                Marked
+            </div>
+        </button>
+        {% else %}
+        <button id="{{ doc.meta.id }}_bookmark_btn" type="button" value="{{ doc.meta.index }}"
+          class="btn btn-sm d-inline mb-1 mt-0 float-right p-1 pl-2 pr-2 waves-effect red darken-4 unmarked">
+          <i id="{{ doc.meta.id }}_bookmark_icon" class="fa fa-bookmark-o fa-lg pr-1" aria-hidden="true"></i>
+            <div id="{{ doc.meta.id }}_bookmark_text" class="d-inline">
+                Bookmark
+            </div>
+        </button>
+        {% endif %}
+            
+      </h5>
+
+    </div>
     <table class="table table-borderless mb-0">
       <tbody class="card-text">
 
@@ -163,6 +183,25 @@
         {% endif %}
         {% endfor %}
         {% endif %}
+        <div class="d-inline">
+            {% if doc.bookmarked %}
+            <button id="{{ doc.meta.id }}_modal_bookmark_btn" type="button" 
+              class="btn btn mt-1 float-right waves-effect red darken-4 p-1 pl-2 pr-2 marked">
+                <i id="{{ doc.meta.id }}_modal_bookmark_icon" class="fa fa-bookmark fa-lg pr-1" aria-hidden="true"></i>
+                <div id="{{ doc.meta.id }}_modal_bookmark_text" class="d-inline">
+                    Marked
+                </div>
+            </button>
+            {% else %}
+            <button id="{{ doc.meta.id }}_modal_bookmark_btn" type="button" 
+              class="btn btn mt-1 float-right waves-effect red darken-4 p-1 pl-2 pr-2 unmarked">
+                <i id="{{ doc.meta.id }}_modal_bookmark_icon" class="fa fa-bookmark-o fa-lg pr-1" aria-hidden="true"></i>
+                <div id="{{ doc.meta.id }}_modal_bookmark_text" class="d-inline">
+                    Bookmark
+                </div>
+            </button>
+            {% endif %}
+        </div>
         <hr>
         <div class="modal-grid-container">
           <div class="modal-record-content">
@@ -263,7 +302,8 @@
                 </p>
                 <div class="custom-control custom-checkbox">
                   {% if 'objective1' in doc.objectives %}
-                  <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective1" name="objective1" checked>
+                  <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective1" name="objective1"
+                    checked>
                   {% else %}
                   <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective1" name="objective1">
                   {% endif %}
@@ -273,65 +313,69 @@
                 </div>
                 <p class='text-muted'> Advance research in deterioration and predictive modeling.</p>
                 <p>
-                <div class="custom-control custom-checkbox">
-                  {% if 'objective2' in doc.objectives %}
-                  <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective2" name="objective2" checked>
-                  {% else %}
-                  <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective2" name="objective2">
-                  {% endif %}
-                  <label class="custom-control-label" for="{{ doc.meta.id }}_objective2">
-                    <h5>Objective 2</h5>
-                  </label>
-                </div>
-                <p class='text-muted'>Advance research in cost analysis.</p>
-                <p>
-                <div class="custom-control custom-checkbox">
-                  {% if 'objective3' in doc.objectives %}
-                  <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective3" name="objective3" checked>
-                  {% else %}
-                  <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective3" name="objective3">
-                  {% endif %}
-                  <label class="custom-control-label" for="{{ doc.meta.id }}_objective3">
-                    <h5>Objective 3</h5>
-                  </label>
-                </div>
-                <p class='text-muted'>Support the development and identification of improved design methods.</p>
-                <p>
-                <div class="custom-control custom-checkbox">
-                  {% if 'objective4' in doc.objectives %}
-                  <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective4" name="objective4" checked>
-                  {% else %}
-                  <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective4" name="objective4">
-                  {% endif %}
-                  <label class="custom-control-label" for="{{ doc.meta.id }}_objective4">
-                    <h5>Objective 4</h5>
-                  </label>
-                </div>
-                <p class='text-muted'>Quantify the effectiveness and support the development of improved
-                  assessment, maintenance, preservation, repair, and rehabilitation strategies.</p>
-                <div class="form-group green-border-focus">
-                  <textarea class="form-control text-muted text-left" id="{{ doc.meta.id }}_notes" name="notes" rows="4" placeholder="Notes...">
+                  <div class="custom-control custom-checkbox">
+                    {% if 'objective2' in doc.objectives %}
+                    <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective2" name="objective2"
+                      checked>
+                    {% else %}
+                    <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective2" name="objective2">
+                    {% endif %}
+                    <label class="custom-control-label" for="{{ doc.meta.id }}_objective2">
+                      <h5>Objective 2</h5>
+                    </label>
+                  </div>
+                  <p class='text-muted'>Advance research in cost analysis.</p>
+                  <p>
+                    <div class="custom-control custom-checkbox">
+                      {% if 'objective3' in doc.objectives %}
+                      <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective3" name="objective3"
+                        checked>
+                      {% else %}
+                      <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective3" name="objective3">
+                      {% endif %}
+                      <label class="custom-control-label" for="{{ doc.meta.id }}_objective3">
+                        <h5>Objective 3</h5>
+                      </label>
+                    </div>
+                    <p class='text-muted'>Support the development and identification of improved design methods.</p>
+                    <p>
+                      <div class="custom-control custom-checkbox">
+                        {% if 'objective4' in doc.objectives %}
+                        <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective4" name="objective4"
+                          checked>
+                        {% else %}
+                        <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective4" name="objective4">
+                        {% endif %}
+                        <label class="custom-control-label" for="{{ doc.meta.id }}_objective4">
+                          <h5>Objective 4</h5>
+                        </label>
+                      </div>
+                      <p class='text-muted'>Quantify the effectiveness and support the development of improved
+                        assessment, maintenance, preservation, repair, and rehabilitation strategies.</p>
+                      <div class="form-group green-border-focus">
+                        <textarea class="form-control text-muted text-left" id="{{ doc.meta.id }}_notes" name="notes"
+                          rows="4" placeholder="Notes...">
                     {%- set value = 'no spaces' -%}
                     {%- if doc.notes -%}
                     {{- doc.notes -}}
                     {%- endif -%}
                   </textarea>
-                </div>
-                <input type="hidden" value="{{ doc.meta.id }}" name="doc_id">
-                <input type="hidden" value="{{ doc.meta.index }}" name="index">
-                <input type="hidden" value="{{ formdata['type'] }}" name="type">
-                <input type="hidden" value="{{ formdata['query'] }}" name="query">
-                <input type="hidden" value="{{ formdata['topic'] }}" name="topic">
-                <input type="hidden" value="{{ formdata['element'] }}" name="element">
-                <input type="hidden" value="{{ formdata['status'] }}" name="status">
-                <input type="hidden" value="{{ formdata['date_range'] }}" name="dateRange">
-                <input type="hidden" value="{{ formdata['sort_by'] }}" name="sortBy">
-                <!-- <fieldset disabled="disabled"> -->
-                  <button id="{{ doc.meta.id }}_submit" class="btn btn-info btn-block btn-blue-grey mt-3" 
-                    type="submit" name="form" value="record" > 
-                    Apply
-                  </button>
-                <!-- </fieldset> -->
+                      </div>
+                      <input type="hidden" value="{{ doc.meta.id }}" name="doc_id">
+                      <input type="hidden" value="{{ doc.meta.index }}" name="index">
+                      <input type="hidden" value="{{ formdata['type'] }}" name="type">
+                      <input type="hidden" value="{{ formdata['query'] }}" name="query">
+                      <input type="hidden" value="{{ formdata['topic'] }}" name="topic">
+                      <input type="hidden" value="{{ formdata['element'] }}" name="element">
+                      <input type="hidden" value="{{ formdata['status'] }}" name="status">
+                      <input type="hidden" value="{{ formdata['date_range'] }}" name="dateRange">
+                      <input type="hidden" value="{{ formdata['sort_by'] }}" name="sortBy">
+                      <!-- <fieldset disabled="disabled"> -->
+                      <button id="{{ doc.meta.id }}_submit" class="btn btn-info btn-block btn-blue-grey mt-3" type="submit"
+                        name="form" value="record">
+                        Apply
+                      </button>
+                      <!-- </fieldset> -->
               </form>
             </div>
           </div>
@@ -402,7 +446,7 @@
           <!-- publication date -->
           <td class="pb-0 pt-0" style="border-top: none; text-align: left">
             <strong>Publication Date: </strong> {{doc.publication_date if
-            doc.publication_date else "-"}} 
+            doc.publication_date else "-"}}
           </td>
         </tr>
 
@@ -546,8 +590,7 @@
                       <p class='text-muted'>Quantify the effectiveness and support the development of improved
                         assessment, maintenance, preservation, repair, and rehabilitation strategies.</p>
                       <div class="form-group green-border-focus">
-                        <textarea class="form-control text-muted" id="{{ doc.meta.id }}_notes" 
-                          rows="3" placeholder="Notes..."></textarea>
+                        <textarea class="form-control text-muted" id="{{ doc.meta.id }}_notes" rows="3" placeholder="Notes..."></textarea>
                       </div>
                       <fieldset disabled="disabled">
                         <button class="btn btn-info btn-block btn-blue-grey mt-3" type="submit">

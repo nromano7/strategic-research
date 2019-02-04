@@ -235,13 +235,13 @@ def xml2json(XML_PATH, JSON_PATH):
         pub_date = datetime(pub_date[0], pub_date[1], pub_date[2]).isoformat()[0:10] if pub_date else None
         record['publication_date'] = pub_date
 
-        with open(path.join(JSON_PATH, f'publications/TRID_{rec.attrib["id"]}.json'), 'w') as f:
+        with open(path.join(JSON_PATH, f'publications/TRID_{rec.attrib["id"]}.json'), 'w', encoding="utf-8") as f:
           json.dump(record, f)
 
         print(f'[publication xml2json doc:{rec.attrib["id"]}] : Complete')
 
 
-XML_PATH = r"C:\Users\nickp\OneDrive\Documents\work\projects\ltbp\strategic-research\data-files\20180803\xml\publications"
-JSON_PATH = r"C:\Users\nickp\OneDrive\Documents\work\projects\ltbp\strategic-research\data-files\20180803\json"
+# XML_PATH = r"C:\Users\nickp\OneDrive\Documents\work\projects\ltbp\strategic-research\data-files\20180803\xml\publications"
+# JSON_PATH = r"C:\Users\nickp\OneDrive\Documents\work\projects\ltbp\strategic-research\data-files\20180803\json"
 
-xml2json(XML_PATH, JSON_PATH)
+# xml2json(XML_PATH, JSON_PATH)

@@ -147,7 +147,7 @@
 }
 
 #results {
-  height: 110vh;
+  height: 95vh;
   /* percent relative to viewport height */
   width: 100%;
   float: left;

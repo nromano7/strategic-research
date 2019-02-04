@@ -22,7 +22,7 @@ class ChromeDriver:
   CHROME_OPTIONS = Options
   WAITS = {'download_complete': download_complete}
 
-  def __init__(self, headless=False, prompt_for_download = False, download_directory = None):
+  def __init__(self, headless=True, prompt_for_download = False, download_directory = None):
     self.headless = headless
     self.prompt_for_download = prompt_for_download
     self.download_directory = download_directory
@@ -30,6 +30,7 @@ class ChromeDriver:
 
     # initialize chrome options
     self.options = self.CHROME_OPTIONS()
+    # self.set_headless(headless)
     self.set_preferences()
 
   def execute(self, commands):

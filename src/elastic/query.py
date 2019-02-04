@@ -8,7 +8,6 @@ class Query(object):
 	The Query class construts and returns an Elasticsearch
 	query object.
 
-
 	"""
 	def __init__(self, must_match=[], 
 		should_match=[], must_not_match=[]):
@@ -364,18 +363,7 @@ def process_search_response(s, first=0, last=10):
 	return ids, hits
 
 
-# filters = dict(
-# 	status='all'
-# )
-# kwargs = get_query_arguments("construction_quality")
-# q = Query(**kwargs)
-# print(q)
-# s = run_query(q.query, index="projects")
-# print()
-# print(s.count())
-# hits, response = process_search_response(s, last=s.count())
-# print()
-# print(json.dumps(response[:5], indent=2))
+
 
 
 

@@ -1,11 +1,15 @@
 # import sys
-# import os
-# sys.path.append(os.getcwd())
-
+from datetime import datetime
+import os
 from elasticsearch import Elasticsearch
 
-# AWS_EP = "https://search-strategic-research-67yfnme5nbl3c45vigirwnko4q.us-east-2.es.amazonaws.com"
+now = datetime.now()
+year, month, day = now.year, now.month, now.day
+
 client = Elasticsearch()
 
-PROJECT_FILES_PATH = r"C:\Users\nickp\OneDrive\Documents\work\projects\ltbp\strategic-research\data-files\20180803\json\projects"
-PUB_FILES_PATH = r"C:\Users\nickp\OneDrive\Documents\work\projects\ltbp\strategic-research\data-files\20180803\json\publications"
+# PROJECT_FILES_PATH = r"C:\Users\nickp\OneDrive\Documents\work\projects\ltbp\strategic-research\data-files\20180803\json\projects"
+# PUB_FILES_PATH = r"C:\Users\nickp\OneDrive\Documents\work\projects\ltbp\strategic-research\data-files\20180803\json\publications"
+
+PROJECT_FILES_PATH = os.getcwd() + f"/data/{year:04}{month:02}{day:02}/json/projects"
+PUB_FILES_PATH = os.getcwd() + f"/data/{year:04}{month:02}{day:02}/json/publications"

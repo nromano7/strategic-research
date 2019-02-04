@@ -1,4 +1,3 @@
-# from .. import TOPIC_TAGS, ELEMENT_TAGS
 import sys
 import os
 print(os.getcwd())
@@ -27,6 +26,8 @@ index_documents():
 tag_documents():
 	function that tags documents within the provided
 	index for a given set of terms.
+
+python -m elastic.index
 
 """
 
@@ -73,8 +74,6 @@ def index_documents(index_name, path_to_json_files,
 	path_to_json_files:
 		path to raw json files to be inserted 
 		into the provided index
-	
-
 	"""
 
 	if index_name not in ['projects', 'publications']:
@@ -94,13 +93,16 @@ def index_documents(index_name, path_to_json_files,
 		id = file.split('_')[1].split('.')[0]
 		json_file_path = os.path.join(path_to_json_files, file)
 
-		# for each json file open and index into Elasticsearch
-		with open(json_file_path, 'r') as f:
-			doc = json.load(f)
-			res = client.index(index=index_name, 
-				doc_type=DOC_TYPE, id=id, body=doc)
-			if verbose:
-				print(f'[{index_name} doc:{id}] {res["result"]}')
+		# check if document already exists
+		if not client.exists(index=index_name, doc_type=DOC_TYPE, id=id,):
+
+			# for each json file open and index into Elasticsearch
+			with open(json_file_path, 'r') as f:
+				doc = json.load(f)
+				res = client.index(index=index_name, 
+					doc_type=DOC_TYPE, id=id, body=doc)
+				if verbose:
+					print(f'[{index_name} doc:{id}] {res["result"]}')
 	
 	
 def tag_documents(index_name, topic_tags, element_tags):
@@ -209,6 +211,9 @@ if __name__ == '__main__':
 		'superstructure', 'untreated_deck', 'treated_deck', 'joints', 
 		'bearings', 'coatings', 'prestressing'
 	]
+
+	PROJECT_FILES_PATH = r"C:\Users\nickp\OneDrive\Documents\work\projects\ltbp\strategic-research\data-files\20180803\json\projects"
+	PUB_FILES_PATH = r"C:\Users\nickp\OneDrive\Documents\work\projects\ltbp\strategic-research\data-files\20180803\json\publications"
 
 	create_index("projects")
 	index_documents("projects", PROJECT_FILES_PATH)
