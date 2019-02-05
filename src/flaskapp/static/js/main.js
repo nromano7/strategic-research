@@ -23,10 +23,10 @@ $(document).ready(function () {
             $("#" + doc_id + "_modal_bookmark_btn").addClass('unmarked').removeClass('marked');
         }
         $.post('/update/record/bookmark', {'doc_id':doc_id, 'index':this.value, 'marked':marked}) // submit post request
-        .done(function(response) {
+        .done(function() {
             return false
         }).fail(function() {
-            alert('Failed to bookmark document')
+            alert('Failed to bookmark record.')
         });
     })
 });
@@ -65,7 +65,7 @@ $(document).ready(function () {
                 .done(function (response) {
                     return false
                 }).fail(function () {
-                    $('#' + doc_id + '_submit').text("{{ _('Error: Could not contact server.') }}");
+                    alert('Failed to apply changes.')
                 });
             self.html('Apply');
         }, 1000);

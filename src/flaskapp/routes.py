@@ -92,8 +92,6 @@ def explore():
 @application.route("/search", methods=['GET', 'POST'])
 def results():
 
-	print(request.referrer)
-
 	if request.referrer.split('/')[-1] == 'update':
 		return redirect(url_for('results'))
 
@@ -348,7 +346,7 @@ def annotate():
 
 @application.route("/update/record/bookmark", methods=['GET', 'POST'])
 def bookmark():
-
+	
 	index = request.form.get('index','projects')
 	doc_id = request.form.get('doc_id')
 	marked = request.form.get('marked')
