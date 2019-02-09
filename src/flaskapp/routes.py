@@ -344,6 +344,7 @@ def annotate():
 
 	return 'form submitted'
 
+
 @application.route("/update/record/bookmark", methods=['GET', 'POST'])
 def bookmark():
 	

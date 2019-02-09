@@ -56,7 +56,7 @@ def scrape_trid():
       )
 
   with Watcher(DOWNLOADS_FOLDER, log_filepath=LOGFILE_PATH):
-    with ChromeDriver(**kwargs) as driver:
+    with ChromeDriver(download_directory = DOWNLOADS_FOLDER) as driver:
       
       driver.open(URL)
       count = 0
