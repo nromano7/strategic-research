@@ -1,6 +1,7 @@
+import datetime
 from flask import render_template, request, session, url_for, redirect
 from flaskapp import application
-from elastic import client, models, query, index, PROJECT_FILES_PATH, PUB_FILES_PATH
+from elastic import client, models, query, index#, PROJECT_FILES_PATH, PUB_FILES_PATH
 from elasticsearch_dsl import Q
 from dashapp.dashapp import app as dashapp
 import json
@@ -24,9 +25,11 @@ element_tags = [
 @application.route("/analyze")
 def analyze():
 	# return "Analysis"
+	last_update = client.get(index='appdata', doc_type='doc', id=1)['_source']['last_update']
 	return render_template('analyze.html', 
 							title='Dashboard', 
-							heading='Analyze')
+							heading='Analyze',
+							last_update=last_update)
 
 
 @application.route("/explore", methods=['GET', 'POST'])
@@ -82,11 +85,13 @@ def explore():
 		doc_type = doc_type
 	)
 
+	last_update = client.get(index='appdata', doc_type='doc', id=1)['_source']['last_update']
 	return render_template('explore.html', 
 							content=content, 
 							buttonStates=buttonStates, 
 							formdata=formdata,
-							heading='Explore')
+							heading='Explore',
+							last_update=last_update)
 
 
 @application.route("/search", methods=['GET', 'POST'])
@@ -289,13 +294,15 @@ def results():
 		sort_by=sort_by
 	) 
 	
+	last_update = client.get(index='appdata', doc_type='doc', id=1)['_source']['last_update']
 	return render_template('results.html', 
 							title='Results', 
 							heading=f'Search Results',
 							content=r, 
 							clicked=clicked,
 							buttonStates=buttonStates,
-							formdata=formdata)
+							formdata=formdata,
+							last_update=last_update)
 
 
 @application.route("/update/record/annotate", methods=['GET', 'POST'])
@@ -363,8 +370,31 @@ def bookmark():
 @application.route("/update/database", methods=['GET', 'POST'])
 def update_database():
 
+	now = datetime.datetime.now()
+	year, month, day = now.year, now.month, now.day
+
+	# create temporary directory for downloading files
+	CWD = os.getcwd()
+	TMP_DIRECTORY = os.path.join(CWD, r'.tmp')
+	DOWNLOADS_FOLDER = os.path.join(TMP_DIRECTORY,f"{year:04}{month:02}{day:02}")
+	XML_PATH = os.path.join(DOWNLOADS_FOLDER, "xml")
+	JSON_PATH = os.path.join(DOWNLOADS_FOLDER, "json")
+	PROJECT_FILES_PATH = os.path.join(JSON_PATH,"projects")
+	PUB_FILES_PATH = os.path.join(JSON_PATH,"publications")
+
+	try:
+		shutil.rmtree(TMP_DIRECTORY)
+	except:
+		pass
+
+	os.makedirs(DOWNLOADS_FOLDER)
+	os.makedirs(XML_PATH)
+	os.makedirs(JSON_PATH)
+	os.makedirs(PROJECT_FILES_PATH)
+	os.makedirs(PUB_FILES_PATH)
+
 	# scrape TRID site
-	webscrapper.scrape_trid()
+	webscrapper.scrape_trid(TMP_DIRECTORY, DOWNLOADS_FOLDER)
 
 	# index documents
 	index.index_documents("projects", PROJECT_FILES_PATH)
@@ -373,8 +403,10 @@ def update_database():
 	index.tag_documents("publications", topics, element_tags)
 
 	# delete temporary downloads directory
-	DOWNLOADS_DIRECTORY = os.getcwd() + r'\data'
-	shutil.rmtree(DOWNLOADS_DIRECTORY)
+	shutil.rmtree(TMP_DIRECTORY)
 
+	# update appData index
+	today = str(datetime.date.today())
+	client.update(index='appdata', doc_type='doc', id=1, body={'doc':{'last_update':today}})
 
 	return "database updated"

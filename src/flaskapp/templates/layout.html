@@ -23,9 +23,9 @@
   <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/main.css')}}">
 
   {% if title %}
-  <title>Strategic (Re)Search - {{ title }}</title>
+  <title>Strategic Research - {{ title }}</title>
   {% else %}
-  <title>Strategic (Re)Search</title>
+  <title>Strategic Research</title>
   {% endif %}
 
 </head>
@@ -102,7 +102,7 @@
               Update
             </a>
             <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-              <div class="dropdown-item disabled">Last Updated: 2019-01-03</div>
+              <div id="last_update" class="dropdown-item disabled">Last Updated: {{ last_update }}</div>
               <div class="dropdown-divider"></div>
               <a id="update-database" class="dropdown-item text-center">Update Database</a>
             </div>

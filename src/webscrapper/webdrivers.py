@@ -2,6 +2,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 
+
 def download_complete(driver):
   last_url = driver.current_url
   if not driver.current_url.startswith("chrome://downloads"):
@@ -18,7 +19,7 @@ def download_complete(driver):
 class ChromeDriver:
 
   CHROME_DRIVER = webdriver.Chrome
-  CHROME_DRIVER_EXECUTABLE = r"C:\Program Files (x86)\Chromedriver\chromedriver.exe"
+  # CHROME_DRIVER_EXECUTABLE = r"\webscrapper\chromedriver\chromedriver.exe"
   CHROME_OPTIONS = Options
   WAITS = {'download_complete': download_complete}
 
@@ -29,7 +30,13 @@ class ChromeDriver:
     self.is_active = False
 
     # initialize chrome options
-    self.options = self.CHROME_OPTIONS()
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--window-size=1420,1080')
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--disable-gpu')
+    self.options = chrome_options
+    # self.options = self.CHROME_OPTIONS()
     # self.set_headless(headless)
     self.set_preferences()
 
@@ -45,7 +52,7 @@ class ChromeDriver:
 
   def set_headless(self, headless):
     self.headless = headless
-    self.options.set_headless(headless = headless)
+    # self.options.set_headless(headless = headless)
 
   def set_preferences(self,prefs=None):
     if not prefs:
@@ -60,9 +67,13 @@ class ChromeDriver:
 
   def start(self):
     self.driver = self.CHROME_DRIVER(
-      options = self.options,
-      executable_path = self.CHROME_DRIVER_EXECUTABLE
+      chrome_options = self.options,
+      # options = self.options,
+      # executable_path = self.CHROME_DRIVER_EXECUTABLE
     )
+    self.driver.command_executor._commands["send_command"] = ("POST", '/session/$sessionId/chromium/send_command')
+    params = {'cmd': 'Page.setDownloadBehavior', 'params': {'behavior': 'allow', 'downloadPath': self.download_directory}}
+    command_result = self.driver.execute("send_command", params)
     self.is_active = True
     
   def stop(self):
@@ -80,9 +91,13 @@ class ChromeDriver:
 
   def __enter__(self):
     self.driver = self.CHROME_DRIVER(
-      options = self.options,
-      executable_path = self.CHROME_DRIVER_EXECUTABLE
+      chrome_options = self.options,
+      # options = self.options,
+      # executable_path = self.CHROME_DRIVER_EXECUTABLE
     )
+    self.driver.command_executor._commands["send_command"] = ("POST", '/session/$sessionId/chromium/send_command')
+    params = {'cmd': 'Page.setDownloadBehavior', 'params': {'behavior': 'allow', 'downloadPath': self.download_directory}}
+    command_result = self.driver.execute("send_command", params)
     self.is_active = True
     return self
 

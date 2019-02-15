@@ -229,19 +229,17 @@ def xml2json(XML_PATH, JSON_PATH):
         record['publisher'] = publisher[0].attrib.get('publisher',None) if publisher else None
 
         # publication date
-        pub_date = rec.xpath("./document/monograph/publication_date")
-        pub_date = [int(pub_date[0].attrib.get(x, '01')) for x in ('year','month','day')] if pub_date else None
-        pub_date = dateCheck_pub(pub_date)
-        pub_date = datetime(pub_date[0], pub_date[1], pub_date[2]).isoformat()[0:10] if pub_date else None
-        record['publication_date'] = pub_date
+        try:
+          pub_date = rec.xpath("./document/monograph/publication_date")
+          pub_date = [int(pub_date[0].attrib.get(x, '01')) for x in ('year','month','day')] if pub_date else None
+          pub_date = dateCheck_pub(pub_date)
+          pub_date = datetime(pub_date[0], pub_date[1], pub_date[2]).isoformat()[0:10] if pub_date else None
+          record['publication_date'] = pub_date
+        except:
+          print()
 
         with open(path.join(JSON_PATH, f'publications/TRID_{rec.attrib["id"]}.json'), 'w', encoding="utf-8") as f:
           json.dump(record, f)
 
         print(f'[publication xml2json doc:{rec.attrib["id"]}] : Complete')
 
-
-# XML_PATH = r"C:\Users\nickp\OneDrive\Documents\work\projects\ltbp\strategic-research\data-files\20180803\xml\publications"
-# JSON_PATH = r"C:\Users\nickp\OneDrive\Documents\work\projects\ltbp\strategic-research\data-files\20180803\json"
-
-# xml2json(XML_PATH, JSON_PATH)

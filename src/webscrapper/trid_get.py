@@ -1,17 +1,20 @@
 from datetime import datetime
-import logging
+# import logging
 from webscrapper.webdrivers import ChromeDriver
 from webscrapper.fileEventHandler import Watcher
 from webscrapper.xml2json import xml2json
+# from webdrivers import ChromeDriver
+# from fileEventHandler import Watcher
+# from xml2json import xml2json
 import os
 from random import randint
 import time
 import shutil
 
-def scrape_trid():
+def scrape_trid(tmp_directory, downloads_folder):
 
   now = datetime.now()
-  year, month, day = now.year, now.month, now.day
+  year = now.year
 
   URL=("https://trid.trb.org/Results?txtKeywords=&txtTitle=&txtSerial=&ddlSubject=1797"
   "&txtReportNum=&ddlTrisfile=&txtIndex=%20&specificTerms="
@@ -20,44 +23,30 @@ def scrape_trid():
   "&rangeType=publisheddate&sortBy=&sortOrder=DESC&rpp=100")
   URL = URL.format(year-1, year+10)
 
-  # create downloads folder if it does not exist
-  # DOWNLOADS_DIRECTORY = r"C:\Users\nickp\OneDrive\Documents\work\projects\ltbp\strategic-research\data-files"#os.getcwd()
-  DOWNLOADS_DIRECTORY = os.getcwd() + r'\data'
-  HEADLESS = True
-  DOWNLOADS_FOLDER = os.path.join(DOWNLOADS_DIRECTORY,f"{year:04}{month:02}{day:02}")
-  XML_PATH = os.path.join(DOWNLOADS_FOLDER, "xml")
-  JSON_PATH = os.path.join(DOWNLOADS_FOLDER, "json")
+  XML_PATH = os.path.join(downloads_folder, "xml")
+  JSON_PATH = os.path.join(downloads_folder, "json")
 
-  if os.path.isdir(DOWNLOADS_FOLDER):
-    shutil.rmtree(DOWNLOADS_DIRECTORY)
+  # HEADLESS = True
+  # kwargs = {
+  #   'headless': HEADLESS,
+  #   'prompt_for_download': False,
+  #   'download_directory': downloads_folder
+  # }
 
-  os.makedirs(DOWNLOADS_FOLDER)
-  os.makedirs(XML_PATH)
-  os.makedirs(JSON_PATH)
-  os.makedirs(os.path.join(JSON_PATH,"projects"))
-  os.makedirs(os.path.join(JSON_PATH,"publications"))
+  # # logging
+  # LOGFILE_PATH = os.path.join(tmp_directory,f"logs/log-{year:04}{month:02}{day:02}")
+  # if not os.path.isdir(os.path.join(tmp_directory,"logs")):
+  #   os.makedirs(os.path.join(tmp_directory,"logs"))
 
+  # logging.basicConfig(
+  #       filename=f'{LOGFILE_PATH}.log', 
+  #       level=logging.DEBUG,
+  #       format='%(levelname)s:%(message)s'
+  #     )
 
-  kwargs = {
-    'headless': HEADLESS,
-    'prompt_for_download': False,
-    'download_directory': DOWNLOADS_FOLDER
-  }
-
-  # logging
-  LOGFILE_PATH = os.path.join(DOWNLOADS_DIRECTORY,f"logs/log-{year:04}{month:02}{day:02}")
-  if not os.path.isdir(os.path.join(DOWNLOADS_DIRECTORY,"logs")):
-    os.makedirs(os.path.join(DOWNLOADS_DIRECTORY,"logs"))
-
-  logging.basicConfig(
-        filename=f'{LOGFILE_PATH}.log', 
-        level=logging.DEBUG,
-        format='%(levelname)s:%(message)s'
-      )
-
-  with Watcher(DOWNLOADS_FOLDER, log_filepath=LOGFILE_PATH):
-    with ChromeDriver(download_directory = DOWNLOADS_FOLDER) as driver:
-      
+  with Watcher(downloads_folder):
+    with ChromeDriver(download_directory = downloads_folder) as driver:
+     
       driver.open(URL)
       count = 0
 
@@ -68,7 +57,7 @@ def scrape_trid():
 
         count += 1
         print(f'[Navigating Page {count}; Time Delay = {time_delay+5}]...')
-        logging.debug(f'[Navigating Page {count}; Time Delay = {time_delay+5}]...')
+        # logging.debug(f'[Navigating Page {count}; Time Delay = {time_delay+5}]...')
 
         ## navigate page and download 
         js_commands = ';'.join([
@@ -83,12 +72,12 @@ def scrape_trid():
         time.sleep(5) 
 
         # rename and move downloaded file
-        xml_files = [f for f in os.listdir(DOWNLOADS_FOLDER) if f.endswith(".xml")]
+        xml_files = [f for f in os.listdir(downloads_folder) if f.endswith(".xml")]
         if len(xml_files) > 1:
           raise Exception()
         fname = xml_files.pop().split(".")[0]
         newfname = f"{fname}_{count:03}.xml"
-        src = os.path.join(DOWNLOADS_FOLDER, f"{fname}.xml")
+        src = os.path.join(downloads_folder, f"{fname}.xml")
         dst = os.path.join(XML_PATH, newfname)
         os.rename(src, dst)
 
@@ -105,6 +94,9 @@ def scrape_trid():
 
       # convert xml to json
       xml2json(XML_PATH, JSON_PATH)
+
+if __name__ == '__main__':
+  scrape_trid()
 
         
 

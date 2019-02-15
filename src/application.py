@@ -1,4 +1,9 @@
 from flaskapp import application
+import os
 
 if __name__ == '__main__':
-  application.run(debug=True)
+	
+	if os.environ['FLASKHOST']:
+		application.run(debug=True, host=os.environ['FLASKHOST'])
+	else:
+		application.run(debug=True)

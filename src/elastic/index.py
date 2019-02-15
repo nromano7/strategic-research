@@ -1,10 +1,10 @@
 import sys
 import os
-print(os.getcwd())
+# print(os.getcwd())
 sys.path.append(os.getcwd())
 
-from datetime import datetime
-from elastic import client, models, query, PROJECT_FILES_PATH, PUB_FILES_PATH
+import datetime
+from elastic import client, models, query#, PROJECT_FILES_PATH, PUB_FILES_PATH
 from elasticsearch_dsl import Index, Q
 import json
 import sys
@@ -43,13 +43,17 @@ def create_index(index_name):
 
 	"""
 
-	if index_name not in ['projects', 'publications']:
+	if index_name not in ['projects', 'publications', 'appdata']:
 		raise(Exception(f"'{index_name}' is not a valid index name."))
 
 	if index_name == 'projects':
 		model = models.Project
 	elif index_name == 'publications':
 		model = models.Publication
+	elif index_name == 'appdata':
+		model = models.appdata
+	else:
+		raise(Exception)
 
 	# initialize index
 	idx = Index(index_name, using=client)
@@ -115,7 +119,8 @@ def tag_documents(index_name, topic_tags, element_tags):
 				doc = models.Project.get(using=client, index=index_name, id=id)
 			elif index_name == 'publications':
 				doc = models.Publication.get(using=client, index=index_name, id=id)
-			doc.update(using=client,index=index_name,tags=list(),element_tags=list())
+			doc.update(using=client,index=index_name,request_timeout=20,
+				tags=list(),element_tags=list())
 			print(f'{index_name} - doc ({id}): tags removed')
 
 	def remove_tags(index_name):
@@ -212,8 +217,12 @@ if __name__ == '__main__':
 		'bearings', 'coatings', 'prestressing'
 	]
 
-	PROJECT_FILES_PATH = r"C:\Users\nickp\OneDrive\Documents\work\projects\ltbp\strategic-research\data-files\20180803\json\projects"
-	PUB_FILES_PATH = r"C:\Users\nickp\OneDrive\Documents\work\projects\ltbp\strategic-research\data-files\20180803\json\publications"
+	if os.environ.get('DATAPATH'):
+		PROJECT_FILES_PATH = os.path.join(os.environ.get('DATAPATH'),'json','projects')
+		PUB_FILES_PATH = os.path.join(os.environ.get('DATAPATH'),'json','publications')
+	else:
+		PROJECT_FILES_PATH = r"./.data/json/projects"
+		PUB_FILES_PATH = r"./.data/json/publications"
 
 	create_index("projects")
 	index_documents("projects", PROJECT_FILES_PATH)
@@ -222,6 +231,10 @@ if __name__ == '__main__':
 	create_index("publications")
 	index_documents("publications", PUB_FILES_PATH)
 	tag_documents("publications", topic_tags, element_tags)
+
+	create_index("appdata")
+	today = str(datetime.date.today())
+	client.index(index='appdata', doc_type='doc', id=1, body={"last_update":today})
 
 
 

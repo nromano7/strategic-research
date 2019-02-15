@@ -110,3 +110,9 @@ class Publication(Record):
 
     class Meta:
         index = 'publications'
+
+class appdata(Document):
+    last_update = Text()
+
+    class Meta:
+        index = 'appdata'
