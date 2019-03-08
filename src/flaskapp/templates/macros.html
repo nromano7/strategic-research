@@ -34,6 +34,13 @@
         <tr>
           <td class="p-1 pb-2">
 
+            <!-- score -->
+            <h5 class="d-inline mb-0">
+              <span class="badge primary-color text-capitalize z-depth-0 mr-1">
+                {{'%0.2f' % doc.meta.score|float}}
+              </span>
+            </h5>
+
             <!-- record type -->
             <h5 class="d-inline mb-0">
               <span class="badge primary-color-dark text-capitalize z-depth-0 mr-1">
@@ -389,10 +396,27 @@
 
 <!-- PUBLICATION RECORD CARD -->
 {% macro publication_record(doc) %}
-<div class="card m-2 z-depth-0" style="border: 1px solid #dee2e6">
+<div class="card m-2 z-depth-1" style="border: 1px solid #dee2e6">
   <div class="card-body">
     <h5 class="card-title mb-1">
       <a data-toggle="modal" data-target="#{{ doc.meta.id }}">{{ doc.title.title().replace("And","and") }}</a>
+      {% if doc.bookmarked == 'true' %}
+      <button id="{{ doc.meta.id }}_bookmark_btn" type="button" value="{{ doc.meta.index }}"
+        class="btn btn-sm d-inline mb-1 mt-0 float-right p-1 pl-2 pr-2 waves-effect red darken-4 marked">
+        <i id="{{ doc.meta.id }}_bookmark_icon" class="fa fa-bookmark fa-lg pr-1" aria-hidden="true"></i>
+          <div id="{{ doc.meta.id }}_bookmark_text" class="d-inline">
+              Marked
+          </div>
+      </button>
+      {% else %}
+      <button id="{{ doc.meta.id }}_bookmark_btn" type="button" value="{{ doc.meta.index }}"
+        class="btn btn-sm d-inline mb-1 mt-0 float-right p-1 pl-2 pr-2 waves-effect red darken-4 unmarked">
+        <i id="{{ doc.meta.id }}_bookmark_icon" class="fa fa-bookmark-o fa-lg pr-1" aria-hidden="true"></i>
+          <div id="{{ doc.meta.id }}_bookmark_text" class="d-inline">
+              Bookmark
+          </div>
+      </button>
+      {% endif %}
     </h5>
     <table class="table table-borderless mb-0">
       <tbody class="card-text">
@@ -402,6 +426,12 @@
 
         <tr>
           <td class="p-1" style="text-align: left">
+            <!-- score -->
+            <h5 class="d-inline mb-0">
+              <span class="badge primary-color text-capitalize z-depth-0 mr-1">
+                {{'%0.2f' % doc.meta.score|float}}
+              </span>
+            </h5>
             <!-- record type -->
             <h5 class="d-inline mb-0"><span class="badge deep-purple darken-4 text-capitalize z-depth-0">{{doc.doc_type.title()}}</span></h5>
             <!-- record tags -->
@@ -513,6 +543,25 @@
         </h4>
         {% endfor %}
         {% endif %}
+        <div class="d-inline">
+          {% if doc.bookmarked == 'true' %}
+            <button id="{{ doc.meta.id }}_modal_bookmark_btn" type="button" value="{{ doc.meta.index }}"
+              class="btn btn mt-1 float-right waves-effect red darken-4 p-1 pl-2 pr-2 marked">
+                <i id="{{ doc.meta.id }}_modal_bookmark_icon" class="fa fa-bookmark fa-lg pr-1" aria-hidden="true"></i>
+                <div id="{{ doc.meta.id }}_modal_bookmark_text" class="d-inline">
+                    Marked
+                </div>
+            </button>
+          {% else %}
+            <button id="{{ doc.meta.id }}_modal_bookmark_btn" type="button" value="{{ doc.meta.index }}"
+              class="btn btn mt-1 float-right waves-effect red darken-4 p-1 pl-2 pr-2 unmarked">
+                <i id="{{ doc.meta.id }}_modal_bookmark_icon" class="fa fa-bookmark-o fa-lg pr-1" aria-hidden="true"></i>
+                <div id="{{ doc.meta.id }}_modal_bookmark_text" class="d-inline">
+                    Bookmark
+                </div>
+            </button>
+            {% endif %}
+        </div>
         <br>
         <hr>
 

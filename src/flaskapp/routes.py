@@ -150,11 +150,22 @@ def results():
 			element=filter_element,
 			doc_type=doc_type,
 			date_range=date_range,
+			status = filter_status,
 			sort_by=sort_by
 		)
-
-		q = Q({"match_all": {}}) # note: sorting does not apply to match all
-		s = query.run_query(q, index=index, filters=filters)
+		if filter_topic == 'all':
+			if filter_element == 'all':
+				q = Q({"match_all": {}}) # note: sorting does not apply to match all
+				s = query.run_query(q, index=index, filters=filters)
+			else:
+				kwargs = query.get_query_arguments(filter_element)
+				q = query.Query(**kwargs)
+				s = query.run_query(q.query, index=index, filters=filters)
+		else:
+			kwargs = query.get_query_arguments(filter_topic)
+			q = query.Query(**kwargs)
+			s = query.run_query(q.query, index=index, filters=filters)
+		
 
 	elif search_type == 'click_bar': 
 	# if user clicked on bar chart
@@ -254,7 +265,7 @@ def results():
 			doc_type=doc_type,
 			status = filter_status,
 			date_range = date_range,
-			sort_by='both'
+			sort_by=sort_by
 		)
 		
 		q = Q({"multi_match" : {
@@ -275,6 +286,7 @@ def results():
 	# print(r[0].objectives)
 	
 	buttonStates=dict(
+		type = search_type,
 		topic = filter_topic,
 		element = filter_element,
 		status = filter_status,

@@ -73,11 +73,14 @@ def project_count(queries=None):
 			topic = tag
 		)
 
-		# kwargs = query.get_query_arguments(tag)
-		# q = query.Query(**kwargs)
-		# s = query.run_query(q.query, index=index, filters=dict(element=element_tag))
+		# run query
+		# if tag == 'all':
+		# 	s = query.run_query(Q({"match_all":{}}), index=index, filters=filters)
+		# else:
+		# 	kwargs = query.get_query_arguments(tag)
+		# 	q = query.Query(**kwargs)
+		# 	s = query.run_query(q.query, index='projects', filters=filters)
 		s = query.run_query(Q({"match_all":{}}), index=index, filters=filters)
-
 		res={}
 		res['total'] = s.count()
 		for status in allStatus:

@@ -97,29 +97,10 @@ function toggleCollapse() {
     }
 }
 
-// function toggleCollapseButton() {
 
-//     // check if any collapse element is collapsed
-//     var oneCollapsed = (
-//         document.getElementById("collapseOne").className == "collapse"
-//     )
-//     var twoCollapsed = (
-//         document.getElementById("collapseTwo").className == "collapse"
-//     )
-//     var threeCollapsed = (
-//         document.getElementById("collapseThree").className == "collapse"
-//     )
-
-//     if (oneCollapsed || twoCollapsed || threeCollapsed) {
-//         // if any collapsed
-//         document.getElementById("collapse-icon").className = "fa fa-plus-circle";
-//     } else if !(oneCollapsed || twoCollapsed || threeCollapsed) {
-//         // if any one open
-//         document.getElementById("collapse-icon").className = "fa fa-minus-circle";
-//     }
-
-
-// }
+function disableRecordTypeOption() {
+    document.getElementById("rt3").disabled = true
+}
 
 function disableStatus() {
     document.getElementById("status").disabled = true
@@ -139,6 +120,7 @@ function setSortOption(docType) {
 
 function setButtonState(buttonStates) {
 
+    let search_type = buttonStates.type
     let topic = buttonStates.topic
     let element = buttonStates.element
     let docType = buttonStates.doc_type
@@ -158,16 +140,18 @@ function setButtonState(buttonStates) {
         document.getElementsByName('topic')[0].options.selectedIndex = 4
     } else if (topic == 'live_load') {
         document.getElementsByName('topic')[0].options.selectedIndex = 5
-    } else if (topic == 'maintenance_and_preservation') {
+    } else if (topic == 'environment') {
         document.getElementsByName('topic')[0].options.selectedIndex = 6
-    } else if (topic == 'structural_integrity') {
+    } else if (topic == 'maintenance_and_preservation') {
         document.getElementsByName('topic')[0].options.selectedIndex = 7
-    } else if (topic == 'structural_condition') {
+    } else if (topic == 'structural_integrity') {
         document.getElementsByName('topic')[0].options.selectedIndex = 8
-    } else if (topic == 'functionality') {
+    } else if (topic == 'structural_condition') {
         document.getElementsByName('topic')[0].options.selectedIndex = 9
-    } else if (topic == 'cost') {
+    } else if (topic == 'functionality') {
         document.getElementsByName('topic')[0].options.selectedIndex = 10
+    } else if (topic == 'cost') {
+        document.getElementsByName('topic')[0].options.selectedIndex = 11
     }
 
 
@@ -195,18 +179,23 @@ function setButtonState(buttonStates) {
         document.getElementById('rt2').checked = true
         setSortOption(docType)
         enableStatus()
+        if (search_type == ' click_map') {
+            disableRecordTypeOption()
+        }
     } else {
         document.getElementById('rt3').checked = true
         setSortOption(docType)
         disableStatus()
     }
 
+
+
     // update status selection
     if (status == 'all') {
         document.getElementsByName('status')[0].options.selectedIndex = 1
     } else if (status == 'active') {
         document.getElementsByName('status')[0].options.selectedIndex = 2
-    } else if (status == 'complete') {
+    } else if (status == 'completed') {
         document.getElementsByName('status')[0].options.selectedIndex = 3
     } else if (status == 'programmed') {
         document.getElementsByName('status')[0].options.selectedIndex = 4
