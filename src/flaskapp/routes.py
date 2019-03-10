@@ -26,10 +26,29 @@ element_tags = [
 def analyze():
 	# return "Analysis"
 	last_update = client.get(index='appdata', doc_type='doc', id=1)['_source']['last_update']
+	content = dict(
+		bookmarked=query.run_query(Q("term",bookmarked=True), index=['projects','publications']).execute(),
+		obj1=query.run_query(Q("term",objectives="objective1"), index=['projects','publications']).execute(),
+		obj2=query.run_query(Q("term",objectives="objective2"), index=['projects','publications']).execute(),
+		obj3=query.run_query(Q("term",objectives="objective3"), index=['projects','publications']).execute(),
+		obj4=query.run_query(Q("term",objectives="objective4"), index=['projects','publications']).execute(),
+	)
+	formdata = dict(
+		type=-1,
+		query=-1,
+		index=-1,
+		topic=-1,
+		element=-1,
+		status=-1,
+		date_range=-1,
+		sort_by=-1
+	) 
 	return render_template('analyze.html', 
 							title='Dashboard', 
 							heading='Analyze',
-							last_update=last_update)
+							last_update=last_update,
+							content=content,
+							formdata=formdata)
 
 
 @application.route("/explore", methods=['GET', 'POST'])

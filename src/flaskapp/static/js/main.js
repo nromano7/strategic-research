@@ -1,5 +1,13 @@
 console.log('js loaded.')
 
+// $(document).ready(function () {
+//     $('#dtVerticalScrollExample').DataTable({
+//         "scrollY": "400px",
+//         "scrollCollapse": true,
+//     });
+//     // $('.dataTables_length').addClass('bs-select');
+// });
+
 // bind click event to bookmark buttons
 $(document).ready(function () {
     $("[id$=_bookmark_btn]").click(function () {
@@ -22,12 +30,16 @@ $(document).ready(function () {
             $("#" + doc_id + "_modal_bookmark_text").html('Bookmark');
             $("#" + doc_id + "_modal_bookmark_btn").addClass('unmarked').removeClass('marked');
         }
-        $.post('/update/record/bookmark', {'doc_id':doc_id, 'index':this.value, 'marked':marked}) // submit post request
-        .done(function() {
-            return false
-        }).fail(function() {
-            alert('Failed to bookmark record.')
-        });
+        $.post('/update/record/bookmark', {
+                'doc_id': doc_id,
+                'index': this.value,
+                'marked': marked
+            }) // submit post request
+            .done(function () {
+                return false
+            }).fail(function () {
+                alert('Failed to bookmark record.')
+            });
     })
 });
 

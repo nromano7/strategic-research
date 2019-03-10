@@ -5,8 +5,8 @@
 .dash-grid-container {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: repeat(18, 100px);
-  grid-gap: 5px 5px;
+  grid-template-rows: repeat(6, 100px) 5px;
+  grid-gap: 10px 10px;
 }
 
 #breadcrumb-row {
@@ -62,7 +62,7 @@
   grid-column: 9/end;
   grid-row: 1/3;
   z-index: 0; 
-  position:relative
+  position:relative;
 }
 
 #barchart1-heading {
