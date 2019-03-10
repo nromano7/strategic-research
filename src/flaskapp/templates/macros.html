@@ -6,23 +6,21 @@
       <h5 class="mb-1">
         <a class="mr-5" data-toggle="modal" data-target="#{{ doc.meta.id }}">{{ doc.title }}</a>
         {% if doc.bookmarked == 'true' %}
-        <button id="{{ doc.meta.id }}_bookmark_btn" type="button" value="{{ doc.meta.index }}"
-          class="btn btn-sm d-inline mb-1 mt-0 float-right p-1 pl-2 pr-2 waves-effect red darken-4 marked">
+        <button id="{{ doc.meta.id }}_bookmark_btn" type="button" value="{{ doc.meta.index }}" class="btn btn-sm d-inline mb-1 mt-0 float-right p-1 pl-2 pr-2 waves-effect red darken-4 marked">
           <i id="{{ doc.meta.id }}_bookmark_icon" class="fa fa-bookmark fa-lg pr-1" aria-hidden="true"></i>
-            <div id="{{ doc.meta.id }}_bookmark_text" class="d-inline">
-                Marked
-            </div>
+          <div id="{{ doc.meta.id }}_bookmark_text" class="d-inline">
+            Marked
+          </div>
         </button>
         {% else %}
-        <button id="{{ doc.meta.id }}_bookmark_btn" type="button" value="{{ doc.meta.index }}"
-          class="btn btn-sm d-inline mb-1 mt-0 float-right p-1 pl-2 pr-2 waves-effect red darken-4 unmarked">
+        <button id="{{ doc.meta.id }}_bookmark_btn" type="button" value="{{ doc.meta.index }}" class="btn btn-sm d-inline mb-1 mt-0 float-right p-1 pl-2 pr-2 waves-effect red darken-4 unmarked">
           <i id="{{ doc.meta.id }}_bookmark_icon" class="fa fa-bookmark-o fa-lg pr-1" aria-hidden="true"></i>
-            <div id="{{ doc.meta.id }}_bookmark_text" class="d-inline">
-                Bookmark
-            </div>
+          <div id="{{ doc.meta.id }}_bookmark_text" class="d-inline">
+            Bookmark
+          </div>
         </button>
         {% endif %}
-            
+
       </h5>
 
     </div>
@@ -190,28 +188,26 @@
         {% endif %}
         {% endfor %}
         {% endif %}
-        <div class="d-inline">
-          {% if doc.bookmarked == 'true' %}
-            <button id="{{ doc.meta.id }}_modal_bookmark_btn" type="button" value="{{ doc.meta.index }}"
-              class="btn btn mt-1 float-right waves-effect red darken-4 p-1 pl-2 pr-2 marked">
-                <i id="{{ doc.meta.id }}_modal_bookmark_icon" class="fa fa-bookmark fa-lg pr-1" aria-hidden="true"></i>
-                <div id="{{ doc.meta.id }}_modal_bookmark_text" class="d-inline">
-                    Marked
-                </div>
-            </button>
-          {% else %}
-            <button id="{{ doc.meta.id }}_modal_bookmark_btn" type="button" value="{{ doc.meta.index }}"
-              class="btn btn mt-1 float-right waves-effect red darken-4 p-1 pl-2 pr-2 unmarked">
-                <i id="{{ doc.meta.id }}_modal_bookmark_icon" class="fa fa-bookmark-o fa-lg pr-1" aria-hidden="true"></i>
-                <div id="{{ doc.meta.id }}_modal_bookmark_text" class="d-inline">
-                    Bookmark
-                </div>
-            </button>
-            {% endif %}
-        </div>
         <hr>
         <div class="modal-grid-container">
           <div class="modal-record-content">
+
+            {% if doc.bookmarked == 'true' %}
+            <button id="{{ doc.meta.id }}_modal_bookmark_btn" type="button" value="{{ doc.meta.index }}" class="btn btn mt-2 float-right waves-effect red darken-4 p-1 pl-2 pr-2 marked">
+              <i id="{{ doc.meta.id }}_modal_bookmark_icon" class="fa fa-bookmark fa-lg pr-1" aria-hidden="true"></i>
+              <div id="{{ doc.meta.id }}_modal_bookmark_text" class="d-inline">
+                Marked
+              </div>
+            </button>
+            {% else %}
+            <button id="{{ doc.meta.id }}_modal_bookmark_btn" type="button" value="{{ doc.meta.index }}" class="btn btn mt-2 float-right waves-effect red darken-4 p-1 pl-2 pr-2 unmarked">
+              <i id="{{ doc.meta.id }}_modal_bookmark_icon" class="fa fa-bookmark-o fa-lg pr-1" aria-hidden="true"></i>
+              <div id="{{ doc.meta.id }}_modal_bookmark_text" class="d-inline">
+                Bookmark
+              </div>
+            </button>
+            {% endif %}
+
 
             <!-- abstract -->
             <h3 class="mb-2 mt-2">
@@ -401,20 +397,18 @@
     <h5 class="card-title mb-1">
       <a data-toggle="modal" data-target="#{{ doc.meta.id }}">{{ doc.title.title().replace("And","and") }}</a>
       {% if doc.bookmarked == 'true' %}
-      <button id="{{ doc.meta.id }}_bookmark_btn" type="button" value="{{ doc.meta.index }}"
-        class="btn btn-sm d-inline mb-1 mt-0 float-right p-1 pl-2 pr-2 waves-effect red darken-4 marked">
+      <button id="{{ doc.meta.id }}_bookmark_btn" type="button" value="{{ doc.meta.index }}" class="btn btn-sm d-inline mb-1 mt-3 float-right p-1 pl-2 pr-2 waves-effect red darken-4 marked">
         <i id="{{ doc.meta.id }}_bookmark_icon" class="fa fa-bookmark fa-lg pr-1" aria-hidden="true"></i>
-          <div id="{{ doc.meta.id }}_bookmark_text" class="d-inline">
-              Marked
-          </div>
+        <div id="{{ doc.meta.id }}_bookmark_text" class="d-inline">
+          Marked
+        </div>
       </button>
       {% else %}
-      <button id="{{ doc.meta.id }}_bookmark_btn" type="button" value="{{ doc.meta.index }}"
-        class="btn btn-sm d-inline mb-1 mt-0 float-right p-1 pl-2 pr-2 waves-effect red darken-4 unmarked">
+      <button id="{{ doc.meta.id }}_bookmark_btn" type="button" value="{{ doc.meta.index }}" class="btn btn-sm d-inline mb-1 mt-3 float-right p-1 pl-2 pr-2 waves-effect red darken-4 unmarked">
         <i id="{{ doc.meta.id }}_bookmark_icon" class="fa fa-bookmark-o fa-lg pr-1" aria-hidden="true"></i>
-          <div id="{{ doc.meta.id }}_bookmark_text" class="d-inline">
-              Bookmark
-          </div>
+        <div id="{{ doc.meta.id }}_bookmark_text" class="d-inline">
+          Bookmark
+        </div>
       </button>
       {% endif %}
     </h5>
@@ -543,31 +537,28 @@
         </h4>
         {% endfor %}
         {% endif %}
-        <div class="d-inline">
-          {% if doc.bookmarked == 'true' %}
-            <button id="{{ doc.meta.id }}_modal_bookmark_btn" type="button" value="{{ doc.meta.index }}"
-              class="btn btn mt-1 float-right waves-effect red darken-4 p-1 pl-2 pr-2 marked">
-                <i id="{{ doc.meta.id }}_modal_bookmark_icon" class="fa fa-bookmark fa-lg pr-1" aria-hidden="true"></i>
-                <div id="{{ doc.meta.id }}_modal_bookmark_text" class="d-inline">
-                    Marked
-                </div>
-            </button>
-          {% else %}
-            <button id="{{ doc.meta.id }}_modal_bookmark_btn" type="button" value="{{ doc.meta.index }}"
-              class="btn btn mt-1 float-right waves-effect red darken-4 p-1 pl-2 pr-2 unmarked">
-                <i id="{{ doc.meta.id }}_modal_bookmark_icon" class="fa fa-bookmark-o fa-lg pr-1" aria-hidden="true"></i>
-                <div id="{{ doc.meta.id }}_modal_bookmark_text" class="d-inline">
-                    Bookmark
-                </div>
-            </button>
-            {% endif %}
-        </div>
         <br>
         <hr>
 
         <div class="modal-grid-container">
 
           <div class="modal-record-content">
+
+            {% if doc.bookmarked == 'true' %}
+            <button id="{{ doc.meta.id }}_modal_bookmark_btn" type="button" value="{{ doc.meta.index }}" class="btn btn mt-1 float-right waves-effect red darken-4 p-1 pl-2 pr-2 marked">
+              <i id="{{ doc.meta.id }}_modal_bookmark_icon" class="fa fa-bookmark fa-lg pr-1" aria-hidden="true"></i>
+              <div id="{{ doc.meta.id }}_modal_bookmark_text" class="d-inline">
+                Marked
+              </div>
+            </button>
+            {% else %}
+            <button id="{{ doc.meta.id }}_modal_bookmark_btn" type="button" value="{{ doc.meta.index }}" class="btn btn mt-1 float-right waves-effect red darken-4 p-1 pl-2 pr-2 unmarked">
+              <i id="{{ doc.meta.id }}_modal_bookmark_icon" class="fa fa-bookmark-o fa-lg pr-1" aria-hidden="true"></i>
+              <div id="{{ doc.meta.id }}_modal_bookmark_text" class="d-inline">
+                Bookmark
+              </div>
+            </button>
+            {% endif %}
 
             <!-- abstract -->
             <h3 class="mb-2 mt-2">
