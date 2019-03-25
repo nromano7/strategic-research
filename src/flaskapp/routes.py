@@ -27,11 +27,11 @@ def analyze():
 	# return "Analysis"
 	last_update = client.get(index='appdata', doc_type='doc', id=1)['_source']['last_update']
 	content = dict(
-		bookmarked=query.run_query(Q("term",bookmarked=True), index=['projects','publications']).execute(),
-		obj1=query.run_query(Q("term",objectives="objective1"), index=['projects','publications']).execute(),
-		obj2=query.run_query(Q("term",objectives="objective2"), index=['projects','publications']).execute(),
-		obj3=query.run_query(Q("term",objectives="objective3"), index=['projects','publications']).execute(),
-		obj4=query.run_query(Q("term",objectives="objective4"), index=['projects','publications']).execute(),
+		bookmarked=query.run_query(Q("term",bookmarked=True), index=['projects','publications'])[:1000].execute(),
+		obj1=query.run_query(Q("term",objectives="objective1"), index=['projects','publications'])[:1000].execute(),
+		obj2=query.run_query(Q("term",objectives="objective2"), index=['projects','publications'])[:1000].execute(),
+		obj3=query.run_query(Q("term",objectives="objective3"), index=['projects','publications'])[:1000].execute(),
+		obj4=query.run_query(Q("term",objectives="objective4"), index=['projects','publications'])[:1000].execute(),
 	)
 	formdata = dict(
 		type=-1,
