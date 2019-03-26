@@ -1,5 +1,5 @@
 import datetime
-from flask import render_template, request, session, url_for, redirect
+from flask import render_template, request, session, url_for, redirect, jsonify
 from flaskapp import application
 from elastic import client, models, query, index#, PROJECT_FILES_PATH, PUB_FILES_PATH
 from elasticsearch_dsl import Q
@@ -44,8 +44,8 @@ def analyze():
 		sort_by=-1
 	) 
 	return render_template('analyze.html', 
-							title='Dashboard', 
-							heading='Analyze',
+							title='Analyze', 
+							heading='Dashboard',
 							last_update=last_update,
 							content=content,
 							formdata=formdata)
@@ -110,6 +110,7 @@ def explore():
 							buttonStates=buttonStates, 
 							formdata=formdata,
 							heading='Explore',
+							title='Explore', 
 							last_update=last_update)
 
 
@@ -441,3 +442,30 @@ def update_database():
 	client.update(index='appdata', doc_type='doc', id=1, body={'doc':{'last_update':today}})
 
 	return "database updated"
+
+@application.route("/more_like_this", methods=['GET', 'POST'])
+def more_like_this():
+	index = request.form.get('index','projects')
+	doc_id = request.form.get('doc_id')
+
+	q = Q(
+		{
+			"more_like_this": {
+			"fields": [
+				"title",
+				"abstract"
+			],
+			"like": [
+				{
+				"_index": index,
+				"_type":"doc",
+				"_id": doc_id
+				}
+			]
+			}
+		}
+	)
+	s = query.run_query(q, index=index)
+	s = s[:5] 
+	r = s.execute()
+	return jsonify(r.hits.hits)

@@ -6,14 +6,16 @@
       <h5 class="mb-1">
         <a class="mr-5" data-toggle="modal" data-target="#{{ doc.meta.id }}">{{ doc.title }}</a>
         {% if doc.bookmarked == 'true' %}
-        <button id="{{ doc.meta.id }}_bookmark_btn" type="button" value="{{ doc.meta.index }}" class="btn btn-sm d-inline mb-1 mt-0 float-right p-1 pl-2 pr-2 waves-effect red darken-4 marked">
+        <button id="{{ doc.meta.id }}_bookmark_btn" type="button" value="{{ doc.meta.index }}"
+          class="btn btn-sm d-inline mb-1 mt-0 float-right p-1 pl-2 pr-2 waves-effect red darken-4 marked">
           <i id="{{ doc.meta.id }}_bookmark_icon" class="fa fa-bookmark fa-lg pr-1" aria-hidden="true"></i>
           <div id="{{ doc.meta.id }}_bookmark_text" class="d-inline">
             Marked
           </div>
         </button>
         {% else %}
-        <button id="{{ doc.meta.id }}_bookmark_btn" type="button" value="{{ doc.meta.index }}" class="btn btn-sm d-inline mb-1 mt-0 float-right p-1 pl-2 pr-2 waves-effect red darken-4 unmarked">
+        <button id="{{ doc.meta.id }}_bookmark_btn" type="button" value="{{ doc.meta.index }}"
+          class="btn btn-sm d-inline mb-1 mt-0 float-right p-1 pl-2 pr-2 waves-effect red darken-4 unmarked">
           <i id="{{ doc.meta.id }}_bookmark_icon" class="fa fa-bookmark-o fa-lg pr-1" aria-hidden="true"></i>
           <div id="{{ doc.meta.id }}_bookmark_text" class="d-inline">
             Bookmark
@@ -139,8 +141,8 @@
       <div class="modal-header">
 
         <!-- title -->
-        <h3 class="modal-title w-100 pl-4 pr-4" id="ModalLabel">
-          {{ doc.title.title() }}
+        <h3 id="{{ doc.meta.id }}_title" class="modal-title w-100 pl-4 pr-4" id="ModalLabel">
+          {{ doc.title }}
         </h3>
 
         <!-- close button -->
@@ -152,55 +154,55 @@
 
       <div class="modal-body pl-5 pr-5 pb-5">
 
-        <!-- <div class="d-inline">
-          <i class="fa fa-2x fa-bookmark-o" aria-hidden="true"></i>&nbsp;
-        </div> -->
-
         <!-- record type -->
         <h4 class="d-inline mb-0">
-          <span class="badge primary-color-dark text-capitalize z-depth-0">
+          <span id="{{ doc.meta.id }}_record_type" class="badge primary-color-dark text-capitalize z-depth-0">
             {{doc.doc_type.title()}}
           </span>
         </h4>
 
         <!-- record tag -->
+        <h4 id="{{ doc.meta.id }}_tags" class="d-inline">
         {% if doc.tags %}
         {% for tag in doc.tags %}
         {% if tag %}
-        <h4 class="d-inline">
-          <span class="badge teal darken-1 z-depth-0 ml-1">
-            {{ tag.title().replace("_"," ").replace("And","and") }}
-          </span>
-        </h4>
+        <span class="badge teal darken-1 z-depth-0 ml-1">
+          {{ tag.title().replace("_"," ").replace("And","and") }}
+        </span>
         {% endif %}
         {% endfor %}
         {% endif %}
+        </h4>
 
         <!-- element tags -->
+        <h4 id="{{ doc.meta.id }}_elem_tags" class="d-inline">
         {% if doc.element_tags %}
         {% for tag in doc.element_tags %}
         {% if tag %}
-        <h4 class="d-inline">
-          <span class="badge orange darken-3 z-depth-0 ml-1">
-            {{ tag.title().replace("_"," ").replace("And","&") }}
-          </span>
-        </h4>
+        <span class="badge orange darken-3 z-depth-0 ml-1">
+          {{ tag.title().replace("_"," ").replace("And","&") }}
+        </span>
         {% endif %}
         {% endfor %}
         {% endif %}
+        </h4>
+
         <hr>
+
         <div class="modal-grid-container">
           <div class="modal-record-content">
 
             {% if doc.bookmarked == 'true' %}
-            <button id="{{ doc.meta.id }}_modal_bookmark_btn" type="button" value="{{ doc.meta.index }}" class="btn btn mt-2 float-right waves-effect red darken-4 p-1 pl-2 pr-2 marked">
+            <button id="{{ doc.meta.id }}_modal_bookmark_btn" type="button" value="{{ doc.meta.index }}"
+              class="btn btn mt-2 float-right waves-effect red darken-4 p-1 pl-2 pr-2 marked">
               <i id="{{ doc.meta.id }}_modal_bookmark_icon" class="fa fa-bookmark fa-lg pr-1" aria-hidden="true"></i>
               <div id="{{ doc.meta.id }}_modal_bookmark_text" class="d-inline">
                 Marked
               </div>
             </button>
             {% else %}
-            <button id="{{ doc.meta.id }}_modal_bookmark_btn" type="button" value="{{ doc.meta.index }}" class="btn btn mt-2 float-right waves-effect red darken-4 p-1 pl-2 pr-2 unmarked">
+            <button id="{{ doc.meta.id }}_modal_bookmark_btn" type="button" value="{{ doc.meta.index }}"
+              class="btn btn mt-2 float-right waves-effect red darken-4 p-1 pl-2 pr-2 unmarked">
               <i id="{{ doc.meta.id }}_modal_bookmark_icon" class="fa fa-bookmark-o fa-lg pr-1" aria-hidden="true"></i>
               <div id="{{ doc.meta.id }}_modal_bookmark_text" class="d-inline">
                 Bookmark
@@ -210,44 +212,46 @@
 
 
             <!-- abstract -->
-            <h3 class="mb-2 mt-2">
+            <h4 class="mb-2 mt-2">
               Abstract/Objectives:
-            </h3>
-            <p class="m-0">{{ doc.abstract }}</p>
+            </h4>
+            <p id="{{ doc.meta.id }}_abstract" class="m-0">{{ doc.abstract }}</p>
 
             <!-- project status -->
-            <h3 class="mb-2 mt-2">
+            <h4 class="mb-2 mt-2">
               Status:
-            </h3>
-            <p class="m-0">{{ doc.status }}</p>
+            </h4>
+            <p id="{{ doc.meta.id }}_status" class="m-0">{{ doc.status }}</p>
 
 
             <!-- funding -->
             {% if doc.funding %}
-            <h3 class="mb-2 mt-2">
+            <h4 class="mb-2 mt-2">
               Fund Amount:
-            </h3>
-            <p class="m-0">{{ '${:,.2f}'.format(doc.funding) }}</p>
+            </h4>
+            <p id="{{ doc.meta.id }}_funding" class="m-0">{{ '${:,.2f}'.format(doc.funding) }}</p>
             {% endif %}
 
             <!-- funding organization -->
             {% if doc.funding_agencies %}
-            <h3 class="mb-2 mt-2">
+            <h4 class="mb-2 mt-2">
               Funding Organizations:
-            </h3>
+            </h4>
+            <div id="{{ doc.meta.id }}_fundagencies">
             {% for agency in doc.funding_agencies %}
             <p class="m-0">{{ agency['name'] }}</p>
             {% endfor %}
+            </div>
             {% endif %}
 
             <!-- performing agencies -->
             {% if doc.performing_agencies %}
-            <h3 class="mb-2 mt-2">
+            <h4 class="mb-2 mt-2">
               Performing Agencies:
-            </h3>
+            </h4>
             {% for agency in doc.performing_agencies %}
             {% if agency['name'] %}
-            <p class="m-0">{{ agency['name'] }}</p>
+            <p id="{{ doc.meta.id }}_perfagencies" class="m-0">{{ agency['name'] }}</p>
             {% endif %}
             {% endfor %}
             {% endif %}
@@ -266,18 +270,18 @@
 
             <!-- start date -->
             {% if doc.start_date %}
-            <h3 class="mb-2 mt-2">
+            <h4 class="mb-2 mt-2">
               Start Date:
-            </h3>
-            <p class="m-0">{{ doc.start_date }}</p>
+            </h4>
+            <p id="{{ doc.meta.id }}_startdate" class="m-0">{{ doc.start_date }}</p>
             {% endif %}
 
             <!-- expected/actual completion -->
             {% if doc.expected_complete_date or doc.actual_complete_date %}
-            <h3 class="mb-2 mt-2">
+            <h4 class="mb-2 mt-2">
               Expexcted/Actual Completion Date:
-            </h3>
-            <p class="m-0">
+            </h4>
+            <p id="{{ doc.meta.id }}_compdate" class="m-0">
               {{ doc.expected_complete_date if doc.expected_complete_date else "-" }} /
               {{ doc.actual_complete_date if doc.actual_complete_date else "-" }}
             </p>
@@ -285,30 +289,49 @@
 
             <!-- urls -->
             {% if doc.urls %}
-            <h3 class="mb-2 mt-2">
+            <h4 class="mb-2 mt-2">
               URLs:
-            </h3>
-            <p class="ellipses w-50 m-0">
+            </h4>
+            <p id="{{ doc.meta.id }}_urls" class="ellipses w-50 m-0">
               {% for url in doc.urls %}
               <a href="{{url}}">{{url}}</a><br>
               {% endfor %}
             </p>
             {% endif %}
+
+            <!-- more like this -->
+            <div>
+              <h4 class="mb-3 mt-4 ml-0">
+                <a id="{{ doc.meta.id }}_mlt_btn" class="btn btn-light m-0" data-toggle="collapse"
+                  href="#{{ doc.meta.id }}_mlt_content" role="button" aria-expanded="false"
+                  aria-controls="{{ doc.meta.id }}_mlt_content" value="{{ doc.meta.index }}">More Like This</a>
+              </h4>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <div class="collapse multi-collapse" id="{{ doc.meta.id }}_mlt_content">
+
+                </div>
+              </div>
+            </div>
           </div>
           <div class="modal-record-options">
             <div id="sidenav" class="content-section">
 
-              <form onsubmit="return false" id="{{ doc.meta.id }}_form" name="record_form" class="text-left white border border-light p-3">
+              <form onsubmit="return false" id="{{ doc.meta.id }}_form" name="record_form"
+                class="text-left white border border-light p-3">
                 <h3 class="mb-2 mt-2">LTBP Objectives</h3>
                 <p class='text-muted'>
                   Mark documents that satisfy LTBP objectives.
                 </p>
                 <div class="custom-control custom-checkbox">
                   {% if 'objective1' in doc.objectives %}
-                  <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective1" name="objective1"
-                    checked>
+                  <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective1"
+                    name="objective1" checked>
                   {% else %}
-                  <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective1" name="objective1">
+                  <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective1"
+                    name="objective1">
                   {% endif %}
                   <label class="custom-control-label" for="{{ doc.meta.id }}_objective1">
                     <h5>Objective 1</h5>
@@ -318,10 +341,11 @@
                 <p>
                   <div class="custom-control custom-checkbox">
                     {% if 'objective2' in doc.objectives %}
-                    <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective2" name="objective2"
-                      checked>
+                    <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective2"
+                      name="objective2" checked>
                     {% else %}
-                    <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective2" name="objective2">
+                    <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective2"
+                      name="objective2">
                     {% endif %}
                     <label class="custom-control-label" for="{{ doc.meta.id }}_objective2">
                       <h5>Objective 2</h5>
@@ -331,10 +355,11 @@
                   <p>
                     <div class="custom-control custom-checkbox">
                       {% if 'objective3' in doc.objectives %}
-                      <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective3" name="objective3"
-                        checked>
+                      <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective3"
+                        name="objective3" checked>
                       {% else %}
-                      <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective3" name="objective3">
+                      <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective3"
+                        name="objective3">
                       {% endif %}
                       <label class="custom-control-label" for="{{ doc.meta.id }}_objective3">
                         <h5>Objective 3</h5>
@@ -344,10 +369,11 @@
                     <p>
                       <div class="custom-control custom-checkbox">
                         {% if 'objective4' in doc.objectives %}
-                        <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective4" name="objective4"
-                          checked>
+                        <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective4"
+                          name="objective4" checked>
                         {% else %}
-                        <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective4" name="objective4">
+                        <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective4"
+                          name="objective4">
                         {% endif %}
                         <label class="custom-control-label" for="{{ doc.meta.id }}_objective4">
                           <h5>Objective 4</h5>
@@ -374,7 +400,7 @@
                       <input type="hidden" value="{{ formdata['date_range'] }}" name="dateRange">
                       <input type="hidden" value="{{ formdata['sort_by'] }}" name="sortBy">
                       <!-- <fieldset disabled="disabled"> -->
-                      <button id="{{ doc.meta.id }}_submit" class="btn btn-info btn-block btn-blue-grey mt-3" type="submit"
+                      <button id="{{ doc.meta.id }}_submit" class="btn btn-info btn-block btn-light mt-3" type="submit"
                         name="form" value="record">
                         Apply
                       </button>
@@ -397,14 +423,16 @@
     <h5 class="card-title mb-1">
       <a data-toggle="modal" data-target="#{{ doc.meta.id }}">{{ doc.title.title().replace("And","and") }}</a>
       {% if doc.bookmarked == 'true' %}
-      <button id="{{ doc.meta.id }}_bookmark_btn" type="button" value="{{ doc.meta.index }}" class="btn btn-sm d-inline mb-1 mt-3 float-right p-1 pl-2 pr-2 waves-effect red darken-4 marked">
+      <button id="{{ doc.meta.id }}_bookmark_btn" type="button" value="{{ doc.meta.index }}"
+        class="btn btn-sm d-inline mb-1 mt-3 float-right p-1 pl-2 pr-2 waves-effect red darken-4 marked">
         <i id="{{ doc.meta.id }}_bookmark_icon" class="fa fa-bookmark fa-lg pr-1" aria-hidden="true"></i>
         <div id="{{ doc.meta.id }}_bookmark_text" class="d-inline">
           Marked
         </div>
       </button>
       {% else %}
-      <button id="{{ doc.meta.id }}_bookmark_btn" type="button" value="{{ doc.meta.index }}" class="btn btn-sm d-inline mb-1 mt-3 float-right p-1 pl-2 pr-2 waves-effect red darken-4 unmarked">
+      <button id="{{ doc.meta.id }}_bookmark_btn" type="button" value="{{ doc.meta.index }}"
+        class="btn btn-sm d-inline mb-1 mt-3 float-right p-1 pl-2 pr-2 waves-effect red darken-4 unmarked">
         <i id="{{ doc.meta.id }}_bookmark_icon" class="fa fa-bookmark-o fa-lg pr-1" aria-hidden="true"></i>
         <div id="{{ doc.meta.id }}_bookmark_text" class="d-inline">
           Bookmark
@@ -427,7 +455,8 @@
               </span>
             </h5>
             <!-- record type -->
-            <h5 class="d-inline mb-0"><span class="badge deep-purple darken-4 text-capitalize z-depth-0">{{doc.doc_type.title()}}</span></h5>
+            <h5 class="d-inline mb-0"><span
+                class="badge deep-purple darken-4 text-capitalize z-depth-0">{{doc.doc_type.title()}}</span></h5>
             <!-- record tags -->
             {% if doc.tags %}
             {% for tag in doc.tags %}
@@ -545,14 +574,16 @@
           <div class="modal-record-content">
 
             {% if doc.bookmarked == 'true' %}
-            <button id="{{ doc.meta.id }}_modal_bookmark_btn" type="button" value="{{ doc.meta.index }}" class="btn btn mt-1 float-right waves-effect red darken-4 p-1 pl-2 pr-2 marked">
+            <button id="{{ doc.meta.id }}_modal_bookmark_btn" type="button" value="{{ doc.meta.index }}"
+              class="btn btn mt-1 float-right waves-effect red darken-4 p-1 pl-2 pr-2 marked">
               <i id="{{ doc.meta.id }}_modal_bookmark_icon" class="fa fa-bookmark fa-lg pr-1" aria-hidden="true"></i>
               <div id="{{ doc.meta.id }}_modal_bookmark_text" class="d-inline">
                 Marked
               </div>
             </button>
             {% else %}
-            <button id="{{ doc.meta.id }}_modal_bookmark_btn" type="button" value="{{ doc.meta.index }}" class="btn btn mt-1 float-right waves-effect red darken-4 p-1 pl-2 pr-2 unmarked">
+            <button id="{{ doc.meta.id }}_modal_bookmark_btn" type="button" value="{{ doc.meta.index }}"
+              class="btn btn mt-1 float-right waves-effect red darken-4 p-1 pl-2 pr-2 unmarked">
               <i id="{{ doc.meta.id }}_modal_bookmark_icon" class="fa fa-bookmark-o fa-lg pr-1" aria-hidden="true"></i>
               <div id="{{ doc.meta.id }}_modal_bookmark_text" class="d-inline">
                 Bookmark
@@ -598,7 +629,8 @@
                   Mark documents that satisfy LTBP objectives.
                 </p>
                 <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective1" name="objective1">
+                  <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective1"
+                    name="objective1">
                   <label class="custom-control-label" for="objective1">
                     <h5>Objective 1</h5>
                   </label>
@@ -606,7 +638,8 @@
                 <p class='text-muted'> Advance research in deterioration and predictive modeling.</p>
                 <p>
                   <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective2" name="objective2">
+                    <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective2"
+                      name="objective2">
                     <label class="custom-control-label" for="objective2">
                       <h5>Objective 2</h5>
                     </label>
@@ -614,7 +647,8 @@
                   <p class='text-muted'>Advance research in cost analysis.</p>
                   <p>
                     <div class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective3" name="objective3">
+                      <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective3"
+                        name="objective3">
                       <label class="custom-control-label" for="objective3">
                         <h5>Objective 3</h5>
                       </label>
@@ -622,7 +656,8 @@
                     <p class='text-muted'>Support the development and identification of improved design methods.</p>
                     <p>
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective4" name="objective4">
+                        <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective4"
+                          name="objective4">
                         <label class="custom-control-label" for="objective4">
                           <h5>Objective 4</h5>
                         </label>
@@ -630,7 +665,8 @@
                       <p class='text-muted'>Quantify the effectiveness and support the development of improved
                         assessment, maintenance, preservation, repair, and rehabilitation strategies.</p>
                       <div class="form-group green-border-focus">
-                        <textarea class="form-control text-muted" id="{{ doc.meta.id }}_notes" rows="3" placeholder="Notes..."></textarea>
+                        <textarea class="form-control text-muted" id="{{ doc.meta.id }}_notes" rows="3"
+                          placeholder="Notes..."></textarea>
                       </div>
                       <fieldset disabled="disabled">
                         <button class="btn btn-info btn-block btn-blue-grey mt-3" type="submit">

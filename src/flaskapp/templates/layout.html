@@ -59,7 +59,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav mr-3">
 
-        {% if heading == 'Analyze' %}
+        {% if title == 'Analyze' %}
         <li class="nav-item active">
           <a class="nav-link" href="{{ url_for('analyze') }}">Analyze <span class="sr-only">(current)</span></a>
         </li>
@@ -67,7 +67,7 @@
           <a class="nav-link" href="{{ url_for('explore') }}">Explore </a>
         </li>
         <!-- <script>console.log('analyze')</script> -->
-        {% elif heading == 'Explore' %}
+        {% elif title == 'Explore' %}
         <li class="nav-item">
           <a class="nav-link" href="{{ url_for('analyze') }}">Analyze</a>
         </li>

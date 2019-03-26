@@ -1,12 +1,90 @@
 console.log('js loaded.')
 
-// $(document).ready(function () {
-//     $('#dtVerticalScrollExample').DataTable({
-//         "scrollY": "400px",
-//         "scrollCollapse": true,
-//     });
-//     // $('.dataTables_length').addClass('bs-select');
-// });
+// bind click event to record form submit buttons
+$(document).ready(function () {
+    $("[id$=_mlt_btn]").click(function () {
+        let doc_id = this.id.split("_")[0]
+
+        if ($("#" + doc_id + "_mlt_content").children().length == 0) {
+            // if children (similar documents), get more like this
+            var self = $(this).append("<img class='pl-2' src='/static/loading.gif'>"); // change button html to loading gif
+            setTimeout(function () {
+                $.post('/more_like_this', {
+                        'doc_id': doc_id,
+                        'index': this.value
+                    }) // submit post request
+                    .done(function (response) {
+                        console.log(response)
+                        for (let i = 0; i < response.length; i++) {
+                            let title = response[i]['_source']['title']
+                            let index = response[i]['_index']
+                            let rec_id = response[i]["_id"]
+                            if (index == 'projects') {
+                                html_string = `<h6 class='w-100 align-middle text-nowrap' style='overflow:hidden; text-overflow:ellipsis;'>
+                                <span class='badge primary-color-dark text-capitalize z-depth-0 mr-1'>Project</span>
+                                <a>` + title + `</a></h6>`
+                            } else if (index == 'publications') {
+                                html_string = `<h6 class='w-100 align-middle text-nowrap' style='overflow:hidden; text-overflow:ellipsis;'>
+                                <span class='badge deep-purple darken-4 text-capitalize z-depth-0 mr-1'>Publication</span>
+                                <a>` + title + `</a></h6>`
+                            }
+                            $("#" + doc_id + "_mlt_content").append(html_string)
+                            // add record if does not already exist in DOM
+                            if ($("#" + rec_id).length) {
+                                console.log("exists.")
+                                // addModal(rec_id, doc_id)
+                            } else {
+                                console.log("does not exist.")
+                            }
+                        }
+                    }).fail(function () {
+                        alert('Failed to find more like this.')
+                    });
+                self.html('More Like This');
+            }, 1000);
+            // toggle collapse content
+            $("#" + doc_id + "_mlt_content").collapse('toggle')
+        } else {
+            // toggle collapse content
+            $("#" + doc_id + "_mlt_content").collapse('toggle')
+        }
+
+        return false;
+    })
+});
+
+function addModal(rec_id, doc_id) {
+    var modal = $("#"+doc_id); // modal to copy
+    let clone = modal.clone(); // create copy 
+    let desc = clone.find("[id^="+doc_id+"]") // get all descendants w/ doc_id
+
+    // first change all ids
+    clone[0].id = rec_id; // change id
+    for (let i = 0; i < desc.length; i++) {
+        let id = desc[i].id // get old id
+        let parts = id.split("_")
+        parts[0] = rec_id // change record id
+        new_id = parts.join("_") // create new id
+        desc[i].id = new_id // update descendant id
+    }
+    // console.log(desc)
+    // next update modal content
+    clone.attr('class',"modal fade")
+    clone.find("#"+rec_id+"_title").text("Test") // title
+    clone.find("#"+rec_id+"_record_type").text("Test") // record type
+    clone.find("#"+rec_id+"_tags").html("Test") // record tags
+    clone.find("#"+rec_id+"_elem_tags").html("Test") // record element tags
+    clone.find("#"+rec_id+"_abstract").text("Test") // abstract
+    clone.find("#"+rec_id+"_status").text("Test") // status
+    clone.find("#"+rec_id+"_funding").text("Test") // funding
+    clone.find("#"+rec_id+"_fundagencies").text("Test") // funding agencies
+    clone.find("#"+rec_id+"_perfagencies").text("Test") // performing agencies
+    clone.find("#"+rec_id+"_startdate").text("Test") // start date
+    clone.find("#"+rec_id+"_compdate").text("Test") // completion date
+    clone.find("#"+rec_id+"_urls").text("Test") // funding
+    clone.appendTo("#modals") // append new modal
+}
+
 
 // bind click event to bookmark buttons
 $(document).ready(function () {
@@ -141,6 +219,8 @@ function setButtonState(buttonStates) {
     let sortBy = buttonStates.sort_by
     let rpp = buttonStates.rpp
 
+    console.log(search_type)
+
     // update 'topic' selection
     if (topic == 'all') {
         document.getElementsByName('topic')[0].options.selectedIndex = 1
@@ -191,7 +271,7 @@ function setButtonState(buttonStates) {
         document.getElementById('rt2').checked = true
         setSortOption(docType)
         enableStatus()
-        if (search_type == ' click_map') {
+        if (search_type == 'click_map') {
             disableRecordTypeOption()
         }
     } else {
