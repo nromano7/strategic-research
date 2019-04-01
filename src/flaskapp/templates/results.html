@@ -1,11 +1,12 @@
 {% extends "layout.html" %}
+{% from "macros.html" import modal_template %}
 {% from "macros.html" import project_record with context %}
 {% from "macros.html" import project_record_modal with context %}
 {% from "macros.html" import publication_record with context %}
 {% from "macros.html" import publication_record_modal with context %}
 {% block content %}
 
-<main onload="setButtonState();" class="explore-grid-container" style="zoom: 90%">
+<main onload="setButtonState();" class="explore-grid-container">
 
   <body onload="setButtonState({{buttonStates}});">
     <div class="unique-color-dark" style="grid-column: 1/end; grid-row: 1/3"></div>
@@ -126,200 +127,8 @@
       {{ publication_record_modal(doc, formdata) }}
       {% endif %}
       {% endfor %}
-      <!-- modal template -->
-      <div class="modal fade" id="modal_template" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-fluid modal-notify modal-custom" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <!-- title -->
-              <h3 id="mt_title" class="modal-title w-100 pl-4 pr-4">
-                None
-              </h3>
-              <!-- close button -->
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body pl-5 pr-5 pb-5">
-              <!-- record type -->
-              <h4 class="d-inline mb-0">
-                <span id="mt_record_type" class="badge primary-color-dark text-capitalize z-depth-0">
-                  None
-                </span>
-              </h4>
-              <!-- record tag -->
-              <h4 id="mt_tags" class="d-inline">
-                <span class="badge teal darken-1 z-depth-0 ml-1">
-                  None
-                </span>
-              </h4>
-              <!-- element tags -->
-              <h4 id="mt_elem_tags" class="d-inline">
-                <span class="badge orange darken-3 z-depth-0 ml-1">
-                  None
-                </span>
-              </h4>
-
-              <hr>
-              <div class="modal-grid-container">
-                <div class="modal-record-content">
-                  <!-- bookmark button -->
-                  <button id="mt_modal_bookmark_btn" type="button" value=""
-                    class="btn btn mt-2 float-right waves-effect red darken-4 p-1 pl-2 pr-2 unmarked">
-                    <i id="mt_modal_bookmark_icon" class="fa fa-bookmark-o fa-lg pr-1" aria-hidden="true"></i>
-                    <div id="mt_modal_bookmark_text" class="d-inline">
-                      Bookmark
-                    </div>
-                  </button>
-                  <!-- abstract -->
-                  <h4 class="mb-2 mt-2">
-                    Abstract/Objectives:
-                  </h4>
-                  <p id="mt_abstract" class="m-0">
-                    None
-                  </p>
-                  <!-- project status -->
-                  <h4 class="mb-2 mt-2">
-                    Status:
-                  </h4>
-                  <p id="mt_status" class="m-0">
-                    None
-                  </p>
-                  <!-- funding -->
-                  <h4 class="mb-2 mt-2">
-                    Fund Amount:
-                  </h4>
-                  <p id="mt_funding" class="m-0">
-                    None
-                  </p>
-                  <!-- funding organization -->
-                  <h4 class="mb-2 mt-2">
-                    Funding Organizations:
-                  </h4>
-                  <div id="mt_fundagencies">
-                    <p class="m-0">
-                      None
-                    </p>
-                  </div>
-                  <!-- performing agencies -->
-                  <h4 class="mb-2 mt-2">
-                    Performing Agencies:
-                  </h4>
-                  <p id="mt_perfagencies" class="m-0">
-                    None
-                  </p>
-                  <!-- start date -->
-                  <h4 class="mb-2 mt-2">
-                    Start Date:
-                  </h4>
-                  <p id="mt_startdate" class="m-0">
-                    None
-                  </p>
-                  <!-- expected/actual completion -->
-                  <h4 class="mb-2 mt-2">
-                    Expexcted/Actual Completion Date:
-                  </h4>
-                  <p id="mt_compdate" class="m-0">
-                    None
-                  </p>
-                  <!-- urls -->
-                  <h4 class="mb-2 mt-2">
-                    URLs:
-                  </h4>
-                  <p id="mt_urls" class="ellipses w-50 m-0">
-                    None
-                  </p>
-                  <!-- more like this -->
-                  <div>
-                    <h4 class="mb-3 mt-4 ml-0">
-                      <a id="mt_mlt_btn" class="btn btn-light m-0" data-toggle="collapse" href="#mt_mlt_content"
-                        role="button" aria-expanded="false" aria-controls="mt_mlt_content" value="">
-                        More Like This
-                      </a>
-                    </h4>
-                  </div>
-                  <div class="row">
-                    <div class="col">
-                      <div class="collapse multi-collapse" id="mt_mlt_content">
-
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- modal options -->
-                <div class="modal-record-options">
-                  <div id="sidenav" class="content-section">
-                    <form onsubmit="return false" id="mt_form" name="record_form"
-                      class="text-left white border border-light p-3">
-                      <h3 class="mb-2 mt-2">LTBP Objectives</h3>
-                      <p class='text-muted'>
-                        Mark documents that satisfy LTBP objectives.
-                      </p>
-                      <!-- Objective 1 -->
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="mt_objective1" name="objective1">
-                        <label class="custom-control-label" for="mt_objective1">
-                          <h5>Objective 1</h5>
-                        </label>
-                      </div>
-                      <p class='text-muted'>
-                        Advance research in deterioration and predictive modeling.
-                      </p>
-                      <!-- Objective 2 -->
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="mt_objective2" name="objective2">
-                        <label class="custom-control-label" for="mt_objective2">
-                          <h5>Objective 2</h5>
-                        </label>
-                      </div>
-                      <p class='text-muted'>
-                        Advance research in cost analysis.
-                      </p>
-                      <!-- Objective 3 -->
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="mt_objective3" name="objective3">
-                        <label class="custom-control-label" for="mt_objective3">
-                          <h5>Objective 3</h5>
-                        </label>
-                      </div>
-                      <p class='text-muted'>
-                        Support the development and identification of improved design methods.
-                      </p>
-                      <!-- Objective 4 -->
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="mt_objective4" name="objective4">
-                        <label class="custom-control-label" for="mt_objective4">
-                          <h5>Objective 4</h5>
-                        </label>
-                      </div>
-                      <p class='text-muted'>
-                        Quantify the effectiveness and support the development of improved
-                        assessment, maintenance, preservation, repair, and rehabilitation strategies.
-                      </p>
-                      <div class="form-group green-border-focus">
-                        <textarea class="form-control text-muted text-left" id="mt_notes" name="notes" rows="4" placeholder="Notes..."></textarea>
-                      </div>
-                      <input type="hidden" value="" name="doc_id">
-                      <input type="hidden" value="" name="index">
-                      <input type="hidden" value="" name="type">
-                      <input type="hidden" value="" name="query">
-                      <input type="hidden" value="" name="topic">
-                      <input type="hidden" value="" name="element">
-                      <input type="hidden" value="" name="status">
-                      <input type="hidden" value="" name="dateRange">
-                      <input type="hidden" value="" name="sortBy">
-                      <button id="mt_submit" class="btn btn-info btn-block btn-light mt-3" type="submit" name="form" value="record">
-                        Apply
-                      </button>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      
+      {{ modal_template() }}
     </div>
   </body>
 

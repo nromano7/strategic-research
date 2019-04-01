@@ -2,10 +2,13 @@
   display: grid;
   grid-template-columns: 5% 15% 75% 5%;
   grid-template-rows: 70px minmax(50px, 10%) 10px 30px 600px;
-  grid-gap: 5px 5px;
+  /* grid-gap: 5px 5px; */
   margin: 0px 0px 20px 0px
 }
 
+body.modal-open{
+  overflow:hidden;
+}
 
 .modal-grid-container {
   display: grid;
@@ -39,9 +42,10 @@
   text-overflow: ellipsis;
 }
 
+
 .modal-custom {
-  padding-left: 200px;
-  padding-right: 200px
+  padding-left: 50px;
+  padding-right: 50px
 }
 
 .spinner {
@@ -77,11 +81,11 @@
   0%,
   80%,
   100% {
-      -webkit-transform: scale(0)
+    -webkit-transform: scale(0)
   }
 
   40% {
-      -webkit-transform: scale(1.0)
+    -webkit-transform: scale(1.0)
   }
 }
 
@@ -90,30 +94,32 @@
   0%,
   80%,
   100% {
-      -webkit-transform: scale(0);
-      transform: scale(0);
+    -webkit-transform: scale(0);
+    transform: scale(0);
   }
 
   40% {
-      -webkit-transform: scale(1.0);
-      transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+    transform: scale(1.0);
   }
 }
+
 
 #dash-container {
   /* display: grid; */
   grid-column: 2/3;
   grid-row: 3/4;
-  margin-top: 5px;
+  margin-top: 10px;
   /* margin-bottom: 10px; */
   /* height: 660px; */
   /* max-height: calc(100% - 140px) */
 }
+
 #main-container {
   display: grid;
   grid-template-columns: 5% 90% 5%;
-  grid-template-rows: 70px minmax(50px, 10%) 730px 400px;
-  grid-gap: 5px 5px;
+  grid-template-rows: 70px minmax(50px, 10%) 670px 400px;
+  /* grid-gap: 5px 5px; */
 }
 
 #anno-table {
@@ -185,7 +191,7 @@
 }
 
 #loading {
-  display:none;
+  display: none;
 }
 
 #loading-overlay {
@@ -209,4 +215,3 @@
   margin-left: -200px;
   z-index: 9999;
 }
-

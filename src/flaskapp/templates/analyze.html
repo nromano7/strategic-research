@@ -1,380 +1,413 @@
 {% extends "layout.html" %}
+{% from "macros.html" import modal_template %}
 {% from "macros.html" import project_record_modal with context %}
 {% from "macros.html" import publication_record_modal with context %}
 {% block content %}
-<main style="zoom: 90%">
-    <body class="grey lighten-3">
+<main>
 
-        <div id="main-container">
-      
-          <!-- <div id="header" class="unique-color-dark z-depth-1"></div> -->
-          <div class="unique-color-dark" style="grid-column: 1/end; grid-row: 1/3"></div>
-          <h1 id="heading" class="white-text mb-3">
-            {{ heading }}
-          </h1>
-      
-          <div id="dash-container">
-            <iframe frameborder='0' noresize='noresize' style='width: 100%; height:100%;' src='/dashboard/' frameborder="0"
-              scrolling="no"></iframe>
-          </div>
-      
-          <div id="anno-table">
-            <ul class="nav nav-pills nav-justified" id="myTabJust" role="tablist">
-              <li class="nav-item special-color m-1 z-depth-1">
-                <a class="nav-link text-white active" id="bookmarks-tab" data-toggle="tab" href="#bookmarks-content" role="tab"
-                  aria-controls="bookmarks-content" aria-selected="true" style="border-bottom: 1px">Bookmarked</a>
-              </li>
-              <li class="nav-item special-color m-1 z-depth-1">
-                <a class="nav-link text-white" id="obj1-tab" data-toggle="tab" href="#obj1-content" role="tab" aria-controls="obj1-content"
-                  aria-selected="false" style="border-bottom: 1px">Objective 1</a>
-              </li>
-              <li class="nav-item special-color m-1 z-depth-1">
-                <a class="nav-link text-white" id="obj2-tab" data-toggle="tab" href="#obj2-content" role="tab" aria-controls="obj2-content"
-                  aria-selected="false" style="border-bottom: 1px">Objective 2</a>
-              </li>
-              <li class="nav-item special-color m-1 z-depth-1">
-                <a class="nav-link text-white" id="obj3-tab" data-toggle="tab" href="#obj3-content" role="tab" aria-controls="obj3-content"
-                  aria-selected="false" style="border-bottom: 1px">Objective 3</a>
-              </li>
-              <li class="nav-item special-color m-1 z-depth-1">
-                <a class="nav-link text-white" id="obj4-tab" data-toggle="tab" href="#obj4-content" role="tab" aria-controls="obj4-content"
-                  aria-selected="false" style="border-bottom: 1px">Objective 4</a>
-              </li>
-      
-            </ul>
-            <div class="tab-content z-depth-1 p-2" id="myTabContentJust" style="height: 80%;overflow-y: scroll;">
-              <div class="tab-pane fade show active" id="bookmarks-content" role="tabpanel" aria-labelledby="bookmarks-tab">
-                  <table id="dtVerticalScrollExample" class="table table-hover table-fixed table-sm" cellspacing="0" width="100%">
-                      <col width="10%">
-                      <col width="30%">
-                      <col width="30%">
-                      <col width="30%">
-                      <thead>
-                        <tr>
-                          <th class="th-sm">Record Type
-                          </th>
-                          <th class="th-sm">Title
-                          </th>
-                          <th class="th-sm">Topic Tags
-                          </th>
-                          <th class="th-sm">Element Tags
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {% for doc in content['bookmarked'] %}
-                        <tr>
-                          <td>
-                            {% if doc.doc_type == 'project' %}
-                            <span class="badge primary-color-dark text-capitalize z-depth-0">
-                              {{doc.doc_type.title()}}
-                            </span>
-                            {% else %}
-                            <span class="badge deep-purple darken-4 text-capitalize z-depth-0">
-                              {{doc.doc_type.title()}}
-                            </span>
-                            {% endif %}
-          
-                          </td>
-                          <td><a class="mr-5" data-toggle="modal" data-target="#{{ doc.meta.id }}">{{ doc.title }}</a></td>
-                          <td>
-                            {% if doc.tags %}
-                            {% for tag in doc.tags %}
-                            <span class="badge teal darken-1 z-depth-0 ml-1">
-                              {{ tag.title().replace("_"," ").replace("And","and") }}
-                            </span>
-                            {% endfor %}
-                            {% endif %}
-                          </td>
-                          <td>
-                            {% if doc.element_tags %}
-                            {% for tag in doc.element_tags %}
-                            <span class="badge orange darken-3 z-depth-0 ml-1">
-                              {{ tag.title().replace("_"," ").replace("And","&") }}
-                            </span>
-                            {% endfor %}
-                            {% endif %}
-                          </td>
-                        </tr>
-                        {% endfor %}
-                      </tbody>
-                    </table>
-              </div>
-              <div class="tab-pane fade" id="obj1-content" role="tabpanel" aria-labelledby="obj1-tab">
-                <table id="dtVerticalScrollExample" class="table table-hover table-fixed table-sm" cellspacing="0" width="100%">
-                  <col width="10%">
-                  <col width="30%">
-                  <col width="30%">
-                  <col width="30%">
-                  <thead>
-                    <tr>
-                      <th class="th-sm">Record Type
-                      </th>
-                      <th class="th-sm">Title
-                      </th>
-                      <th class="th-sm">Topic Tags
-                      </th>
-                      <th class="th-sm">Element Tags
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for doc in content['obj1'] %}
-                    <tr>
-                      <td>
-                        {% if doc.doc_type == 'project' %}
-                        <span class="badge primary-color-dark text-capitalize z-depth-0">
-                          {{doc.doc_type.title()}}
-                        </span>
-                        {% else %}
-                        <span class="badge deep-purple darken-4 text-capitalize z-depth-0">
-                          {{doc.doc_type.title()}}
-                        </span>
-                        {% endif %}
-      
-                      </td>
-                      <td><a class="mr-5" data-toggle="modal" data-target="#{{ doc.meta.id }}">{{ doc.title.title() }}</a></td>
-                      <td>
-                        {% if doc.tags %}
-                        {% for tag in doc.tags %}
-                        <span class="badge teal darken-1 z-depth-0 ml-1">
-                          {{ tag.title().replace("_"," ").replace("And","and") }}
-                        </span>
-                        {% endfor %}
-                        {% endif %}
-                      </td>
-                      <td>
-                        {% if doc.element_tags %}
-                        {% for tag in doc.element_tags %}
-                        <span class="badge orange darken-3 z-depth-0 ml-1">
-                          {{ tag.title().replace("_"," ").replace("And","&") }}
-                        </span>
-                        {% endfor %}
-                        {% endif %}
-                      </td>
-                    </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
-              </div>
-              <div class="tab-pane fade" id="obj2-content" role="tabpanel" aria-labelledby="obj2-tab">
-                  <table id="dtVerticalScrollExample" class="table table-hover table-fixed table-sm" cellspacing="0" width="100%">
-                      <col width="10%">
-                      <col width="30%">
-                      <col width="30%">
-                      <col width="30%">
-                      <thead>
-                        <tr>
-                          <th class="th-sm">Record Type
-                          </th>
-                          <th class="th-sm">Title
-                          </th>
-                          <th class="th-sm">Topic Tags
-                          </th>
-                          <th class="th-sm">Element Tags
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {% for doc in content['obj2'] %}
-                        <tr>
-                          <td>
-                            {% if doc.doc_type == 'project' %}
-                            <span class="badge primary-color-dark text-capitalize z-depth-0">
-                              {{doc.doc_type.title()}}
-                            </span>
-                            {% else %}
-                            <span class="badge deep-purple darken-4 text-capitalize z-depth-0">
-                              {{doc.doc_type.title()}}
-                            </span>
-                            {% endif %}
-          
-                          </td>
-                          <td><a class="mr-5" data-toggle="modal" data-target="#{{ doc.meta.id }}">{{ doc.title.title() }}</a></td>
-                          <td>
-                            {% if doc.tags %}
-                            {% for tag in doc.tags %}
-                            <span class="badge teal darken-1 z-depth-0 ml-1">
-                              {{ tag.title().replace("_"," ").replace("And","and") }}
-                            </span>
-                            {% endfor %}
-                            {% endif %}
-                          </td>
-                          <td>
-                            {% if doc.element_tags %}
-                            {% for tag in doc.element_tags %}
-                            <span class="badge orange darken-3 z-depth-0 ml-1">
-                              {{ tag.title().replace("_"," ").replace("And","&") }}
-                            </span>
-                            {% endfor %}
-                            {% endif %}
-                          </td>
-                        </tr>
-                        {% endfor %}
-                      </tbody>
-                    </table>
-              </div>
-              <div class="tab-pane fade" id="obj3-content" role="tabpanel" aria-labelledby="obj3-tab">
-                  <table id="dtVerticalScrollExample" class="table table-hover table-fixed table-sm" cellspacing="0" width="100%">
-                      <col width="10%">
-                      <col width="30%">
-                      <col width="30%">
-                      <col width="30%">
-                      <thead>
-                        <tr>
-                          <th class="th-sm">Record Type
-                          </th>
-                          <th class="th-sm">Title
-                          </th>
-                          <th class="th-sm">Topic Tags
-                          </th>
-                          <th class="th-sm">Element Tags
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {% for doc in content['obj3'] %}
-                        <tr>
-                          <td>
-                            {% if doc.doc_type == 'project' %}
-                            <span class="badge primary-color-dark text-capitalize z-depth-0">
-                              {{doc.doc_type.title()}}
-                            </span>
-                            {% else %}
-                            <span class="badge deep-purple darken-4 text-capitalize z-depth-0">
-                              {{doc.doc_type.title()}}
-                            </span>
-                            {% endif %}
-          
-                          </td>
-                          <td><a class="mr-5" data-toggle="modal" data-target="#{{ doc.meta.id }}">{{ doc.title.title() }}</a></td>
-                          <td>
-                            {% if doc.tags %}
-                            {% for tag in doc.tags %}
-                            <span class="badge teal darken-1 z-depth-0 ml-1">
-                              {{ tag.title().replace("_"," ").replace("And","and") }}
-                            </span>
-                            {% endfor %}
-                            {% endif %}
-                          </td>
-                          <td>
-                            {% if doc.element_tags %}
-                            {% for tag in doc.element_tags %}
-                            <span class="badge orange darken-3 z-depth-0 ml-1">
-                              {{ tag.title().replace("_"," ").replace("And","&") }}
-                            </span>
-                            {% endfor %}
-                            {% endif %}
-                          </td>
-                        </tr>
-                        {% endfor %}
-                      </tbody>
-                    </table>
-              </div>
-              <div class="tab-pane fade" id="obj4-content" role="tabpanel" aria-labelledby="obj4-tab">
-                  <table id="dtVerticalScrollExample" class="table table-hover table-fixed table-sm" cellspacing="0" width="100%">
-                      <col width="10%">
-                      <col width="30%">
-                      <col width="30%">
-                      <col width="30%">
-                      <thead>
-                        <tr>
-                          <th class="th-sm">Record Type
-                          </th>
-                          <th class="th-sm">Title
-                          </th>
-                          <th class="th-sm">Topic Tags
-                          </th>
-                          <th class="th-sm">Element Tags
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {% for doc in content['obj4'] %}
-                        <tr>
-                          <td>
-                            {% if doc.doc_type == 'project' %}
-                            <span class="badge primary-color-dark text-capitalize z-depth-0">
-                              {{doc.doc_type.title()}}
-                            </span>
-                            {% else %}
-                            <span class="badge deep-purple darken-4 text-capitalize z-depth-0">
-                              {{doc.doc_type.title()}}
-                            </span>
-                            {% endif %}
-          
-                          </td>
-                          <td><a class="mr-5" data-toggle="modal" data-target="#{{ doc.meta.id }}">{{ doc.title.title() }}</a></td>
-                          <td>
-                            {% if doc.tags %}
-                            {% for tag in doc.tags %}
-                            <span class="badge teal darken-1 z-depth-0 ml-1">
-                              {{ tag.title().replace("_"," ").replace("And","and") }}
-                            </span>
-                            {% endfor %}
-                            {% endif %}
-                          </td>
-                          <td>
-                            {% if doc.element_tags %}
-                            {% for tag in doc.element_tags %}
-                            <span class="badge orange darken-3 z-depth-0 ml-1">
-                              {{ tag.title().replace("_"," ").replace("And","&") }}
-                            </span>
-                            {% endfor %}
-                            {% endif %}
-                          </td>
-                        </tr>
-                        {% endfor %}
-                      </tbody>
-                    </table>
-              </div>
+  <body class="grey lighten-3">
+
+    <div id="main-container">
+
+      <!-- <div id="header" class="unique-color-dark z-depth-1"></div> -->
+      <div class="unique-color-dark" style="grid-column: 1/end; grid-row: 1/3"></div>
+      <h1 id="heading" class="white-text mb-3">
+        {{ heading }}
+      </h1>
+
+      <div id="dash-container">
+        <iframe frameborder='0' noresize='noresize' style='width: 100%; height:100%;' src='/dashboard/' frameborder="0"
+          scrolling="no"></iframe>
+      </div>
+
+      <div id="anno-table">
+        <ul class="nav nav-pills nav-justified" id="myTabJust" role="tablist">
+          <li class="nav-item special-color m-1 z-depth-1">
+            <a class="nav-link text-white active" id="bookmarks-tab" data-toggle="tab" href="#bookmarks-content"
+              role="tab" aria-controls="bookmarks-content" aria-selected="true"
+              style="border-bottom: 1px">Bookmarked</a>
+          </li>
+          <li class="nav-item special-color m-1 z-depth-1">
+            <a class="nav-link text-white" id="obj1-tab" data-toggle="tab" href="#obj1-content" role="tab"
+              aria-controls="obj1-content" aria-selected="false" style="border-bottom: 1px">Objective 1</a>
+          </li>
+          <li class="nav-item special-color m-1 z-depth-1">
+            <a class="nav-link text-white" id="obj2-tab" data-toggle="tab" href="#obj2-content" role="tab"
+              aria-controls="obj2-content" aria-selected="false" style="border-bottom: 1px">Objective 2</a>
+          </li>
+          <li class="nav-item special-color m-1 z-depth-1">
+            <a class="nav-link text-white" id="obj3-tab" data-toggle="tab" href="#obj3-content" role="tab"
+              aria-controls="obj3-content" aria-selected="false" style="border-bottom: 1px">Objective 3</a>
+          </li>
+          <li class="nav-item special-color m-1 z-depth-1">
+            <a class="nav-link text-white" id="obj4-tab" data-toggle="tab" href="#obj4-content" role="tab"
+              aria-controls="obj4-content" aria-selected="false" style="border-bottom: 1px">Objective 4</a>
+          </li>
+
+        </ul>
+        <div class="tab-content z-depth-1 white" id="myTabContentJust" style="height: 80%;overflow-y: hidden;">
+          <div class="tab-pane fade show active" id="bookmarks-content" role="tabpanel" aria-labelledby="bookmarks-tab">
+            <div class="row ml-1 mt-1 mr-2">
+              <table id="dtBookmarked" class="table table-hover m-0 table-sm" cellspacing="0" width="100%">
+                <thead>
+                  <tr>
+                    <th class="th-sm text-center" style="width: 10%">Record Type
+                    </th>
+                    <th class="th-sm" style="width: 30%">Title
+                    </th>
+                    <th class="th-sm" style="width: 30%">Topic Tags
+                    </th>
+                    <th class="th-sm pl-0" style="width: 30%">Element Tags
+                    </th>
+                  </tr>
+                </thead>
+              </table>
+            </div>
+            <div class="row ml-2 mr-2" style="overflow-y: scroll; height: 270px;">
+              <table id="dtBookmarked" class="table table-hover m-0 table-sm" cellspacing="0" width="100%">
+                <tbody>
+                  {% for doc in content['bookmarked'] %}
+                  <tr>
+                    <td class="text-center" style="width: 10%">
+                      {% if doc.doc_type == 'project' %}
+                      <span class="badge primary-color-dark text-capitalize z-depth-0">
+                        {{doc.doc_type.title()}}
+                      </span>
+                      {% else %}
+                      <span class="badge deep-purple darken-4 text-capitalize z-depth-0">
+                        {{doc.doc_type.title()}}
+                      </span>
+                      {% endif %}
+
+                    </td>
+                    <td style="width: 30%">
+                      <a id="#{{ doc.meta.id }}_click_title" class="mr-5" data-toggle="modal"
+                        data-target="#{{ doc.meta.id }}">{{ doc.title }}</a></td>
+                    <td style="width: 30%">
+                      {% if doc.tags %}
+                      {% for tag in doc.tags %}
+                      <span class="badge teal darken-1 z-depth-0 ml-1">
+                        {{ tag.title().replace("_"," ").replace("And","and") }}
+                      </span>
+                      {% endfor %}
+                      {% endif %}
+                    </td>
+                    <td class="pl-2" style="width: 30%">
+                      {% if doc.element_tags %}
+                      {% for tag in doc.element_tags %}
+                      <span class="badge orange darken-3 z-depth-0 ml-1">
+                        {{ tag.title().replace("_"," ").replace("And","&") }}
+                      </span>
+                      {% endfor %}
+                      {% endif %}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
             </div>
           </div>
+
+          <div class="tab-pane fade" id="obj1-content" role="tabpanel" aria-labelledby="obj1-tab">
+            <div class="row ml-1 mt-1 mr-2">
+                <table id="dtBookmarked" class="table table-hover m-0 table-sm" cellspacing="0" width="100%">
+                    <thead>
+                      <tr>
+                        <th class="th-sm text-center" style="width: 10%">Record Type
+                        </th>
+                        <th class="th-sm" style="width: 30%">Title
+                        </th>
+                        <th class="th-sm" style="width: 30%">Topic Tags
+                        </th>
+                        <th class="th-sm pl-0" style="width: 30%">Element Tags
+                        </th>
+                      </tr>
+                    </thead>
+                  </table>
+            </div>
+            <div class="row ml-2 mr-2" style="overflow-y: scroll; height: 270px;">
+              <table id="dtVerticalScrollExample" class="table table-hover m-0 table-sm" cellspacing="0" width="100%">
+                <tbody>
+                  {% for doc in content['obj1'] %}
+                  <tr>
+                    <td class="text-center" style="width: 10%">
+                      {% if doc.doc_type == 'project' %}
+                      <span class="badge primary-color-dark text-capitalize z-depth-0">
+                        {{doc.doc_type.title()}}
+                      </span>
+                      {% else %}
+                      <span class="badge deep-purple darken-4 text-capitalize z-depth-0">
+                        {{doc.doc_type.title()}}
+                      </span>
+                      {% endif %}
+
+                    </td>
+                    <td style="width: 30%">
+                      <a id="#{{ doc.meta.id }}_click_title" class="mr-5" data-toggle="modal" data-target="#{{ doc.meta.id }}">{{ doc.title }}
+                      </a>
+                    </td>
+                    <td style="width: 30%">
+                      {% if doc.tags %}
+                      {% for tag in doc.tags %}
+                      <span class="badge teal darken-1 z-depth-0 ml-1">
+                        {{ tag.title().replace("_"," ").replace("And","and") }}
+                      </span>
+                      {% endfor %}
+                      {% endif %}
+                    </td>
+                    <td class="pl-2" style="width: 30%">
+                      {% if doc.element_tags %}
+                      {% for tag in doc.element_tags %}
+                      <span class="badge orange darken-3 z-depth-0 ml-1">
+                        {{ tag.title().replace("_"," ").replace("And","&") }}
+                      </span>
+                      {% endfor %}
+                      {% endif %}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="tab-pane fade" id="obj2-content" role="tabpanel" aria-labelledby="obj2-tab">
+            <div class="row ml-1 mt-1 mr-2">
+                <table id="dtBookmarked" class="table table-hover m-0 table-sm" cellspacing="0" width="100%">
+                    <thead>
+                      <tr>
+                        <th class="th-sm text-center" style="width: 10%">Record Type
+                        </th>
+                        <th class="th-sm" style="width: 30%">Title
+                        </th>
+                        <th class="th-sm" style="width: 30%">Topic Tags
+                        </th>
+                        <th class="th-sm pl-0" style="width: 30%">Element Tags
+                        </th>
+                      </tr>
+                    </thead>
+                  </table>
+            </div>
+            <div class="row ml-2 mr-2" style="overflow-y: scroll; height: 270px;">
+              <table id="dtVerticalScrollExample" class="table table-hover m-0 table-sm" cellspacing="0" width="100%">
+                <tbody>
+                  {% for doc in content['obj2'] %}
+                  <tr>
+                    <td class="text-center" style="width: 10%">
+                      {% if doc.doc_type == 'project' %}
+                      <span class="badge primary-color-dark text-capitalize z-depth-0">
+                        {{doc.doc_type.title()}}
+                      </span>
+                      {% else %}
+                      <span class="badge deep-purple darken-4 text-capitalize z-depth-0">
+                        {{doc.doc_type.title()}}
+                      </span>
+                      {% endif %}
+
+                    </td>
+                    <td style="width: 30%">
+                      <a id="#{{ doc.meta.id }}_click_title" class="mr-5" data-toggle="modal" data-target="#{{ doc.meta.id }}">{{ doc.title }}
+                      </a>
+                    </td>
+                    <td style="width: 30%">
+                      {% if doc.tags %}
+                      {% for tag in doc.tags %}
+                      <span class="badge teal darken-1 z-depth-0 ml-1">
+                        {{ tag.title().replace("_"," ").replace("And","and") }}
+                      </span>
+                      {% endfor %}
+                      {% endif %}
+                    </td>
+                    <td class="pl-2" style="width: 30%">
+                      {% if doc.element_tags %}
+                      {% for tag in doc.element_tags %}
+                      <span class="badge orange darken-3 z-depth-0 ml-1">
+                        {{ tag.title().replace("_"," ").replace("And","&") }}
+                      </span>
+                      {% endfor %}
+                      {% endif %}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="tab-pane fade" id="obj3-content" role="tabpanel" aria-labelledby="obj3-tab">
+            <div class="row ml-1 mt-1 mr-2">
+                <table id="dtBookmarked" class="table table-hover m-0 table-sm" cellspacing="0" width="100%">
+                    <thead>
+                      <tr>
+                        <th class="th-sm text-center" style="width: 10%">Record Type
+                        </th>
+                        <th class="th-sm" style="width: 30%">Title
+                        </th>
+                        <th class="th-sm" style="width: 30%">Topic Tags
+                        </th>
+                        <th class="th-sm pl-0" style="width: 30%">Element Tags
+                        </th>
+                      </tr>
+                    </thead>
+                  </table>
+            </div>
+            <div class="row ml-2 mr-2" style="overflow-y: scroll; height: 270px;">
+              <table id="dtVerticalScrollExample" class="table table-hover m-0 table-sm" cellspacing="0" width="100%">
+                <tbody>
+                  {% for doc in content['obj3'] %}
+                  <tr>
+                    <td class="text-center" style="width: 10%">
+                      {% if doc.doc_type == 'project' %}
+                      <span class="badge primary-color-dark text-capitalize z-depth-0">
+                        {{doc.doc_type.title()}}
+                      </span>
+                      {% else %}
+                      <span class="badge deep-purple darken-4 text-capitalize z-depth-0">
+                        {{doc.doc_type.title()}}
+                      </span>
+                      {% endif %}
+
+                    </td>
+                    <td style="width: 30%">
+                      <a id="#{{ doc.meta.id }}_click_title" class="mr-5" data-toggle="modal" data-target="#{{ doc.meta.id }}">{{ doc.title }}</a>
+                    </td>
+                    <td style="width: 30%">
+                      {% if doc.tags %}
+                      {% for tag in doc.tags %}
+                      <span class="badge teal darken-1 z-depth-0 ml-1">
+                        {{ tag.title().replace("_"," ").replace("And","and") }}
+                      </span>
+                      {% endfor %}
+                      {% endif %}
+                    </td>
+                    <td class="pl-2" style="width: 30%">
+                      {% if doc.element_tags %}
+                      {% for tag in doc.element_tags %}
+                      <span class="badge orange darken-3 z-depth-0 ml-1">
+                        {{ tag.title().replace("_"," ").replace("And","&") }}
+                      </span>
+                      {% endfor %}
+                      {% endif %}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="tab-pane fade" id="obj4-content" role="tabpanel" aria-labelledby="obj4-tab">
+            <div class="row ml-1 mt-1 mr-2">
+                <table id="dtBookmarked" class="table table-hover m-0 table-sm" cellspacing="0" width="100%">
+                    <thead>
+                      <tr>
+                        <th class="th-sm text-center" style="width: 10%">Record Type
+                        </th>
+                        <th class="th-sm" style="width: 30%">Title
+                        </th>
+                        <th class="th-sm" style="width: 30%">Topic Tags
+                        </th>
+                        <th class="th-sm pl-0" style="width: 30%">Element Tags
+                        </th>
+                      </tr>
+                    </thead>
+                  </table>
+            </div>
+            <div class="row ml-2 mr-2" style="overflow-y: scroll; height: 270px;">
+              <table id="dtVerticalScrollExample" class="table table-hover m-0 table-sm" cellspacing="0" width="100%">
+                <tbody>
+                  {% for doc in content['obj4'] %}
+                  <tr>
+                    <td class="text-center" style="width: 10%">
+                      {% if doc.doc_type == 'project' %}
+                      <span class="badge primary-color-dark text-capitalize z-depth-0">
+                        {{doc.doc_type.title()}}
+                      </span>
+                      {% else %}
+                      <span class="badge deep-purple darken-4 text-capitalize z-depth-0">
+                        {{doc.doc_type.title()}}
+                      </span>
+                      {% endif %}
+
+                    </td>
+                    <td style="width: 30%">
+                      <a id="#{{ doc.meta.id }}_click_title" class="mr-5" data-toggle="modal" data-target="#{{ doc.meta.id }}">{{ doc.title }}</a>
+                    </td>
+                    <td style="width: 30%">
+                      {% if doc.tags %}
+                      {% for tag in doc.tags %}
+                      <span class="badge teal darken-1 z-depth-0 ml-1">
+                        {{ tag.title().replace("_"," ").replace("And","and") }}
+                      </span>
+                      {% endfor %}
+                      {% endif %}
+                    </td>
+                    <td class="pl-2" style="width: 30%">
+                      {% if doc.element_tags %}
+                      {% for tag in doc.element_tags %}
+                      <span class="badge orange darken-3 z-depth-0 ml-1">
+                        {{ tag.title().replace("_"," ").replace("And","&") }}
+                      </span>
+                      {% endfor %}
+                      {% endif %}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
         </div>
-        <div id="modals">
-          <!-- ATTRIBUTES MODALS -->
-          {% for doc in content['bookmarked'] %}
-          {% if doc.doc_type == 'project' %}
-          {{ project_record_modal(doc, formdata) }}
-          {% else %}
-          {{ publication_record_modal(doc, formdata) }}
-          {% endif %}
-          {% endfor %}
+      </div>
+    </div>
+    <div id="modals">
+      <!-- ATTRIBUTES MODALS -->
+      {% for doc in content['bookmarked'] %}
+      {% if doc.doc_type == 'project' %}
+      {{ project_record_modal(doc, formdata) }}
+      {% else %}
+      {{ publication_record_modal(doc, formdata) }}
+      {% endif %}
+      {% endfor %}
+
+      {% for doc in content['obj1'] %}
+      {% if doc.doc_type == 'project' %}
+      {{ project_record_modal(doc, formdata) }}
+      {% else %}
+      {{ publication_record_modal(doc, formdata) }}
+      {% endif %}
+      {% endfor %}
+
+      {% for doc in content['obj2'] %}
+      {% if doc.doc_type == 'project' %}
+      {{ project_record_modal(doc, formdata) }}
+      {% else %}
+      {{ publication_record_modal(doc, formdata) }}
+      {% endif %}
+      {% endfor %}
+
+      {% for doc in content['obj3'] %}
+      {% if doc.doc_type == 'project' %}
+      {{ project_record_modal(doc, formdata) }}
+      {% else %}
+      {{ publication_record_modal(doc, formdata) }}
+      {% endif %}
+      {% endfor %}
+
+      {% for doc in content['obj4'] %}
+      {% if doc.doc_type == 'project' %}
+      {{ project_record_modal(doc, formdata) }}
+      {% else %}
+      {{ publication_record_modal(doc, formdata) }}
+      {% endif %}
+      {% endfor %}
+
+      {{ modal_template() }}
       
-          {% for doc in content['obj1'] %}
-          {% if doc.doc_type == 'project' %}
-          {{ project_record_modal(doc, formdata) }}
-          {% else %}
-          {{ publication_record_modal(doc, formdata) }}
-          {% endif %}
-          {% endfor %}
-      
-          {% for doc in content['obj2'] %}
-          {% if doc.doc_type == 'project' %}
-          {{ project_record_modal(doc, formdata) }}
-          {% else %}
-          {{ publication_record_modal(doc, formdata) }}
-          {% endif %}
-          {% endfor %}
-      
-          {% for doc in content['obj3'] %}
-          {% if doc.doc_type == 'project' %}
-          {{ project_record_modal(doc, formdata) }}
-          {% else %}
-          {{ publication_record_modal(doc, formdata) }}
-          {% endif %}
-          {% endfor %}
-      
-          {% for doc in content['obj4'] %}
-          {% if doc.doc_type == 'project' %}
-          {{ project_record_modal(doc, formdata) }}
-          {% else %}
-          {{ publication_record_modal(doc, formdata) }}
-          {% endif %}
-          {% endfor %}
-        </div>
-      </body>
-      
+    </div>
+  </body>
+
 </main>
 
 {% endblock content %}

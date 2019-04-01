@@ -1,31 +1,209 @@
+<!-- MODAL TEMPLATE -->
+{% macro modal_template() %}
+<div class="modal fade" id="modal_template" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-fluid modal-notify modal-custom" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span id="mt_modal_header" class="align-middle">
+          <!-- title -->
+          <h4 id="mt_title" class="modal-title w-100 pl-4 pr-4 d-inline">
+            None
+          </h4>
+        </span>
+        <!-- close button -->
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body pl-5 pr-5 pb-5">
+
+        <div id="tags">
+          <!-- record type -->
+          <h4 id="mt_record_type" class="d-inline mr-1">
+          </h4>
+          <!-- record tag -->
+          <h4 id="mt_tags" class="d-inline mr-1">
+          </h4>
+          <!-- element tags -->
+          <h4 id="mt_elem_tags" class="d-inline mr-1">
+          </h4>
+        </div>
+
+        <hr>
+        <div class="modal-grid-container">
+          <div class="modal-record-content">
+            <!-- bookmark button -->
+            <button id="mt_modal_bookmark_btn" type="button" value=""
+              class="btn btn mt-2 float-right waves-effect red darken-4 p-1 pl-2 pr-2">
+              <i id="mt_modal_bookmark_icon" class="fa fa-bookmark-o fa-lg pr-1" aria-hidden="true"></i>
+              <div id="mt_modal_bookmark_text" class="d-inline">
+                Bookmark
+              </div>
+            </button>
+            <!-- abstract -->
+            <h4 class="mb-2 mt-2">
+              Abstract/Objectives:
+            </h4>
+            <p id="mt_abstract" class="m-0">
+              None
+            </p>
+            <!-- authors -->
+            <div id="mt_authors"></div>
+            <!-- project status -->
+            <div id="mt_status"></div>
+            <!-- funding -->
+            <div id="mt_funding"></div>
+            <!-- funding organization -->
+            <div id="mt_fundagencies"></div>
+            <!-- performing agencies -->
+            <div id="mt_perfagencies"></div>
+            <!-- performing agencies -->
+            <div id="mt_managencies"></div>
+            <!-- start date -->
+            <h4 class="mb-2 mt-2">
+              Start Date:
+            </h4>
+            <p id="mt_startdate" class="m-0">
+              Not Specified
+            </p>
+            <!-- expected/actual completion -->
+            <h4 class="mb-2 mt-2">
+              Expected/Actual Completion Date:
+            </h4>
+            <p id="mt_compdate" class="m-0">
+              Not Specified
+            </p>
+            <!-- publication date -->
+            <div id="mt_pubdate"></div>
+            <!-- urls -->
+            <div id="mt_urls"></div>
+            <!-- more like this -->
+            <div>
+              <h4 class="mb-3 mt-4 ml-0">
+                <a id="mt_mlt_btn" class="btn btn-light m-0" data-toggle="collapse" href="#mt_mlt_content" role="button"
+                  aria-expanded="false" aria-controls="mt_mlt_content" name="">
+                  More Like This
+                </a>
+              </h4>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="collapse multi-collapse" id="mt_mlt_content">
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- modal options -->
+          <div class="modal-record-options">
+            <div id="sidenav" class="content-section">
+              <form onsubmit="return false" id="mt_form" name="record_form"
+                class="text-left white border border-light p-3">
+                <h3 class="mb-2 mt-2">LTBP Objectives</h3>
+                <p class='text-muted'>
+                  Mark documents that satisfy LTBP objectives.
+                </p>
+                <!-- Objective 1 -->
+                <div id="mt_objective1_div" class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="mt_objective1" name="objective1">
+                  <label id="mt_objective1_label" class="custom-control-label" for="mt_objective1">
+                    <h5>Objective 1</h5>
+                  </label>
+                </div>
+                <p class='text-muted'>
+                  Advance research in deterioration and predictive modeling.
+                </p>
+                <!-- Objective 2 -->
+                <div id="mt_objective2_div" class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="mt_objective2" name="objective2">
+                  <label id="mt_objective2_label" class="custom-control-label" for="mt_objective2">
+                    <h5>Objective 2</h5>
+                  </label>
+                </div>
+                <p class='text-muted'>
+                  Advance research in cost analysis.
+                </p>
+                <!-- Objective 3 -->
+                <div id="mt_objective3_div" class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="mt_objective3" name="objective3">
+                  <label id="mt_objective3_label" class="custom-control-label" for="mt_objective3">
+                    <h5>Objective 3</h5>
+                  </label>
+                </div>
+                <p class='text-muted'>
+                  Support the development and identification of improved design methods.
+                </p>
+                <!-- Objective 4 -->
+                <div id="mt_objective4_div" class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="mt_objective4" name="objective4">
+                  <label id="mt_objective4_label" class="custom-control-label" for="mt_objective4">
+                    <h5>Objective 4</h5>
+                  </label>
+                </div>
+                <p class='text-muted'>
+                  Quantify the effectiveness and support the development of improved
+                  assessment, maintenance, preservation, repair, and rehabilitation strategies.
+                </p>
+                <div class="form-group green-border-focus">
+                  <textarea class="form-control text-muted text-left" id="mt_notes" name="notes" rows="4"
+                    placeholder="Notes..."></textarea>
+                </div>
+                <input type="hidden" value="" name="doc_id">
+                <input type="hidden" value="" name="index">
+                <input type="hidden" value="" name="type">
+                <input type="hidden" value="" name="query">
+                <input type="hidden" value="" name="topic">
+                <input type="hidden" value="" name="element">
+                <input type="hidden" value="" name="status">
+                <input type="hidden" value="" name="dateRange">
+                <input type="hidden" value="" name="sortBy">
+                <button id="mt_submit" class="btn btn-info btn-block btn-light mt-3" type="submit" name="form"
+                  value="record">
+                  Apply
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endmacro %}
+
 <!-- PROJECT RECORD CARD -->
 {% macro project_record(doc) %}
 <div class="card m-2 z-depth-1" style="border: 1px solid #dee2e6">
   <div class="card-body">
+
     <div class="card-title d-inline">
-      <h5 class="mb-1">
-        <a class="mr-5" data-toggle="modal" data-target="#{{ doc.meta.id }}">{{ doc.title }}</a>
-        {% if doc.bookmarked == 'true' %}
-        <button id="{{ doc.meta.id }}_bookmark_btn" type="button" value="{{ doc.meta.index }}"
-          class="btn btn-sm d-inline mb-1 mt-0 float-right p-1 pl-2 pr-2 waves-effect red darken-4 marked">
-          <i id="{{ doc.meta.id }}_bookmark_icon" class="fa fa-bookmark fa-lg pr-1" aria-hidden="true"></i>
-          <div id="{{ doc.meta.id }}_bookmark_text" class="d-inline">
-            Marked
-          </div>
-        </button>
-        {% else %}
-        <button id="{{ doc.meta.id }}_bookmark_btn" type="button" value="{{ doc.meta.index }}"
-          class="btn btn-sm d-inline mb-1 mt-0 float-right p-1 pl-2 pr-2 waves-effect red darken-4 unmarked">
-          <i id="{{ doc.meta.id }}_bookmark_icon" class="fa fa-bookmark-o fa-lg pr-1" aria-hidden="true"></i>
-          <div id="{{ doc.meta.id }}_bookmark_text" class="d-inline">
-            Bookmark
-          </div>
-        </button>
-        {% endif %}
+      <span class="d-inline-block text-truncate" style="max-width: 90%">
+        <h5 class="mb-0 ellipses">
+          <a id="#{{ doc.meta.id }}_click_title" class="mr-5" data-toggle="modal"
+            data-target="#{{ doc.meta.id }}">{{ doc.title }}</a>
+        </h5>
+      </span>
 
-      </h5>
-
+      {% if doc.bookmarked == 'true' %}
+      <button id="{{ doc.meta.id }}_bookmark_btn" type="button" value="{{ doc.meta.index }}"
+        class="btn btn-sm d-inline mb-0 mt-0 float-right p-1 pl-2 pr-2 waves-effect red darken-4 marked d-inline">
+        <i id="{{ doc.meta.id }}_bookmark_icon" class="fa fa-bookmark fa-lg pr-1" aria-hidden="true"></i>
+        <div id="{{ doc.meta.id }}_bookmark_text" class="d-inline">
+          Marked
+        </div>
+      </button>
+      {% else %}
+      <button id="{{ doc.meta.id }}_bookmark_btn" type="button" value="{{ doc.meta.index }}"
+        class="btn btn-sm d-inline mb-0 mt-0 float-right p-1 pl-2 pr-2 waves-effect red darken-4 unmarked d-inline">
+        <i id="{{ doc.meta.id }}_bookmark_icon" class="fa fa-bookmark-o fa-lg pr-1" aria-hidden="true"></i>
+        <div id="{{ doc.meta.id }}_bookmark_text" class="d-inline">
+          Bookmark
+        </div>
+      </button>
+      {% endif %}
     </div>
+
     <table class="table table-borderless mb-0">
       <tbody class="card-text">
 
@@ -35,45 +213,45 @@
           <td class="p-1 pb-2">
 
             <!-- score -->
-            <h5 class="d-inline mb-0">
-              <span class="badge primary-color text-capitalize z-depth-0 mr-1">
+            <h6 class="d-inline mr-1">
+              <span class="badge primary-color text-capitalize z-depth-0">
                 {{'%0.2f' % doc.meta.score|float}}
               </span>
-            </h5>
+            </h6>
 
             <!-- record type -->
-            <h5 class="d-inline mb-0">
-              <span class="badge primary-color-dark text-capitalize z-depth-0 mr-1">
+            <h6 class="d-inline mr-1">
+              <span class="badge primary-color-dark text-capitalize z-depth-0">
                 {{doc.doc_type.title()}}
               </span>
-            </h5>
+            </h6>
 
             <!-- record tag -->
-            {% if doc.tags %}
-            {% for tag in doc.tags %}
-            {% if tag %}
-            <h5 class="d-inline">
-              <span class="badge teal darken-1 z-depth-0 mr-1">
-                {{ tag.title().replace("_"," ").replace("And","and") }}
+            <h6 class="d-inline mr-1">
+              {% if doc.tags %}
+              {% for tag in doc.tags %}
+              {% if tag %}
+              <span class="badge teal darken-1 z-depth-0 text-capitalize">
+                {{ tag.replace("_"," ").replace("And","and") }}
               </span>
-            </h5>
-            {% endif %}
-            {% endfor %}
-            {% endif %}
+              {% endif %}
+              {% endfor %}
+              {% endif %}
+            </h6>
 
             <!-- element tags -->
-            {% if doc.element_tags %}
-            {% for tag in doc.element_tags %}
-            {% if tag %}
-            <h5 class="d-inline">
-              <span class="badge orange darken-3 z-depth-0 mr-1">
+            <h6 id="mt_elem_tags" class="d-inline mr-1">
+              {% if doc.element_tags %}
+              {% for tag in doc.element_tags %}
+              {% if tag %}
+              <span class="badge orange darken-3 z-depth-0 text-capitalize">
                 {{ tag.title().replace("_"," ").replace("And","&") }}
               </span>
-            </h5>
-            {% endif %}
-            {% endfor %}
-            {% endif %}
-            <!-- <p class="d-inline ml-1">[{{doc.meta.score}}]</p> -->
+              {% endif %}
+              {% endfor %}
+              {% endif %}
+            </h6>
+
           </td>
         </tr>
 
@@ -140,10 +318,12 @@
 
       <div class="modal-header">
 
-        <!-- title -->
-        <h3 id="{{ doc.meta.id }}_title" class="modal-title w-100 pl-4 pr-4" id="ModalLabel">
-          {{ doc.title }}
-        </h3>
+        <span id="{{ doc.meta.id }}_modal_header" class="align-middle">
+          <!-- title -->
+          <h4 id="{{ doc.meta.id }}_title" class="modal-title w-100 pl-4 pr-4 d-inline">
+            {{ doc.title }}
+          </h4>
+        </span>
 
         <!-- close button -->
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -163,28 +343,28 @@
 
         <!-- record tag -->
         <h4 id="{{ doc.meta.id }}_tags" class="d-inline">
-        {% if doc.tags %}
-        {% for tag in doc.tags %}
-        {% if tag %}
-        <span class="badge teal darken-1 z-depth-0 ml-1">
-          {{ tag.title().replace("_"," ").replace("And","and") }}
-        </span>
-        {% endif %}
-        {% endfor %}
-        {% endif %}
+          {% if doc.tags %}
+          {% for tag in doc.tags %}
+          {% if tag %}
+          <span class="badge teal darken-1 z-depth-0">
+            {{ tag.title().replace("_"," ").replace("And","and") }}
+          </span>
+          {% endif %}
+          {% endfor %}
+          {% endif %}
         </h4>
 
         <!-- element tags -->
         <h4 id="{{ doc.meta.id }}_elem_tags" class="d-inline">
-        {% if doc.element_tags %}
-        {% for tag in doc.element_tags %}
-        {% if tag %}
-        <span class="badge orange darken-3 z-depth-0 ml-1">
-          {{ tag.title().replace("_"," ").replace("And","&") }}
-        </span>
-        {% endif %}
-        {% endfor %}
-        {% endif %}
+          {% if doc.element_tags %}
+          {% for tag in doc.element_tags %}
+          {% if tag %}
+          <span class="badge orange darken-3 z-depth-0">
+            {{ tag.title().replace("_"," ").replace("And","&") }}
+          </span>
+          {% endif %}
+          {% endfor %}
+          {% endif %}
         </h4>
 
         <hr>
@@ -209,7 +389,6 @@
               </div>
             </button>
             {% endif %}
-
 
             <!-- abstract -->
             <h4 class="mb-2 mt-2">
@@ -238,9 +417,9 @@
               Funding Organizations:
             </h4>
             <div id="{{ doc.meta.id }}_fundagencies">
-            {% for agency in doc.funding_agencies %}
-            <p class="m-0">{{ agency['name'] }}</p>
-            {% endfor %}
+              {% for agency in doc.funding_agencies %}
+              <p class="m-0">{{ agency['name'] }}</p>
+              {% endfor %}
             </div>
             {% endif %}
 
@@ -252,6 +431,18 @@
             {% for agency in doc.performing_agencies %}
             {% if agency['name'] %}
             <p id="{{ doc.meta.id }}_perfagencies" class="m-0">{{ agency['name'] }}</p>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+
+            <!-- managing agencies -->
+            {% if doc.managing_agencies %}
+            <h4 class="mb-2 mt-2">
+              Managing Agencies:
+            </h4>
+            {% for agency in doc.managing_agencies %}
+            {% if agency['name'] %}
+            <p id="{{ doc.meta.id }}_managencies" class="m-0">{{ agency['name'] }}</p>
             {% endif %}
             {% endfor %}
             {% endif %}
@@ -279,11 +470,11 @@
             <!-- expected/actual completion -->
             {% if doc.expected_complete_date or doc.actual_complete_date %}
             <h4 class="mb-2 mt-2">
-              Expexcted/Actual Completion Date:
+              Expected/Actual Completion Date:
             </h4>
             <p id="{{ doc.meta.id }}_compdate" class="m-0">
-              {{ doc.expected_complete_date if doc.expected_complete_date else "-" }} /
-              {{ doc.actual_complete_date if doc.actual_complete_date else "-" }}
+              {{ doc.expected_complete_date if doc.expected_complete_date else "Not Specified" }} /
+              {{ doc.actual_complete_date if doc.actual_complete_date else "Not Specified" }}
             </p>
             {% endif %}
 
@@ -304,10 +495,9 @@
               <h4 class="mb-3 mt-4 ml-0">
                 <a id="{{ doc.meta.id }}_mlt_btn" class="btn btn-light m-0" data-toggle="collapse"
                   href="#{{ doc.meta.id }}_mlt_content" role="button" aria-expanded="false"
-                  aria-controls="{{ doc.meta.id }}_mlt_content" value="{{ doc.meta.index }}">More Like This</a>
+                  aria-controls="{{ doc.meta.id }}_mlt_content" name="{{ doc.meta.index }}">More Like This</a>
               </h4>
             </div>
-
             <div class="row">
               <div class="col">
                 <div class="collapse multi-collapse" id="{{ doc.meta.id }}_mlt_content">
@@ -315,10 +505,10 @@
                 </div>
               </div>
             </div>
+
           </div>
           <div class="modal-record-options">
             <div id="sidenav" class="content-section">
-
               <form onsubmit="return false" id="{{ doc.meta.id }}_form" name="record_form"
                 class="text-left white border border-light p-3">
                 <h3 class="mb-2 mt-2">LTBP Objectives</h3>
@@ -420,11 +610,18 @@
 {% macro publication_record(doc) %}
 <div class="card m-2 z-depth-1" style="border: 1px solid #dee2e6">
   <div class="card-body">
-    <h5 class="card-title mb-1">
-      <a data-toggle="modal" data-target="#{{ doc.meta.id }}">{{ doc.title.title().replace("And","and") }}</a>
+
+    <div class="card-title d-inline">
+      <span class="d-inline-block text-truncate" style="max-width: 90%">
+        <h5 class="mb-0 ellipses">
+          <a id="#{{ doc.meta.id }}_click_title" class="mr-5" data-toggle="modal"
+            data-target="#{{ doc.meta.id }}">{{ doc.title }}</a>
+        </h5>
+      </span>
+
       {% if doc.bookmarked == 'true' %}
       <button id="{{ doc.meta.id }}_bookmark_btn" type="button" value="{{ doc.meta.index }}"
-        class="btn btn-sm d-inline mb-1 mt-3 float-right p-1 pl-2 pr-2 waves-effect red darken-4 marked">
+        class="btn btn-sm d-inline mb-0 mt-0 float-right p-1 pl-2 pr-2 waves-effect red darken-4 marked d-inline">
         <i id="{{ doc.meta.id }}_bookmark_icon" class="fa fa-bookmark fa-lg pr-1" aria-hidden="true"></i>
         <div id="{{ doc.meta.id }}_bookmark_text" class="d-inline">
           Marked
@@ -432,14 +629,15 @@
       </button>
       {% else %}
       <button id="{{ doc.meta.id }}_bookmark_btn" type="button" value="{{ doc.meta.index }}"
-        class="btn btn-sm d-inline mb-1 mt-3 float-right p-1 pl-2 pr-2 waves-effect red darken-4 unmarked">
+        class="btn btn-sm d-inline mb-0 mt-0 float-right p-1 pl-2 pr-2 waves-effect red darken-4 unmarked d-inline">
         <i id="{{ doc.meta.id }}_bookmark_icon" class="fa fa-bookmark-o fa-lg pr-1" aria-hidden="true"></i>
         <div id="{{ doc.meta.id }}_bookmark_text" class="d-inline">
           Bookmark
         </div>
       </button>
       {% endif %}
-    </h5>
+    </div>
+
     <table class="table table-borderless mb-0">
       <tbody class="card-text">
 
@@ -448,40 +646,47 @@
 
         <tr>
           <td class="p-1" style="text-align: left">
+
             <!-- score -->
-            <h5 class="d-inline mb-0">
-              <span class="badge primary-color text-capitalize z-depth-0 mr-1">
+            <h6 class="d-inline mr-1">
+              <span class="badge primary-color text-capitalize z-depth-0">
                 {{'%0.2f' % doc.meta.score|float}}
               </span>
-            </h5>
+            </h6>
+
             <!-- record type -->
-            <h5 class="d-inline mb-0"><span
-                class="badge deep-purple darken-4 text-capitalize z-depth-0">{{doc.doc_type.title()}}</span></h5>
-            <!-- record tags -->
-            {% if doc.tags %}
-            {% for tag in doc.tags %}
-            {% if tag %}
-            <h5 class="d-inline">
-              <span class="badge teal darken-1 z-depth-0">
-                {{ tag.title().replace("_"," ").replace("And","&") }}
+            <h6 class="d-inline mr-1">
+              <span class="badge deep-purple darken-4 text-capitalize z-depth-0">
+                {{doc.doc_type.title()}}
               </span>
-            </h5>
-            {% endif %}
-            {% endfor %}
-            {% endif %}
+            </h6>
+
+            <!-- record tag -->
+            <h6 class="d-inline mr-1">
+              {% if doc.tags %}
+              {% for tag in doc.tags %}
+              {% if tag %}
+              <span class="badge teal darken-1 z-depth-0 text-capitalize">
+                {{ tag.replace("_"," ").replace("And","and") }}
+              </span>
+              {% endif %}
+              {% endfor %}
+              {% endif %}
+            </h6>
+
             <!-- element tags -->
-            {% if doc.element_tags %}
-            {% for tag in doc.element_tags %}
-            {% if tag %}
-            <h5 class="d-inline">
-              <span class="badge orange darken-3 z-depth-0">
+            <h6 id="mt_elem_tags" class="d-inline mr-1">
+              {% if doc.element_tags %}
+              {% for tag in doc.element_tags %}
+              {% if tag %}
+              <span class="badge orange darken-3 z-depth-0 text-capitalize">
                 {{ tag.title().replace("_"," ").replace("And","&") }}
               </span>
-            </h5>
-            {% endif %}
-            {% endfor %}
-            {% endif %}
-            <!-- <p class="d-inline ml-1">[{{doc.meta.score}}]</p> -->
+              {% endif %}
+              {% endfor %}
+              {% endif %}
+            </h6>
+
           </td>
         </tr>
 
@@ -521,11 +726,12 @@
     <div class="modal-content">
 
       <div class="modal-header">
-
-        <!-- title -->
-        <h3 class="modal-title w-100 pl-4 pr-4" id="ModalLabel">
-          {{ doc.title.title() }}
-        </h3>
+        <span id="{{ doc.meta.id }}_modal_header" class="align-middle">
+          <!-- title -->
+          <h4 id="{{ doc.meta.id }}_title" class="modal-title w-100 pl-4 pr-4 d-inline">
+            {{ doc.title }}
+          </h4>
+        </span>
 
         <!-- close button -->
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -538,39 +744,40 @@
 
         <!-- record type -->
         <h4 class="d-inline mb-0">
-          <span class="badge primary-color-dark text-capitalize z-depth-0">
+          <span id="{{ doc.meta.id }}_record_type" class="badge deep-purple darken-4 text-capitalize z-depth-0">
             {{doc.doc_type.title()}}
           </span>
         </h4>
 
         <!-- record tag -->
-        {% if doc.tags %}
-        {% for tag in doc.tags %}
-        <h4 class="d-inline">
-          <span class="badge teal darken-1 z-depth-0 ml-1">
+        <h4 id="{{ doc.meta.id }}_tags" class="d-inline">
+          {% if doc.tags %}
+          {% for tag in doc.tags %}
+          {% if tag %}
+          <span class="badge teal darken-1 z-depth-0">
             {{ tag.title().replace("_"," ").replace("And","and") }}
           </span>
+          {% endif %}
+          {% endfor %}
+          {% endif %}
         </h4>
-        {% endfor %}
-        {% else %}
-        {{ doc.tags }}
-        {% endif %}
 
         <!-- element tags -->
-        {% if doc.element_tags %}
-        {% for tag in doc.element_tags %}
-        <h4 class="d-inline">
-          <span class="badge orange darken-3 z-depth-0 ml-1">
+        <h4 id="{{ doc.meta.id }}_elem_tags" class="d-inline">
+          {% if doc.element_tags %}
+          {% for tag in doc.element_tags %}
+          {% if tag %}
+          <span class="badge orange darken-3 z-depth-0">
             {{ tag.title().replace("_"," ").replace("And","&") }}
           </span>
+          {% endif %}
+          {% endfor %}
+          {% endif %}
         </h4>
-        {% endfor %}
-        {% endif %}
-        <br>
+
         <hr>
 
         <div class="modal-grid-container">
-
           <div class="modal-record-content">
 
             {% if doc.bookmarked == 'true' %}
@@ -592,38 +799,144 @@
             {% endif %}
 
             <!-- abstract -->
-            <h3 class="mb-2 mt-2">
-              Abstract:
-            </h3>
-            {{ doc.abstract }}
+            <h4 class="mb-2 mt-2">
+              Abstract/Objectives:
+            </h4>
+            <p id="{{ doc.meta.id }}_abstract" class="m-0">{{ doc.abstract }}</p>
 
             <!-- authors -->
-            <h3 class="mb-2 mt-2">Authors: </h3>
+            {% if doc.authors %}
+            <h4 class="mb-2 mt-2">Authors: </h4>
             {% for author in doc.authors %}
-            {{author.lastname}}, {{author.firstname}} <br>
+            <p class="m-0">{{author.lastname}}, {{author.firstname}}</p>
             {% endfor %}
+            {% endif %}
 
             <!-- publication date -->
-            <h3 class="mb-2 mt-2">Publication Date: </h3> {{doc.publication_date if
-            doc.publication_date else "-"}}
-            <br>
+            <h3 class="mb-2 mt-2">Publication Date: </h3>
+            <p class="m-0">{{doc.publication_date if
+              doc.publication_date else "Not Specified"}}</p>
 
             <!-- urls -->
             {% if doc.urls %}
-            <h3 class="mb-2 mt-2">
+            <h4 class="mb-2 mt-2">
               URLs:
-            </h3>
-            <p class="ellipses w-50 m-0">
+            </h4>
+            <p id="{{ doc.meta.id }}_urls" class="ellipses w-50 m-0">
               {% for url in doc.urls %}
               <a href="{{url}}">{{url}}</a><br>
               {% endfor %}
             </p>
             {% endif %}
+
+            <!-- more like this -->
+            <div>
+              <h4 class="mb-3 mt-4 ml-0">
+                <a id="{{ doc.meta.id }}_mlt_btn" class="btn btn-light m-0" data-toggle="collapse"
+                  href="#{{ doc.meta.id }}_mlt_content" role="button" aria-expanded="false"
+                  aria-controls="{{ doc.meta.id }}_mlt_content" name="{{ doc.meta.index }}">More Like This</a>
+              </h4>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="collapse multi-collapse" id="{{ doc.meta.id }}_mlt_content">
+
+                </div>
+              </div>
+            </div>
+
           </div>
 
           <div class="modal-record-options">
             <div id="sidenav" class="content-section">
-              <form name="record_form" action="#" method="post" class="text-left white border border-light p-3">
+              <form onsubmit="return false" id="{{ doc.meta.id }}_form" name="record_form"
+                class="text-left white border border-light p-3">
+                <h3 class="mb-2 mt-2">LTBP Objectives</h3>
+                <p class='text-muted'>
+                  Mark documents that satisfy LTBP objectives.
+                </p>
+                <div class="custom-control custom-checkbox">
+                  {% if 'objective1' in doc.objectives %}
+                  <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective1"
+                    name="objective1" checked>
+                  {% else %}
+                  <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective1"
+                    name="objective1">
+                  {% endif %}
+                  <label class="custom-control-label" for="{{ doc.meta.id }}_objective1">
+                    <h5>Objective 1</h5>
+                  </label>
+                </div>
+                <p class='text-muted'> Advance research in deterioration and predictive modeling.</p>
+                <p>
+                  <div class="custom-control custom-checkbox">
+                    {% if 'objective2' in doc.objectives %}
+                    <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective2"
+                      name="objective2" checked>
+                    {% else %}
+                    <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective2"
+                      name="objective2">
+                    {% endif %}
+                    <label class="custom-control-label" for="{{ doc.meta.id }}_objective2">
+                      <h5>Objective 2</h5>
+                    </label>
+                  </div>
+                  <p class='text-muted'>Advance research in cost analysis.</p>
+                  <p>
+                    <div class="custom-control custom-checkbox">
+                      {% if 'objective3' in doc.objectives %}
+                      <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective3"
+                        name="objective3" checked>
+                      {% else %}
+                      <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective3"
+                        name="objective3">
+                      {% endif %}
+                      <label class="custom-control-label" for="{{ doc.meta.id }}_objective3">
+                        <h5>Objective 3</h5>
+                      </label>
+                    </div>
+                    <p class='text-muted'>Support the development and identification of improved design methods.</p>
+                    <p>
+                      <div class="custom-control custom-checkbox">
+                        {% if 'objective4' in doc.objectives %}
+                        <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective4"
+                          name="objective4" checked>
+                        {% else %}
+                        <input type="checkbox" class="custom-control-input" id="{{ doc.meta.id }}_objective4"
+                          name="objective4">
+                        {% endif %}
+                        <label class="custom-control-label" for="{{ doc.meta.id }}_objective4">
+                          <h5>Objective 4</h5>
+                        </label>
+                      </div>
+                      <p class='text-muted'>Quantify the effectiveness and support the development of improved
+                        assessment, maintenance, preservation, repair, and rehabilitation strategies.</p>
+                      <div class="form-group green-border-focus">
+                        <textarea class="form-control text-muted text-left" id="{{ doc.meta.id }}_notes" name="notes"
+                          rows="4" placeholder="Notes...">
+                    {%- set value = 'no spaces' -%}
+                    {%- if doc.notes -%}
+                    {{- doc.notes -}}
+                    {%- endif -%}
+                  </textarea>
+                      </div>
+                      <input type="hidden" value="{{ doc.meta.id }}" name="doc_id">
+                      <input type="hidden" value="{{ doc.meta.index }}" name="index">
+                      <input type="hidden" value="{{ formdata['type'] }}" name="type">
+                      <input type="hidden" value="{{ formdata['query'] }}" name="query">
+                      <input type="hidden" value="{{ formdata['topic'] }}" name="topic">
+                      <input type="hidden" value="{{ formdata['element'] }}" name="element">
+                      <input type="hidden" value="{{ formdata['status'] }}" name="status">
+                      <input type="hidden" value="{{ formdata['date_range'] }}" name="dateRange">
+                      <input type="hidden" value="{{ formdata['sort_by'] }}" name="sortBy">
+                      <!-- <fieldset disabled="disabled"> -->
+                      <button id="{{ doc.meta.id }}_submit" class="btn btn-info btn-block btn-light mt-3" type="submit"
+                        name="form" value="record">
+                        Apply
+                      </button>
+                      <!-- </fieldset> -->
+              </form>
+              <!-- <form name="record_form" action="#" method="post" class="text-left white border border-light p-3">
                 <h3 class="mb-2 mt-2">LTBP Objectives</h3>
                 <p class='text-muted'>
                   Mark documents that satisfy LTBP objectives.
@@ -674,12 +987,7 @@
                         </button>
                       </fieldset>
 
-              </form>
-              <!-- <h4 class="mb-2 mt-2">Potential Partners</h4>
-              <p class='text-muted'>
-                The following agencies may be conducting similar research.
-              </p>
-              <div class="text-left white border border-light p-3"> -->
+              </form> -->
 
             </div>
 
