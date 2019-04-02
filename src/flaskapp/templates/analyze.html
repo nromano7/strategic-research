@@ -63,7 +63,7 @@
                 </thead>
               </table>
             </div>
-            <div class="row ml-2 mr-2" style="overflow-y: scroll; height: 270px;">
+            <div class="scrollbar scrollbar-thin row ml-2 mr-2" style="overflow-y: scroll; height: 270px;">
               <table id="dtBookmarked" class="table table-hover m-0 table-sm" cellspacing="0" width="100%">
                 <tbody>
                   {% for doc in content['bookmarked'] %}
@@ -80,22 +80,23 @@
                       {% endif %}
 
                     </td>
-                    <td style="width: 30%">
+                    <td class="pl-0 pr-4" style="width: 30%">
                       <a id="#{{ doc.meta.id }}_click_title" class="mr-5" data-toggle="modal"
-                        data-target="#{{ doc.meta.id }}">{{ doc.title }}</a></td>
-                    <td style="width: 30%">
+                        data-target="#{{ doc.meta.id }}">{{ doc.title }}</a>
+                    </td>
+                    <td class="pl-0 pr-4" style="width: 30%">
                       {% if doc.tags %}
                       {% for tag in doc.tags %}
-                      <span class="badge teal darken-1 z-depth-0 ml-1">
+                      <span class="badge teal darken-1 z-depth-0">
                         {{ tag.title().replace("_"," ").replace("And","and") }}
                       </span>
                       {% endfor %}
                       {% endif %}
                     </td>
-                    <td class="pl-2" style="width: 30%">
+                    <td class="pl-0 pr-4" style="width: 30%">
                       {% if doc.element_tags %}
                       {% for tag in doc.element_tags %}
-                      <span class="badge orange darken-3 z-depth-0 ml-1">
+                      <span class="badge orange darken-3 z-depth-0">
                         {{ tag.title().replace("_"," ").replace("And","&") }}
                       </span>
                       {% endfor %}
@@ -125,7 +126,7 @@
                     </thead>
                   </table>
             </div>
-            <div class="row ml-2 mr-2" style="overflow-y: scroll; height: 270px;">
+            <div class="scrollbar scrollbar-thin row ml-2 mr-2" style="overflow-y: scroll; height: 270px;">
               <table id="dtVerticalScrollExample" class="table table-hover m-0 table-sm" cellspacing="0" width="100%">
                 <tbody>
                   {% for doc in content['obj1'] %}
@@ -140,25 +141,24 @@
                         {{doc.doc_type.title()}}
                       </span>
                       {% endif %}
-
                     </td>
-                    <td style="width: 30%">
+                    <td class="pr-4" style="width: 30%">
                       <a id="#{{ doc.meta.id }}_click_title" class="mr-5" data-toggle="modal" data-target="#{{ doc.meta.id }}">{{ doc.title }}
                       </a>
                     </td>
-                    <td style="width: 30%">
+                    <td class="pr-4" style="width: 30%">
                       {% if doc.tags %}
                       {% for tag in doc.tags %}
-                      <span class="badge teal darken-1 z-depth-0 ml-1">
+                      <span class="badge teal darken-1 z-depth-0">
                         {{ tag.title().replace("_"," ").replace("And","and") }}
                       </span>
                       {% endfor %}
                       {% endif %}
                     </td>
-                    <td class="pl-2" style="width: 30%">
+                    <td class="pl-0 pr-4" style="width: 30%">
                       {% if doc.element_tags %}
                       {% for tag in doc.element_tags %}
-                      <span class="badge orange darken-3 z-depth-0 ml-1">
+                      <span class="badge orange darken-3 z-depth-0">
                         {{ tag.title().replace("_"," ").replace("And","&") }}
                       </span>
                       {% endfor %}
@@ -188,7 +188,7 @@
                     </thead>
                   </table>
             </div>
-            <div class="row ml-2 mr-2" style="overflow-y: scroll; height: 270px;">
+            <div class="scrollbar scrollbar-thin row ml-2 mr-2" style="overflow-y: scroll; height: 270px;">
               <table id="dtVerticalScrollExample" class="table table-hover m-0 table-sm" cellspacing="0" width="100%">
                 <tbody>
                   {% for doc in content['obj2'] %}
@@ -205,23 +205,23 @@
                       {% endif %}
 
                     </td>
-                    <td style="width: 30%">
+                    <td class="pr-4" style="width: 30%">
                       <a id="#{{ doc.meta.id }}_click_title" class="mr-5" data-toggle="modal" data-target="#{{ doc.meta.id }}">{{ doc.title }}
                       </a>
                     </td>
-                    <td style="width: 30%">
+                    <td class="pr-4" style="width: 30%">
                       {% if doc.tags %}
                       {% for tag in doc.tags %}
-                      <span class="badge teal darken-1 z-depth-0 ml-1">
+                      <span class="badge teal darken-1 z-depth-0">
                         {{ tag.title().replace("_"," ").replace("And","and") }}
                       </span>
                       {% endfor %}
                       {% endif %}
                     </td>
-                    <td class="pl-2" style="width: 30%">
+                    <td class="pl-0 pr-4" class="pl-2" style="width: 30%">
                       {% if doc.element_tags %}
                       {% for tag in doc.element_tags %}
-                      <span class="badge orange darken-3 z-depth-0 ml-1">
+                      <span class="badge orange darken-3 z-depth-0">
                         {{ tag.title().replace("_"," ").replace("And","&") }}
                       </span>
                       {% endfor %}
@@ -251,7 +251,7 @@
                     </thead>
                   </table>
             </div>
-            <div class="row ml-2 mr-2" style="overflow-y: scroll; height: 270px;">
+            <div class="scrollbar scrollbar-thin row ml-2 mr-2" style="overflow-y: scroll; height: 270px;">
               <table id="dtVerticalScrollExample" class="table table-hover m-0 table-sm" cellspacing="0" width="100%">
                 <tbody>
                   {% for doc in content['obj3'] %}
@@ -268,22 +268,22 @@
                       {% endif %}
 
                     </td>
-                    <td style="width: 30%">
+                    <td class="pr-4" style="width: 30%">
                       <a id="#{{ doc.meta.id }}_click_title" class="mr-5" data-toggle="modal" data-target="#{{ doc.meta.id }}">{{ doc.title }}</a>
                     </td>
-                    <td style="width: 30%">
+                    <td class="pr-4" style="width: 30%">
                       {% if doc.tags %}
                       {% for tag in doc.tags %}
-                      <span class="badge teal darken-1 z-depth-0 ml-1">
+                      <span class="badge teal darken-1 z-depth-0">
                         {{ tag.title().replace("_"," ").replace("And","and") }}
                       </span>
                       {% endfor %}
                       {% endif %}
                     </td>
-                    <td class="pl-2" style="width: 30%">
+                    <td class="pl-0 pr-4" style="width: 30%">
                       {% if doc.element_tags %}
                       {% for tag in doc.element_tags %}
-                      <span class="badge orange darken-3 z-depth-0 ml-1">
+                      <span class="badge orange darken-3 z-depth-0">
                         {{ tag.title().replace("_"," ").replace("And","&") }}
                       </span>
                       {% endfor %}
@@ -313,7 +313,7 @@
                     </thead>
                   </table>
             </div>
-            <div class="row ml-2 mr-2" style="overflow-y: scroll; height: 270px;">
+            <div class="scrollbar scrollbar-thin row ml-2 mr-2" style="overflow-y: scroll; height: 270px;">
               <table id="dtVerticalScrollExample" class="table table-hover m-0 table-sm" cellspacing="0" width="100%">
                 <tbody>
                   {% for doc in content['obj4'] %}
@@ -330,22 +330,22 @@
                       {% endif %}
 
                     </td>
-                    <td style="width: 30%">
+                    <td class="pr-4" style="width: 30%">
                       <a id="#{{ doc.meta.id }}_click_title" class="mr-5" data-toggle="modal" data-target="#{{ doc.meta.id }}">{{ doc.title }}</a>
                     </td>
-                    <td style="width: 30%">
+                    <td class="pr-4" style="width: 30%">
                       {% if doc.tags %}
                       {% for tag in doc.tags %}
-                      <span class="badge teal darken-1 z-depth-0 ml-1">
+                      <span class="badge teal darken-1 z-depth-0">
                         {{ tag.title().replace("_"," ").replace("And","and") }}
                       </span>
                       {% endfor %}
                       {% endif %}
                     </td>
-                    <td class="pl-2" style="width: 30%">
+                    <td class="pl-0 pr-4" style="width: 30%">
                       {% if doc.element_tags %}
                       {% for tag in doc.element_tags %}
-                      <span class="badge orange darken-3 z-depth-0 ml-1">
+                      <span class="badge orange darken-3 z-depth-0">
                         {{ tag.title().replace("_"," ").replace("And","&") }}
                       </span>
                       {% endfor %}

@@ -108,7 +108,7 @@
       <h5>Showing {{ content.hits.total }} results {{ clicked }}.</h5>
     </div>
 
-    <div id="results">
+    <div class="scrollbar scrollbar-thin" id="results">
       {% for doc in content %}
       {% if doc.doc_type == 'project' %}
       {{ project_record(doc) }}
