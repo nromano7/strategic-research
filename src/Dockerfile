@@ -18,7 +18,7 @@ COPY dashapp dashapp
 COPY elastic elastic
 COPY flaskapp flaskapp
 COPY webscrapper webscrapper
-COPY application.py ./
+COPY run.py ./
 COPY .data .data
 
 EXPOSE 5000
