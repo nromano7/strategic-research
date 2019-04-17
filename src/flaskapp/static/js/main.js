@@ -91,6 +91,9 @@ function bindClick_MLT_button() {
                         $(".modal").on("shown.bs.modal", function(e) {
                             $("body").addClass("modal-open");
                         })
+                        $(".modal").on("hidden.bs.modal", function(e) {
+                            $("body").css("padding","0px");
+                        })
                         // bind click event to bookmark button
                         bindClick_bookmark()
                         // bind click event to record form
