@@ -55,6 +55,64 @@
   top:-12px;
 }
 
+.help-tip-modal {
+  display: inline-block;
+  position: relative;
+  text-align: center;
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 50%;
+  left: 10px;
+  width: 24px;
+  height: 24px;
+  font-size: 14px;
+  line-height: 26px;
+  cursor: default;
+}
+
+.help-tip-modal:before{
+  content:'?';
+  color:rgba(0, 0, 0);
+}
+
+.help-tip-modal:hover p{
+  display:block;
+  transform-origin: 100% 0%;
+
+  -webkit-animation: fadeIn 0.3s ease-in-out;
+  animation: fadeIn 0.3s ease-in-out;
+
+}
+
+.help-tip-modal p{    /* The tooltip */
+  display: none;
+  text-align: left;
+  background-color: rgb(43, 51, 54);
+  padding: 20px;
+  width: fit-content;
+  min-width: 300px;
+  /* height: 200px; */
+  position: absolute;
+  border-radius: 3px;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0);
+  right: -4px;
+  color: #FFF;
+  font-size: 16px;
+  font-weight: normal;
+  line-height: 1.4;
+  z-index: 1499;
+}
+
+.help-tip-modal p:before{ /* The pointer of the tooltip */
+  position: absolute;
+  content: '';
+  width:0;
+  height: 0;
+  border:6px solid transparent;
+  border-bottom-color:rgb(43, 51, 54);
+  right:10px;
+  top:-12px;
+}
+
 
 /* CSS animation */
 
