@@ -166,6 +166,17 @@ app.layout = html.Div(
 				html.H6("(Total Records)",className="pl-2 text-left")
 			]
 		),
+		html.Div(
+			id="barchart1-helptip",
+			children=[
+				html.Div(
+					className="help-tip",
+					children=[
+						html.P("Characteristics of the bridge that include age and metrics related to construction quality, structural design and details, and material specifications.")
+					]
+				)
+			]
+		),
 		dcc.Graph(
 			id='barchart2',
 			className="z-depth-1",
@@ -176,6 +187,17 @@ app.layout = html.Div(
 			children=[
 				html.H4("Inputs",className="pl-2 pt-2 m-0 text-left"),
 				html.H6("(Total Records)",className="pl-2 text-left")
+			]
+		),
+		html.Div(
+			id="barchart2-helptip",
+			children=[
+				html.Div(
+					className="help-tip",
+					children=[
+						html.P("External demands that influence bridge performance and include metrics related to live loads, environmental conditions, and maintenance/preservation actions (including the application of deicing agents). ")
+					]
+				)
 			]
 		),
 		dcc.Graph(
@@ -189,7 +211,18 @@ app.layout = html.Div(
 				html.H4("Performance",className="pl-2 pt-2 m-0 text-left"),
 				html.H6("(Total Records)",className="pl-2 text-left")
 			]
-		)
+		),
+		html.Div(
+			id="barchart3-helptip",
+			children=[
+				html.Div(
+					className="help-tip",
+					children=[
+						html.P("Categories that aim to quantify performance and include metrics related to structural integrity, structural condition, functionality, and cost.")
+					]
+				)
+			]
+		),
 	]
 )
 
