@@ -1,7 +1,7 @@
 <!-- MODAL TEMPLATE -->
 {% macro modal_template() %}
-<div class="scrollbar scrollbar-thin modal fade" id="modal_template" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
+<div class="scrollbar scrollbar-thin modal fade" id="modal_template" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-fluid modal-notify modal-custom" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -30,12 +30,14 @@
           </h4>
 
           <div class="help-tip-modal float-right">
-              <p> This modal provides additional details for the selected record. Use the Bookmark button to save the record for later. Flag the record with one ore more of the LTBP objectives on right side of the window. You can remove irrelevant tags by clicking on the 'x' next to any of the tags assigned to this record.
-              </p>
+            <p> This modal provides additional details for the selected record. Use the Bookmark button to save the
+              record for later. Flag the record with one ore more of the LTBP objectives on right side of the window.
+              You can remove irrelevant tags by clicking on the 'x' next to any of the tags assigned to this record.
+            </p>
           </div>
         </div>
 
-        
+
 
         <hr>
         <div class="modal-grid-container">
@@ -219,86 +221,71 @@
         <tr>
           <td class="p-1 pb-2">
 
-            <!-- score -->
-            <h6 class="d-inline mr-1">
-              <span class="badge primary-color text-capitalize z-depth-0">
-                {{'%0.2f' % doc.meta.score|float}}
-              </span>
-            </h6>
+            <div class="pt-2">
+              <!-- score -->
+              <h6 class="d-inline mr-1">
+                <span class="badge primary-color text-capitalize z-depth-0 p-2">
+                  {{'%0.2f' % doc.meta.score|float}}
+                </span>
+              </h6>
 
-            <!-- record type -->
-            <h6 class="d-inline mr-1">
-              <span class="badge primary-color-dark text-capitalize z-depth-0">
-                {{doc.doc_type.title()}}
-              </span>
-            </h6>
+              <!-- record type -->
+              <h6 class="d-inline mr-1">
+                <span class="badge primary-color-dark text-capitalize z-depth-0 p-2">
+                  {{doc.doc_type.title()}}
+                </span>
+              </h6>
 
-            <!-- record tag -->
-            <h6 class="d-inline mr-1">
-              {% if doc.tags %}
-              {% for tag in doc.tags %}
-              {% if tag %}
-              <span class="badge teal darken-1 z-depth-0 text-capitalize">
-                {{ tag.replace("_"," ").replace("And","and") }}
-              </span>
-              {% endif %}
-              {% endfor %}
-              {% endif %}
-            </h6>
+              <!-- record tag -->
+              <div class="d-inline">
+                {% if doc.tags %}
+                {% for tag in doc.tags %}
+                {% if tag %}
+                <h6 id="{{ doc.meta.id }}_{{tag}}_tag_card" class="d-inline">
+                  <span class="badge teal darken-2 z-depth-0 text-capitalize p-2">
+                    {{ tag.title().replace("_"," ").replace("And", "&") }}
+                </h6>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+              </div>
 
-            <!-- element tags -->
-            <h6 id="mt_elem_tags" class="d-inline mr-1">
-              {% if doc.element_tags %}
-              {% for tag in doc.element_tags %}
-              {% if tag %}
-              <span class="badge orange darken-3 z-depth-0 text-capitalize">
-                {{ tag.title().replace("_"," ").replace("And","&") }}
-              </span>
-              {% endif %}
-              {% endfor %}
-              {% endif %}
-            </h6>
+              <!-- element tags -->
+              <div class="d-inline">
+                {% if doc.element_tags %}
+                {% for tag in doc.element_tags %}
+                {% if tag %}
+                <h6 id="{{ doc.meta.id }}_{{tag}}_tag_card" class="d-inline">
+                  <span class="badge orange darken-4 z-depth-0 text-capitalize p-2">
+                    {{ tag.title().replace("_"," ").replace("And", "&") }}
+                </h6>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+              </div>
+            </div>
 
           </td>
         </tr>
 
         <tr>
           <!-- status -->
-          <td class="pl-3 pb-0 pt-0" style="border-top: none; text-align: left">
+          <td class="pl-1 pb-0 pt-0" style="border-top: none; text-align: left">
             <strong>Status:</strong> {{doc.status.title() if doc.status else "-"}}
           </td>
 
 
         <tr>
           <!-- start date -->
-          <td class="pl-3 pb-0 pt-0" style="border-top: none; text-align: left">
+          <td class="pl-1 pb-0 pt-0" style="border-top: none; text-align: left">
             <strong>Start Date: </strong> {{doc.start_date if
             doc.start_date else " -"}}
           </td>
         </tr>
-        <!-- <tr> -->
-        <!-- completion date -->
-        <!-- <td class="pl-3 pb-0 pt-0" style="border-top: none; text-align: left">
-            <strong>Completion Date: </strong> {{doc.actual_complete_date if
-            doc.actual_complete_date else " -"}}
-          </td>
-        </tr> -->
-
-        <!-- <tr> -->
-        <!-- funding -->
-        <!-- <td class="pl-3 pb-0 pt-0" style="border-top: none; text-align: left">
-            <strong>Funding: </strong>
-            {% if doc.funding %}
-            {{ '${:,.2f}'.format(doc.funding) }}
-            {% else %}
-            {{ "-" }}
-            {% endif %}
-          </td>
-        </tr> -->
 
         <tr>
           <!-- organizations -->
-          <td class="pl-3 pb-0 pt-0" style="border-top: none; text-align: left">
+          <td class="pl-1 pb-0 pt-0" style="border-top: none; text-align: left">
             <strong>Organizations: </strong>
             {% for agency in doc.funding_agencies %}
             {{ agency['name'] }};
@@ -343,39 +330,47 @@
 
         <!-- record type -->
         <h4 class="d-inline mb-0">
-          <span id="{{ doc.meta.id }}_record_type" class="badge primary-color-dark text-capitalize z-depth-0">
+          <span id="{{ doc.meta.id }}_record_type" class="badge primary-color-dark text-capitalize z-depth-0 p-2">
             {{doc.doc_type.title()}}
           </span>
         </h4>
 
         <!-- record tag -->
-        <h4 id="{{ doc.meta.id }}_tags" class="d-inline">
+        <div id="{{ doc.meta.id }}_tags" class="d-inline">
           {% if doc.tags %}
           {% for tag in doc.tags %}
           {% if tag %}
-          <span class="badge teal darken-1 z-depth-0">
-            {{ tag.title().replace("_"," ").replace("And","and") }}
-          </span>
+          <h4 id="{{ doc.meta.id }}_{{tag}}_tag" class="d-inline">
+            <span class="badge teal darken-2 z-depth-0 p-2">
+              {{ tag.title().replace("_"," ").replace("And", "&") }}
+              <i class="close fa fa-times pt-0 pl-2 pr-0 text-white"
+                style="line-height:18px; font-size: 1.0rem; font-weight: lighter;"></i>
+          </h4>
           {% endif %}
           {% endfor %}
           {% endif %}
-        </h4>
+        </div>
 
         <!-- element tags -->
-        <h4 id="{{ doc.meta.id }}_elem_tags" class="d-inline">
+        <div id="{{ doc.meta.id }}_elem_tags" class="d-inline">
           {% if doc.element_tags %}
           {% for tag in doc.element_tags %}
           {% if tag %}
-          <span class="badge orange darken-3 z-depth-0">
-            {{ tag.title().replace("_"," ").replace("And","&") }}
-          </span>
+          <h4 id="{{ doc.meta.id }}_{{tag}}_tag" class="d-inline">
+            <span class="badge orange darken-4 z-depth-0 p-2">
+              {{ tag.title().replace("_"," ").replace("And", "&") }}
+              <i class="close fa fa-times pt-0 pl-2 pr-0 text-white"
+                style="line-height:18px; font-size: 1.0rem; font-weight: lighter;"></i>
+          </h4>
           {% endif %}
           {% endfor %}
           {% endif %}
-        </h4>
+        </div>
 
         <div class="help-tip-modal float-right">
-          <p> This modal provides additional details for the selected record. Use the Bookmark button to save the record for later. Flag the record with one ore more of the LTBP objectives on right side of the window. You can remove irrelevant tags by clicking on the 'x' next to any of the tags assigned to this record.
+          <p> This modal provides additional details for the selected record. Use the Bookmark button to save the record
+            for later. Flag the record with one ore more of the LTBP objectives on right side of the window. You can
+            remove irrelevant tags by clicking on the 'x' next to any of the tags assigned to this record.
           </p>
         </div>
 
@@ -659,52 +654,56 @@
         <tr>
           <td class="p-1" style="text-align: left">
 
-            <!-- score -->
-            <h6 class="d-inline mr-1">
-              <span class="badge primary-color text-capitalize z-depth-0">
-                {{'%0.2f' % doc.meta.score|float}}
-              </span>
-            </h6>
+            <div class="pt-2">
+              <!-- score -->
+              <h6 class="d-inline mr-1">
+                <span class="badge primary-color text-capitalize z-depth-0 p-2">
+                  {{'%0.2f' % doc.meta.score|float}}
+                </span>
+              </h6>
 
-            <!-- record type -->
-            <h6 class="d-inline mr-1">
-              <span class="badge deep-purple darken-4 text-capitalize z-depth-0">
-                {{doc.doc_type.title()}}
-              </span>
-            </h6>
+              <!-- record type -->
+              <h6 class="d-inline mr-1">
+                <span class="badge deep-purple darken-4 text-capitalize z-depth-0 p-2">
+                  {{doc.doc_type.title()}}
+                </span>
+              </h6>
 
-            <!-- record tag -->
-            <h6 class="d-inline mr-1">
-              {% if doc.tags %}
-              {% for tag in doc.tags %}
-              {% if tag %}
-              <span class="badge teal darken-1 z-depth-0 text-capitalize">
-                {{ tag.replace("_"," ").replace("And","and") }}
-              </span>
-              {% endif %}
-              {% endfor %}
-              {% endif %}
-            </h6>
+              <!-- record tag -->
+              <div class="d-inline">
+                {% if doc.tags %}
+                {% for tag in doc.tags %}
+                {% if tag %}
+                <h6 id="{{ doc.meta.id }}_{{tag}}_tag_card" class="d-inline">
+                  <span class="badge teal darken-2 z-depth-0 text-capitalize p-2">
+                    {{ tag.title().replace("_"," ").replace("And", "&") }}
+                </h6>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+              </div>
 
-            <!-- element tags -->
-            <h6 id="mt_elem_tags" class="d-inline mr-1">
-              {% if doc.element_tags %}
-              {% for tag in doc.element_tags %}
-              {% if tag %}
-              <span class="badge orange darken-3 z-depth-0 text-capitalize">
-                {{ tag.title().replace("_"," ").replace("And","&") }}
-              </span>
-              {% endif %}
-              {% endfor %}
-              {% endif %}
-            </h6>
+              <!-- element tags -->
+              <div class="d-inline">
+                {% if doc.element_tags %}
+                {% for tag in doc.element_tags %}
+                {% if tag %}
+                <h6 id="{{ doc.meta.id }}_{{tag}}_tag_card" class="d-inline">
+                  <span class="badge orange darken-4 z-depth-0 text-capitalize p-2">
+                    {{ tag.title().replace("_"," ").replace("And", "&") }}
+                </h6>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+              </div>
+            </div>
 
           </td>
         </tr>
 
         <tr>
           <!-- authors -->
-          <td class="pb-0 pt-1" style="border-top: none; text-align: left">
+          <td class="pl-1 pb-0 pt-1" style="border-top: none; text-align: left">
             <strong>Authors: </strong>
             {% for author in doc.authors %}
             {{author.lastname}}, {{author.firstname}};
@@ -714,7 +713,7 @@
 
         <tr>
           <!-- publication date -->
-          <td class="pb-0 pt-0" style="border-top: none; text-align: left">
+          <td class="pl-1 pb-0 pt-0" style="border-top: none; text-align: left">
             <strong>Publication Date: </strong> {{doc.publication_date if
             doc.publication_date else "-"}}
           </td>
@@ -756,40 +755,48 @@
 
         <!-- record type -->
         <h4 class="d-inline mb-0">
-          <span id="{{ doc.meta.id }}_record_type" class="badge deep-purple darken-4 text-capitalize z-depth-0">
+          <span id="{{ doc.meta.id }}_record_type" class="badge deep-purple darken-4 text-capitalize z-depth-0 p-2">
             {{doc.doc_type.title()}}
           </span>
         </h4>
 
         <!-- record tag -->
-        <h4 id="{{ doc.meta.id }}_tags" class="d-inline">
+        <div id="{{ doc.meta.id }}_tags" class="d-inline">
           {% if doc.tags %}
           {% for tag in doc.tags %}
           {% if tag %}
-          <span class="badge teal darken-1 z-depth-0">
-            {{ tag.title().replace("_"," ").replace("And","and") }}
-          </span>
+          <h4 id="{{ doc.meta.id }}_{{tag}}_tag" class="d-inline">
+            <span class="badge teal darken-2 z-depth-0 p-2">
+              {{ tag.title().replace("_"," ").replace("And", "&") }}
+              <i class="close fa fa-times pt-0 pl-2 pr-0 text-white"
+                style="line-height:18px; font-size: 1.0rem; font-weight: lighter;"></i>
+          </h4>
           {% endif %}
           {% endfor %}
           {% endif %}
-        </h4>
+        </div>
 
         <!-- element tags -->
-        <h4 id="{{ doc.meta.id }}_elem_tags" class="d-inline">
+        <div id="{{ doc.meta.id }}_elem_tags" class="d-inline">
           {% if doc.element_tags %}
           {% for tag in doc.element_tags %}
           {% if tag %}
-          <span class="badge orange darken-3 z-depth-0">
-            {{ tag.title().replace("_"," ").replace("And","&") }}
-          </span>
+          <h4 id="{{ doc.meta.id }}_{{tag}}_tag" class="d-inline">
+            <span class="badge orange darken-4 z-depth-0 p-2">
+              {{ tag.title().replace("_"," ").replace("And", "&") }}
+              <i class="close fa fa-times pt-0 pl-2 pr-0 text-white"
+                style="line-height:18px; font-size: 1.0rem; font-weight: lighter;"></i>
+          </h4>
           {% endif %}
           {% endfor %}
           {% endif %}
-        </h4>
+        </div>
 
         <div class="help-tip-modal float-right">
-            <p> This modal provides additional details for the selected record. Use the Bookmark button to save the record for later. Flag the record with one ore more of the LTBP objectives on right side of the window. You can remove irrelevant tags by clicking on the 'x' next to any of the tags assigned to this record.
-            </p>
+          <p> This modal provides additional details for the selected record. Use the Bookmark button to save the record
+            for later. Flag the record with one ore more of the LTBP objectives on right side of the window. You can
+            remove irrelevant tags by clicking on the 'x' next to any of the tags assigned to this record.
+          </p>
         </div>
 
         <hr>

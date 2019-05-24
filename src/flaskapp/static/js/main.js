@@ -1,5 +1,17 @@
 console.log('js loaded.')
 
+// bind click event to remove tag
+function bindClick_tag_delete() {
+    $(document).ready(function () {
+        $("[id$=_tag]").click(function () {
+            this.remove(); // first remove tag from modal
+            $("#" + this.id + "_card").remove(); // next remove tag from card
+            return false;
+        })
+    });
+}
+bindClick_tag_delete()
+
 // bind click event to record titles
 $("[id$=_click_title]").click(function() {
     $("[id^=back_to]").remove()
