@@ -41,7 +41,7 @@ $(document).ready(function () {
 });
 
 
-// bind click event to mlt button
+// bind click event to MLT button
 function bindClick_MLT_button() {
     $("[id$=_mlt_btn]").unbind('click')
     $("[id$=_mlt_btn]").click(function () {
@@ -112,6 +112,8 @@ function bindClick_MLT_button() {
                         bindClick_record_form()
                         // bind click event to MLT button
                         bindClick_MLT_button()
+                        // bind click event to remove tag
+                        bindClick_tag_delete()
                     }).fail(function () {
                         alert('Failed to find more like this.')
                     });
@@ -151,18 +153,22 @@ function addModal(record, record_id, doc_id) {
     // record type
     let clr = (record.doc_type=="project") ? "primary-color-dark":"deep purple darken-4"
     clone.find("#"+record_id+"_record_type").html(
-        `<span class="badge `+clr+` text-capitalize z-depth-0">`
+        `<span class="badge `+clr+` text-capitalize z-depth-0 p-2">`
             + record.doc_type +
         `</span>`
     ) 
+    
     // record tags
     if (record.tags) {
         for (let i = 0; i < record.tags.length; i++) {
             let tag = record.tags[i].split('_').join(' ')
             clone.find("#"+record_id+"_tags").append(
-                `<span class="badge teal darken-1 z-depth-0 text-capitalize ml-1">`
-                    + tag +
-                `</span>`
+                `<h4 id="` + record_id + "_" + tag + "_tag" + `" class="d-inline">` +
+                    `<span class="badge teal darken-1 z-depth-0 p-2">`
+                        + tag +
+                    `<i class="close fa fa-times pt-0 pl-2 pr-0 text-white"
+                        style="line-height:18px; font-size: 1.0rem; font-weight: lighter;"></i>` +
+                `</h4>`
             ) 
         }
     }
@@ -171,9 +177,12 @@ function addModal(record, record_id, doc_id) {
         for (let i = 0; i < record.element_tags.length; i++) {
             let tag = record.element_tags[i].split('_').join(' ')
             clone.find("#"+record_id+"_elem_tags").append(
-                `<span class="badge orange darken-3 z-depth-0 text-capitalize ml-1">`
-                    + tag +
-                `</span>`
+                `<h4 id="` + record_id + "_" + tag + "_tag" + `" class="d-inline">` +
+                    `<span class="badge orange darken-4 z-depth-0 p-2">`
+                        + tag +
+                    `<i class="close fa fa-times pt-0 pl-2 pr-0 text-white"
+                        style="line-height:18px; font-size: 1.0rem; font-weight: lighter;"></i>` +
+                `</h4>`
             ) 
         }
     }
