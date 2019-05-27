@@ -398,6 +398,35 @@ def bookmark():
 
 	return 'doc updated'
 
+@application.route("/update/record/remove_tag", methods=['GET', 'POST'])
+def remove_tag():
+
+	""" Remove tag from a given document. This function 
+	uses Elasticsearch's 'painless' scripting language."""
+	
+	index = request.form.get('index','projects')
+	doc_id = request.form.get('doc_id')
+	tag_removed = request.form.get('tag')
+
+	# construct script based on if tag_removed is topic or element
+	if tag_removed in topics:
+		script = {"script": f"ctx._source.tags.removeAll(Collections.singleton('{tag_removed}'))"}
+	elif tag_removed in element_tags:
+		script = {"script": f"ctx._source.element_tags.removeAll(Collections.singleton('{tag_removed}'))"}
+
+	# use the update API to run Elasticsearch script that removes the tag
+	client.update(index=index, doc_type='doc', id=doc_id, body=script, refresh=True)
+
+	# construct script to add 'removed_tags' field if it does not already exist or append tag_removed
+	script = {
+		"script" : f"if (ctx._source.containsKey('removed_tags')) {{ctx._source.removed_tags.removeAll(Collections.singleton('{tag_removed}')); ctx._source.removed_tags.add('{tag_removed}');}} else {{ctx._source.removed_tags = ['{tag_removed}']}}"
+	} 
+
+	# add tag to "removed_tags" field
+	client.update(index=index, doc_type='doc', id=doc_id, body=script, refresh=True)
+
+	return 'doc updated'
+
 
 @application.route("/update/database", methods=['GET', 'POST'])
 def update_database():

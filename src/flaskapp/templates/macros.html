@@ -241,7 +241,7 @@
                 {% if doc.tags %}
                 {% for tag in doc.tags %}
                 {% if tag %}
-                <h6 id="{{ doc.meta.id }}_{{tag}}_tag_card" class="d-inline">
+                <h6 id="{{ doc.meta.index }}-{{ doc.meta.id }}-{{tag}}-tag_card" class="d-inline">
                   <span class="badge teal darken-2 z-depth-0 text-capitalize p-2">
                     {{ tag.title().replace("_"," ").replace("And", "&") }}
                 </h6>
@@ -255,7 +255,7 @@
                 {% if doc.element_tags %}
                 {% for tag in doc.element_tags %}
                 {% if tag %}
-                <h6 id="{{ doc.meta.id }}_{{tag}}_tag_card" class="d-inline">
+                <h6 id="{{ doc.meta.index }}-{{ doc.meta.id }}-{{tag}}-tag_card" class="d-inline">
                   <span class="badge orange darken-4 z-depth-0 text-capitalize p-2">
                     {{ tag.title().replace("_"," ").replace("And", "&") }}
                 </h6>
@@ -340,7 +340,7 @@
           {% if doc.tags %}
           {% for tag in doc.tags %}
           {% if tag %}
-          <h4 id="{{ doc.meta.id }}_{{tag}}_tag" class="d-inline">
+          <h4 id="{{ doc.meta.index }}-{{ doc.meta.id }}-{{tag}}-tag" class="d-inline">
             <span class="badge teal darken-2 z-depth-0 p-2">
               {{ tag.title().replace("_"," ").replace("And", "&") }}
               <i class="close fa fa-times pt-0 pl-2 pr-0 text-white"
@@ -356,7 +356,7 @@
           {% if doc.element_tags %}
           {% for tag in doc.element_tags %}
           {% if tag %}
-          <h4 id="{{ doc.meta.id }}_{{tag}}_tag" class="d-inline">
+          <h4 id="{{ doc.meta.index }}-{{ doc.meta.id }}-{{tag}}-tag" class="d-inline">
             <span class="badge orange darken-4 z-depth-0 p-2">
               {{ tag.title().replace("_"," ").replace("And", "&") }}
               <i class="close fa fa-times pt-0 pl-2 pr-0 text-white"
@@ -674,7 +674,7 @@
                 {% if doc.tags %}
                 {% for tag in doc.tags %}
                 {% if tag %}
-                <h6 id="{{ doc.meta.id }}_{{tag}}_tag_card" class="d-inline">
+                <h6 id="{{ doc.meta.index }}-{{ doc.meta.id }}-{{tag}}-tag_card" class="d-inline">
                   <span class="badge teal darken-2 z-depth-0 text-capitalize p-2">
                     {{ tag.title().replace("_"," ").replace("And", "&") }}
                 </h6>
@@ -688,7 +688,7 @@
                 {% if doc.element_tags %}
                 {% for tag in doc.element_tags %}
                 {% if tag %}
-                <h6 id="{{ doc.meta.id }}_{{tag}}_tag_card" class="d-inline">
+                <h6 id="{{ doc.meta.index }}-{{ doc.meta.id }}-{{tag}}-tag_card" class="d-inline">
                   <span class="badge orange darken-4 z-depth-0 text-capitalize p-2">
                     {{ tag.title().replace("_"," ").replace("And", "&") }}
                 </h6>
@@ -765,7 +765,7 @@
           {% if doc.tags %}
           {% for tag in doc.tags %}
           {% if tag %}
-          <h4 id="{{ doc.meta.id }}_{{tag}}_tag" class="d-inline">
+          <h4 id="{{ doc.meta.index }}-{{ doc.meta.id }}-{{tag}}-tag" class="d-inline">
             <span class="badge teal darken-2 z-depth-0 p-2">
               {{ tag.title().replace("_"," ").replace("And", "&") }}
               <i class="close fa fa-times pt-0 pl-2 pr-0 text-white"
@@ -781,7 +781,7 @@
           {% if doc.element_tags %}
           {% for tag in doc.element_tags %}
           {% if tag %}
-          <h4 id="{{ doc.meta.id }}_{{tag}}_tag" class="d-inline">
+          <h4 id="{{ doc.meta.index }}-{{ doc.meta.id }}-{{tag}}-tag" class="d-inline">
             <span class="badge orange darken-4 z-depth-0 p-2">
               {{ tag.title().replace("_"," ").replace("And", "&") }}
               <i class="close fa fa-times pt-0 pl-2 pr-0 text-white"

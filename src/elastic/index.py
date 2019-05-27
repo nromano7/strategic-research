@@ -109,7 +109,7 @@ def index_documents(index_name, path_to_json_files,
 					print(f'[{index_name} doc:{id}] {res["result"]}')
 	
 	
-def tag_documents(index_name, topic_tags, element_tags):
+def tag_documents(index_name, topic_tags, element_tags, init=False):
 
 	def process_hits(hits):
 		for item in hits:
@@ -154,8 +154,9 @@ def tag_documents(index_name, topic_tags, element_tags):
 			# Get the number of results that returned in the last scroll
 			scroll_size = len(data['hits']['hits'])
 
-	# first remove all tags
-	remove_tags(index_name)
+	# if initializing or (reinitializing) remove all tags
+	if init:
+		remove_tags(index_name)
 
 	# topic tags
 	for tag in topic_tags:
@@ -226,11 +227,11 @@ if __name__ == '__main__':
 
 	create_index("projects")
 	index_documents("projects", PROJECT_FILES_PATH)
-	tag_documents("projects", topic_tags, element_tags)
+	tag_documents("projects", topic_tags, element_tags, init=True)
 
 	create_index("publications")
 	index_documents("publications", PUB_FILES_PATH)
-	tag_documents("publications", topic_tags, element_tags)
+	tag_documents("publications", topic_tags, element_tags, init=True)
 
 	create_index("appdata")
 	today = str(datetime.date.today())

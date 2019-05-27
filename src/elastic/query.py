@@ -332,6 +332,7 @@ def process_search_response(s, first=0, last=10):
 	# response = response_dict()
 	ids = []
 	for h in s[first:last]:
+
 		# get data from document fields
 		doc_id = h.meta.id
 		title = h.title
@@ -340,6 +341,7 @@ def process_search_response(s, first=0, last=10):
 		score = h.meta.score
 		trid_terms = [term for term in h.TRID_INDEX_TERMS]
 		trid_subjects = [subject for subject in h.TRID_SUBJECT_AREAS]
+		topic_tags = []
 		
 		# store documents returned by the search
 		hits[doc_id] = dict(

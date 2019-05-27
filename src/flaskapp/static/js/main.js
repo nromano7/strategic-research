@@ -3,9 +3,29 @@ console.log('js loaded.')
 // bind click event to remove tag
 function bindClick_tag_delete() {
     $(document).ready(function () {
-        $("[id$=_tag]").click(function () {
-            this.remove(); // first remove tag from modal
-            $("#" + this.id + "_card").remove(); // next remove tag from card
+        $("[id$=-tag]").click(function () {
+
+            let index = this.id.split("-")[0]
+            let doc_id = this.id.split("-")[1]
+            let tag = this.id.split("-")[2]
+            // alert(doc_id + " and " + tag + " and " + index);
+            
+            // first submit post request to remove tag from record in DB
+            $.post("/update/record/remove_tag", {
+                'doc_id': doc_id,
+                'index': index,
+                'tag': tag
+            }).done(function () {
+                return false
+            }).fail(function () {
+                alert('Failed to remove tag from record.')
+            });
+
+            // on success, remove tag from modal
+            this.remove();
+            // next remove tag from card
+            $("#" + this.id + "_card").remove();
+
             return false;
         })
     });
@@ -13,7 +33,7 @@ function bindClick_tag_delete() {
 bindClick_tag_delete()
 
 // bind click event to record titles
-$("[id$=_click_title]").click(function() {
+$("[id$=_click_title]").click(function () {
     $("[id^=back_to]").remove()
 })
 
@@ -63,48 +83,48 @@ function bindClick_MLT_button() {
                             if (index == 'projects') {
                                 html_string = `<h6 class='w-100 align-middle text-nowrap' style='overflow:hidden; text-overflow:ellipsis;'>
                                 <span class='badge primary-color-dark text-capitalize z-depth-0 mr-1'>Project</span>
-                                <a id='link_to_`+target_id+`'>` + title + `</a></h6>`
+                                <a id='link_to_` + target_id + `'>` + title + `</a></h6>`
                             } else if (index == 'publications') {
                                 html_string = `<h6 class='w-100 align-middle text-nowrap' style='overflow:hidden; text-overflow:ellipsis;'>
                                 <span class='badge deep-purple darken-4 text-capitalize z-depth-0 mr-1'>Publication</span>
-                                <a id='link_to_`+target_id+`'>` + title + `</a></h6>`
+                                <a id='link_to_` + target_id + `'>` + title + `</a></h6>`
                             }
                             $("#" + source_id + "_mlt_content").append(html_string)
-                        
+
                             // add record modal if does not already exist in DOM
                             if ($("#" + target_id).length) {
                                 // console.log(target_id+" exists.")
                             } else {
                                 addModal(response[i]['_source'], target_id, source_id)
                             }
-    
+
                             // bind click event to mlt titles
-                            $("[id$=_"+target_id+"]").click(function(){
+                            $("[id$=_" + target_id + "]").click(function () {
                                 // on click, hide current modal, show new modal
-                                $("#"+source_id).modal("toggle")
-                                $("#"+target_id).modal("toggle")
-                                $("#"+target_id).css('overflow-y', 'auto');
+                                $("#" + source_id).modal("toggle")
+                                $("#" + target_id).modal("toggle")
+                                $("#" + target_id).css('overflow-y', 'auto');
                                 // remove/add back button to target modal
-                                $("#"+target_id+"_modal_header").find("[id^=back_to_]").remove()
-                                $("#"+target_id+"_modal_header").prepend(
-                                    `<div class="d-inline pl-4" id="back_to_`+source_id+`">
+                                $("#" + target_id + "_modal_header").find("[id^=back_to_]").remove()
+                                $("#" + target_id + "_modal_header").prepend(
+                                    `<div class="d-inline pl-4" id="back_to_` + source_id + `">
                                         <a><i class="fa fa-chevron-left fa-lg" aria-hidden="true"></i></a>        
                                     </div>`
                                 )
                                 // bind click event to back button of target modal
-                                $("#"+target_id+"_modal_header").find("#back_to_"+source_id).find("a").click(function(){
+                                $("#" + target_id + "_modal_header").find("#back_to_" + source_id).find("a").click(function () {
                                     // send current modal id to new modal back button
-                                    $("#"+target_id).modal("toggle")
-                                    $("#"+source_id).modal("toggle")
+                                    $("#" + target_id).modal("toggle")
+                                    $("#" + source_id).modal("toggle")
                                 })
 
                             })
                         }
-                        $(".modal").on("shown.bs.modal", function(e) {
+                        $(".modal").on("shown.bs.modal", function (e) {
                             $("body").addClass("modal-open");
                         })
-                        $(".modal").on("hidden.bs.modal", function(e) {
-                            $("body").css("padding","0px");
+                        $(".modal").on("hidden.bs.modal", function (e) {
+                            $("body").css("padding", "0px");
                         })
                         // bind click event to bookmark button
                         bindClick_bookmark()
@@ -148,212 +168,216 @@ function addModal(record, record_id, doc_id) {
     // console.log(record)
 
     // next update modal content
-    clone.attr('class',"modal fade")
-    clone.find("#"+record_id+"_title").text(record.title) // title
+    clone.attr('class', "modal fade")
+    clone.find("#" + record_id + "_title").text(record.title) // title
     // record type
-    let clr = (record.doc_type=="project") ? "primary-color-dark":"deep purple darken-4"
-    clone.find("#"+record_id+"_record_type").html(
-        `<span class="badge `+clr+` text-capitalize z-depth-0 p-2">`
-            + record.doc_type +
+    let clr = (record.doc_type == "project") ? "primary-color-dark" : "deep purple darken-4"
+    clone.find("#" + record_id + "_record_type").html(
+        `<span class="badge ` + clr + ` text-capitalize z-depth-0 p-2">` +
+        record.doc_type +
         `</span>`
-    ) 
-    
+    )
+
     // record tags
     if (record.tags) {
         for (let i = 0; i < record.tags.length; i++) {
             let tag = record.tags[i].split('_').join(' ')
-            clone.find("#"+record_id+"_tags").append(
+            clone.find("#" + record_id + "_tags").append(
                 `<h4 id="` + record_id + "_" + tag + "_tag" + `" class="d-inline">` +
-                    `<span class="badge teal darken-1 z-depth-0 p-2">`
-                        + tag +
-                    `<i class="close fa fa-times pt-0 pl-2 pr-0 text-white"
+                `<span class="badge teal darken-1 z-depth-0 p-2">` +
+                tag +
+                `<i class="close fa fa-times pt-0 pl-2 pr-0 text-white"
                         style="line-height:18px; font-size: 1.0rem; font-weight: lighter;"></i>` +
                 `</h4>`
-            ) 
+            )
         }
     }
     // record element tags
     if (record.element_tags) {
         for (let i = 0; i < record.element_tags.length; i++) {
             let tag = record.element_tags[i].split('_').join(' ')
-            clone.find("#"+record_id+"_elem_tags").append(
+            clone.find("#" + record_id + "_elem_tags").append(
                 `<h4 id="` + record_id + "_" + tag + "_tag" + `" class="d-inline">` +
-                    `<span class="badge orange darken-4 z-depth-0 p-2">`
-                        + tag +
-                    `<i class="close fa fa-times pt-0 pl-2 pr-0 text-white"
+                `<span class="badge orange darken-4 z-depth-0 p-2">` +
+                tag +
+                `<i class="close fa fa-times pt-0 pl-2 pr-0 text-white"
                         style="line-height:18px; font-size: 1.0rem; font-weight: lighter;"></i>` +
                 `</h4>`
-            ) 
+            )
         }
     }
-    clone.find("#"+record_id+"_abstract").text(record.abstract) // abstract
+    clone.find("#" + record_id + "_abstract").text(record.abstract) // abstract
     // projects only
-    if (record.doc_type=="project") {
+    if (record.doc_type == "project") {
         // status
         if (record.status) {
             var status = record.status
         } else {
             var status = "Not Specified"
         }
-        clone.find("#"+record_id+"_status").html(
+        clone.find("#" + record_id + "_status").html(
             `<h4 class="mb-2 mt-2">
                 Status:
             </h4>
-            <p class="m-0">`
-                + status +
+            <p class="m-0">` +
+            status +
             `</p>`
-        ) 
+        )
         // funding
-        if (record.funding){
-            clone.find("#"+record_id+"_funding").html(
+        if (record.funding) {
+            clone.find("#" + record_id + "_funding").html(
                 `<h4 class="mb-2 mt-2">
                     Fund Amount:
                 </h4>
-                <p class="m-0">`
-                    +"$"+record.funding.toLocaleString({style: 'currency', currency: 'USD', minimumFractionDigits: 2})+
+                <p class="m-0">` +
+                "$" + record.funding.toLocaleString({
+                    style: 'currency',
+                    currency: 'USD',
+                    minimumFractionDigits: 2
+                }) +
                 `</p>`
             )
-        } 
+        }
         // funding agencies
         if (record.funding_agencies.length) {
-            clone.find("#"+record_id+"_fundagencies").html(
+            clone.find("#" + record_id + "_fundagencies").html(
                 `<h4 class="mb-2 mt-2">
                         Funding Organizations:
                 </h4>`
             )
             for (let i = 0; i < record.funding_agencies.length; i++) {
-                clone.find("#"+record_id+"_fundagencies").append(
-                    `<p class="m-0">`
-                        + record.funding_agencies[i].name +
+                clone.find("#" + record_id + "_fundagencies").append(
+                    `<p class="m-0">` +
+                    record.funding_agencies[i].name +
                     `</p>`
-                ) 
+                )
             }
         }
         // performing agencies
         if (record.performing_agencies.length) {
-            clone.find("#"+record_id+"_perfagencies").html(
+            clone.find("#" + record_id + "_perfagencies").html(
                 `<h4 class="mb-2 mt-2">
                         Perfroming Agencies:
                 </h4>`
             )
             for (let i = 0; i < record.performing_agencies.length; i++) {
-                clone.find("#"+record_id+"_perfagencies").append(
-                    `<p class="m-0">`
-                        + record.performing_agencies[i].name +
+                clone.find("#" + record_id + "_perfagencies").append(
+                    `<p class="m-0">` +
+                    record.performing_agencies[i].name +
                     `</p>`
-                ) 
+                )
             }
         }
         // managing agencies
         if (record.managing_agencies.length) {
-            clone.find("#"+record_id+"_managencies").html(
+            clone.find("#" + record_id + "_managencies").html(
                 `<h4 class="mb-2 mt-2">
                         Managing Agencies:
                 </h4>`
             )
             for (let i = 0; i < record.managing_agencies.length; i++) {
-                clone.find("#"+record_id+"_managencies").append(
-                    `<p class="m-0">`
-                        + record.managing_agencies[i].name +
+                clone.find("#" + record_id + "_managencies").append(
+                    `<p class="m-0">` +
+                    record.managing_agencies[i].name +
                     `</p>`
-                ) 
+                )
             }
         }
         // start date
-        if (!(record.start_date==null)){
-            clone.find("#"+record_id+"_startdate").text(record.start_date)
+        if (!(record.start_date == null)) {
+            clone.find("#" + record_id + "_startdate").text(record.start_date)
         }
         // completion date
-        if (!(record.expected_complete_date==null) || !(record.actual_complete_date==null)){
-            let exp = !(record.expected_complete_date==null) ? record.expected_complete_date: "Not Specified"
-            let act = !(record.actual_complete_date==null) ? record.actual_complete_date: "Not Specified"
-            clone.find("#"+record_id+"_compdate").text(exp+" / "+act)
+        if (!(record.expected_complete_date == null) || !(record.actual_complete_date == null)) {
+            let exp = !(record.expected_complete_date == null) ? record.expected_complete_date : "Not Specified"
+            let act = !(record.actual_complete_date == null) ? record.actual_complete_date : "Not Specified"
+            clone.find("#" + record_id + "_compdate").text(exp + " / " + act)
         }
 
-    } else if (record.doc_type=="publication") {
+    } else if (record.doc_type == "publication") {
 
         // authors
         if (record.authors.length) {
-            clone.find("#"+record_id+"_authors").html(
+            clone.find("#" + record_id + "_authors").html(
                 `<h4 class="mb-2 mt-2">
                     Authors:
                 </h4>`
             )
             for (let i = 0; i < record.authors.length; i++) {
                 let author = record.authors[i]
-                clone.find("#"+record_id+"_authors").append(
-                    `<p class="m-0">`
-                        + author.lastname +", " + author.firstname +
+                clone.find("#" + record_id + "_authors").append(
+                    `<p class="m-0">` +
+                    author.lastname + ", " + author.firstname +
                     `</p>`
-                ) 
+                )
             }
         }
         // publication date
         if (record.publication_date) {
-            clone.find("#"+record_id+"_pubdate").html(
+            clone.find("#" + record_id + "_pubdate").html(
                 `<h3 class="mb-2 mt-2">Publication Date: </h3>
-                <p class="m-0">`
-                    + record.publication_date +
+                <p class="m-0">` +
+                record.publication_date +
                 `</p>`
             )
         }
-             
+
     }
 
     // urls
     if (record.urls.length) {
-        clone.find("#"+record_id+"_urls").html(
+        clone.find("#" + record_id + "_urls").html(
             `<h4 class="mb-2 mt-2">
                 URLs:
             </h4>`
         )
         for (let i = 0; i < record.urls.length; i++) {
             let url = record.urls[i]
-            clone.find("#"+record_id+"_urls").append(
+            clone.find("#" + record_id + "_urls").append(
                 `<p class="ellipses w-50 m-0">
-                    <a href=`+url+`>`+url+`</a>
+                    <a href=` + url + `>` + url + `</a>
                 </p>`
-            ) 
+            )
         }
     }
 
     // update record form
-    clone.find("#"+record_id+"_objective1_label").attr('for',record_id+'_objective1')
-    clone.find("#"+record_id+"_objective2_label").attr('for',record_id+'_objective2')
-    clone.find("#"+record_id+"_objective3_label").attr('for',record_id+'_objective3')
-    clone.find("#"+record_id+"_objective4_label").attr('for',record_id+'_objective4')
+    clone.find("#" + record_id + "_objective1_label").attr('for', record_id + '_objective1')
+    clone.find("#" + record_id + "_objective2_label").attr('for', record_id + '_objective2')
+    clone.find("#" + record_id + "_objective3_label").attr('for', record_id + '_objective3')
+    clone.find("#" + record_id + "_objective4_label").attr('for', record_id + '_objective4')
     if (record.objectives) {
         if (record.objectives.includes("objective1")) {
-            clone.find("#"+record_id+'_objective1').attr('checked',true)
+            clone.find("#" + record_id + '_objective1').attr('checked', true)
         }
         if (record.objectives.includes("objective2")) {
-            clone.find("#"+record_id+'_objective2').attr('checked',true)
+            clone.find("#" + record_id + '_objective2').attr('checked', true)
         }
         if (record.objectives.includes("objective3")) {
-            clone.find("#"+record_id+'_objective3').attr('checked',true)
+            clone.find("#" + record_id + '_objective3').attr('checked', true)
         }
         if (record.objectives.includes("objective4")) {
-            clone.find("#"+record_id+'_objective4').attr('checked',true)
+            clone.find("#" + record_id + '_objective4').attr('checked', true)
         }
     }
     if (record.notes) {
-        clone.find("#"+record_id+"_notes").text(record.notes)
+        clone.find("#" + record_id + "_notes").text(record.notes)
     }
-    clone.find("#"+record_id+"_form").find("input[name='doc_id']").val(record_id)
-    clone.find("#"+record_id+"_form").find("input[name='index']").val(record.doc_type+"s")
-    clone.find("#"+record_id+"_form").find("input[name='type']").val(record.doc_type)
+    clone.find("#" + record_id + "_form").find("input[name='doc_id']").val(record_id)
+    clone.find("#" + record_id + "_form").find("input[name='index']").val(record.doc_type + "s")
+    clone.find("#" + record_id + "_form").find("input[name='type']").val(record.doc_type)
 
     // update bookmark button
-    clone.find("#"+record_id+"_modal_bookmark_btn").val(record.doc_type+"s")
-    if (record.bookmarked=="true") {
+    clone.find("#" + record_id + "_modal_bookmark_btn").val(record.doc_type + "s")
+    if (record.bookmarked == "true") {
         // clone.find("#"+record_id+"_modal_bookmark_btn").toggleClass("unmarked")
-        clone.find("#"+record_id+"_modal_bookmark_btn").toggleClass("marked")
-        clone.find("#"+record_id+"_modal_bookmark_icon").attr('class','fa fa-bookmark fa-lg pr-1')
-        clone.find("#"+record_id+"_modal_bookmark_text").text("Marked")
+        clone.find("#" + record_id + "_modal_bookmark_btn").toggleClass("marked")
+        clone.find("#" + record_id + "_modal_bookmark_icon").attr('class', 'fa fa-bookmark fa-lg pr-1')
+        clone.find("#" + record_id + "_modal_bookmark_text").text("Marked")
     }
 
     // update mlt button
-    clone.find("#"+record_id+"_mlt_btn").attr('name', record.doc_type+"s")
+    clone.find("#" + record_id + "_mlt_btn").attr('name', record.doc_type + "s")
 
     clone.appendTo("#modals") // append new modal
 
@@ -386,12 +410,12 @@ function bindClick_bookmark() {
                 'doc_id': doc_id,
                 'index': this.value,
                 'marked': marked
-        }) // submit post request
-        .done(function () {
-            return false
-        }).fail(function () {
-            alert('Failed to bookmark record.')
-        });
+            }) // submit post request
+            .done(function () {
+                return false
+            }).fail(function () {
+                alert('Failed to bookmark record.')
+            });
     })
 }
 bindClick_bookmark()
