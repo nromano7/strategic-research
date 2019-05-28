@@ -11,7 +11,7 @@ from random import randint
 import time
 import shutil
 
-def scrape_trid(tmp_directory, downloads_folder):
+def scrape_trid(tmp_directory, downloads_folder, prev_years=1):
 
   now = datetime.now()
   year = now.year
@@ -21,7 +21,7 @@ def scrape_trid(tmp_directory, downloads_folder):
   "&txtAgency=&txtAuthor=&ddlResultType=&chkFulltextOnly=0"
   "&language=1&subjectLogic=or&dateStart={}&dateEnd={}"
   "&rangeType=publisheddate&sortBy=&sortOrder=DESC&rpp=100")
-  URL = URL.format(year-1, year+10)
+  URL = URL.format(year-prev_years, year+10)
 
   XML_PATH = os.path.join(downloads_folder, "xml")
   JSON_PATH = os.path.join(downloads_folder, "json")

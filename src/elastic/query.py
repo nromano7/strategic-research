@@ -300,6 +300,8 @@ def get_query_arguments(query):
 			args[key] = [(field, term) 
 				for term in query_terms.get(key) 
 				for field in get_query_fields(term)]
+			args[key].append(('tags', query))
+			args[key].append(('element_tags', query))
 	else:
 		args = [(field, query) for field in get_query_fields(query)]
 	
@@ -315,6 +317,7 @@ def run_query(q, index, filters=None):
 		
 	if filters:
 		s = apply_filters(s, filters)
+		
 	s = s.query(q)
 
 	return s

@@ -163,6 +163,11 @@ def tag_documents(index_name, topic_tags, element_tags, init=False):
 		kwargs = query.get_query_arguments(tag)
 		q = query.Query(**kwargs)
 		s = query.run_query(q.query, index=index_name)
+
+		# filter out documents that are already tagged or have had the current tag removed
+		s = s.filter("bool",**{"must_not":{"term":{"tags":tag}}}) \
+			 .filter("bool",**{"must_not":{"term":{"removed_tags":tag}}})
+
 		hits, _ = query.process_search_response(s, last=s.count())
 		for id in hits:
 			if index_name == 'projects':
@@ -186,6 +191,11 @@ def tag_documents(index_name, topic_tags, element_tags, init=False):
 		kwargs = query.get_query_arguments(tag)
 		q = query.Query(**kwargs)
 		s = query.run_query(q.query, index=index_name)
+
+		# filter out documents that are already tagged or have had the current tag removed
+		s = s.filter("bool",**{"must_not":{"term":{"tags":tag}}}) \
+			 .filter("bool",**{"must_not":{"term":{"removed_tags":tag}}})
+			 
 		hits, _ = query.process_search_response(s, last=s.count())
 		for id in hits:
 			if index_name == 'projects':
@@ -218,24 +228,26 @@ if __name__ == '__main__':
 		'bearings', 'coatings', 'prestressing'
 	]
 
-	if os.environ.get('DATAPATH'):
-		PROJECT_FILES_PATH = os.path.join(os.environ.get('DATAPATH'),'json','projects')
-		PUB_FILES_PATH = os.path.join(os.environ.get('DATAPATH'),'json','publications')
-	else:
-		PROJECT_FILES_PATH = r"./.data/json/projects"
-		PUB_FILES_PATH = r"./.data/json/publications"
+	tag_documents("projects", topic_tags, element_tags, init=False)
 
-	create_index("projects")
-	index_documents("projects", PROJECT_FILES_PATH)
-	tag_documents("projects", topic_tags, element_tags, init=True)
+	# if os.environ.get('DATAPATH'):
+	# 	PROJECT_FILES_PATH = os.path.join(os.environ.get('DATAPATH'),'json','projects')
+	# 	PUB_FILES_PATH = os.path.join(os.environ.get('DATAPATH'),'json','publications')
+	# else:
+	# 	PROJECT_FILES_PATH = r"./.data/json/projects"
+	# 	PUB_FILES_PATH = r"./.data/json/publications"
 
-	create_index("publications")
-	index_documents("publications", PUB_FILES_PATH)
-	tag_documents("publications", topic_tags, element_tags, init=True)
+	# create_index("projects")
+	# index_documents("projects", PROJECT_FILES_PATH)
+	# tag_documents("projects", topic_tags, element_tags, init=True)
 
-	create_index("appdata")
-	today = str(datetime.date.today())
-	client.index(index='appdata', doc_type='doc', id=1, body={"last_update":today})
+	# create_index("publications")
+	# index_documents("publications", PUB_FILES_PATH)
+	# tag_documents("publications", topic_tags, element_tags, init=True)
+
+	# create_index("appdata")
+	# today = str(datetime.date.today())
+	# client.index(index='appdata', doc_type='doc', id=1, body={"last_update":today})
 
 
 
