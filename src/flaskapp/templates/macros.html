@@ -231,18 +231,18 @@
 
               <!-- record type -->
               <h6 class="d-inline mr-1">
-                <span class="badge primary-color-dark text-capitalize z-depth-0 p-2">
+                <span class="badge primary-color-dark text-capitalize z-depth-1 p-2">
                   {{doc.doc_type.title()}}
                 </span>
               </h6>
 
               <!-- record tag -->
-              <div class="d-inline">
+              <div id="card_{{ doc.meta.id }}_tags" class="d-inline">
                 {% if doc.tags %}
                 {% for tag in doc.tags %}
                 {% if tag %}
                 <h6 id="{{ doc.meta.index }}-{{ doc.meta.id }}-{{tag}}-tag_card" class="d-inline">
-                  <span class="badge teal darken-2 z-depth-0 text-capitalize p-2">
+                  <span class="badge teal darken-2 z-depth-1 text-capitalize p-2">
                     {{ tag.title().replace("_"," ").replace("And", "&") }}
                 </h6>
                 {% endif %}
@@ -251,12 +251,12 @@
               </div>
 
               <!-- element tags -->
-              <div class="d-inline">
+              <div id="card_{{ doc.meta.id }}_elem_tags" class="d-inline">
                 {% if doc.element_tags %}
                 {% for tag in doc.element_tags %}
                 {% if tag %}
                 <h6 id="{{ doc.meta.index }}-{{ doc.meta.id }}-{{tag}}-tag_card" class="d-inline">
-                  <span class="badge orange darken-4 z-depth-0 text-capitalize p-2">
+                  <span class="badge orange darken-4 z-depth-1 text-capitalize p-2">
                     {{ tag.title().replace("_"," ").replace("And", "&") }}
                 </h6>
                 {% endif %}
@@ -317,7 +317,16 @@
           <h4 id="{{ doc.meta.id }}_title" class="modal-title w-100 pl-4 pr-4 d-inline">
             {{ doc.title }}
           </h4>
+
+          <div class="help-tip-modal">
+            <p> This modal provides additional details for the selected record. Use the Bookmark button to save the
+              record
+              for later. Flag the record with one ore more of the LTBP objectives on right side of the window. You can
+              remove irrelevant tags by clicking on the 'x' next to any of the tags assigned to this record.
+            </p>
+          </div>
         </span>
+
 
         <!-- close button -->
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -328,50 +337,76 @@
 
       <div class="modal-body pl-5 pr-5 pb-5">
 
-        <!-- record type -->
-        <h4 class="d-inline mb-0">
-          <span id="{{ doc.meta.id }}_record_type" class="badge primary-color-dark text-capitalize z-depth-0 p-2">
-            {{doc.doc_type.title()}}
-          </span>
-        </h4>
 
-        <!-- record tag -->
-        <div id="{{ doc.meta.id }}_tags" class="d-inline">
-          {% if doc.tags %}
-          {% for tag in doc.tags %}
-          {% if tag %}
-          <h4 id="{{ doc.meta.index }}-{{ doc.meta.id }}-{{tag}}-tag" class="d-inline">
-            <span class="badge teal darken-2 z-depth-0 p-2">
-              {{ tag.title().replace("_"," ").replace("And", "&") }}
-              <i class="close fa fa-times pt-0 pl-2 pr-0 text-white"
-                style="line-height:18px; font-size: 1.0rem; font-weight: lighter;"></i>
+        <div id="tag-container" class="d-inline">
+
+          <!-- record type -->
+          <h4 class="d-inline mb-0">
+            <span id="{{ doc.meta.id }}_record_type" class="badge primary-color-dark text-capitalize z-depth-1 p-2">
+              {{doc.doc_type.title()}}
+            </span>
           </h4>
-          {% endif %}
-          {% endfor %}
-          {% endif %}
+
+          <!-- record tag -->
+          <div id="{{ doc.meta.id }}_tags" class="d-inline">
+            {% if doc.tags %}
+            {% for tag in doc.tags %}
+            {% if tag %}
+            <h4 id="{{ doc.meta.index }}-{{ doc.meta.id }}-{{tag}}-tag" class="d-inline">
+              <span class="badge teal darken-2 z-depth-1 p-2">
+                {{ tag.title().replace("_"," ").replace("And", "&") }}
+                <i class="close fa fa-times pt-0 pl-2 pr-0 text-white"
+                  style="line-height:18px; font-size: 1.0rem; font-weight: lighter;"></i>
+            </h4>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+          </div>
+
+          <!-- element tags -->
+          <div id="{{ doc.meta.id }}_elem_tags" class="d-inline">
+            {% if doc.element_tags %}
+            {% for tag in doc.element_tags %}
+            {% if tag %}
+            <h4 id="{{ doc.meta.index }}-{{ doc.meta.id }}-{{tag}}-tag" class="d-inline">
+              <span class="badge orange darken-4 z-depth-1 p-2">
+                {{ tag.title().replace("_"," ").replace("And", "&") }}
+                <i class="close fa fa-times pt-0 pl-2 pr-0 text-white"
+                  style="line-height:18px; font-size: 1.0rem; font-weight: lighter;"></i>
+            </h4>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+          </div>
+
         </div>
 
-        <!-- element tags -->
-        <div id="{{ doc.meta.id }}_elem_tags" class="d-inline">
-          {% if doc.element_tags %}
-          {% for tag in doc.element_tags %}
-          {% if tag %}
-          <h4 id="{{ doc.meta.index }}-{{ doc.meta.id }}-{{tag}}-tag" class="d-inline">
-            <span class="badge orange darken-4 z-depth-0 p-2">
-              {{ tag.title().replace("_"," ").replace("And", "&") }}
-              <i class="close fa fa-times pt-0 pl-2 pr-0 text-white"
-                style="line-height:18px; font-size: 1.0rem; font-weight: lighter;"></i>
-          </h4>
-          {% endif %}
-          {% endfor %}
-          {% endif %}
-        </div>
+        <!-- add tag button -->
+        <div class="d-inline ml-2">
+          <button id="btn-add-dropdown" class="plus-button dropdown z-depth-1" type="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-plus text-white"></i>
+          </button>
 
-        <div class="help-tip-modal float-right">
-          <p> This modal provides additional details for the selected record. Use the Bookmark button to save the record
-            for later. Flag the record with one ore more of the LTBP objectives on right side of the window. You can
-            remove irrelevant tags by clicking on the 'x' next to any of the tags assigned to this record.
-          </p>
+          <div class="dropdown-menu">
+            <a id="add-construction_quality-{{ doc.meta.index }}-{{ doc.meta.id }}" class="dropdown-item" rel=1>Construction Quality</a>
+            <a id="add-design_and_details-{{ doc.meta.index }}-{{ doc.meta.id }}" class="dropdown-item" rel=1>Design & Details</a>
+            <a id="add-material_specifications-{{ doc.meta.index }}-{{ doc.meta.id }}" class="dropdown-item" rel=1>Material Specifications</a>
+            <a id="add-live_load-{{ doc.meta.index }}-{{ doc.meta.id }}" class="dropdown-item" rel=1>Live Load</a>
+            <a id="add-environment-{{ doc.meta.index }}-{{ doc.meta.id }}" class="dropdown-item" rel=1>Environment</a>
+            <a id="add-maintenance_and_preservation-{{ doc.meta.index }}-{{ doc.meta.id }}" class="dropdown-item" rel=1>Maintenance & Preservation</a>
+            <a id="add-structural_integrity-{{ doc.meta.index }}-{{ doc.meta.id }}" class="dropdown-item" rel=1>Structural Integrity</a>
+            <a id="add-structural_condition-{{ doc.meta.index }}-{{ doc.meta.id }}" class="dropdown-item" rel=1>Structural Condition</a>
+            <a id="add-functionality-{{ doc.meta.index }}-{{ doc.meta.id }}" class="dropdown-item" rel=1>Functionality</a>
+            <a id="add-cost-{{ doc.meta.index }}-{{ doc.meta.id }}" class="dropdown-item" rel=1>Cost</a>
+            <a id="add-superstructure-{{ doc.meta.index }}-{{ doc.meta.id }}" class="dropdown-item" rel=2>Superstructure</a>
+            <a id="add-untreated_deck-{{ doc.meta.index }}-{{ doc.meta.id }}" class="dropdown-item" rel=2>Untreated Bridge Decks</a>
+            <a id="add-treated_deck-{{ doc.meta.index }}-{{ doc.meta.id }}" class="dropdown-item" rel=2>Treated Bridge Decks</a>
+            <a id="add-joints-{{ doc.meta.index }}-{{ doc.meta.id }}" class="dropdown-item" rel=2>Joints</a>
+            <a id="add-bearings-{{ doc.meta.index }}-{{ doc.meta.id }}" class="dropdown-item" rel=2>Bearings</a>
+            <a id="add-coatings-{{ doc.meta.index }}-{{ doc.meta.id }}" class="dropdown-item" rel=2>Steel Coatings</a>
+            <a id="add-prestressing-{{ doc.meta.index }}-{{ doc.meta.id }}" class="dropdown-item" rel=2>Prestressing</a>
+          </div>
         </div>
 
         <hr>
@@ -664,18 +699,18 @@
 
               <!-- record type -->
               <h6 class="d-inline mr-1">
-                <span class="badge deep-purple darken-4 text-capitalize z-depth-0 p-2">
+                <span class="badge deep-purple darken-4 text-capitalize z-depth-1 p-2">
                   {{doc.doc_type.title()}}
                 </span>
               </h6>
 
               <!-- record tag -->
-              <div class="d-inline">
+              <div id="card_{{ doc.meta.id }}_tags" class="d-inline">
                 {% if doc.tags %}
                 {% for tag in doc.tags %}
                 {% if tag %}
                 <h6 id="{{ doc.meta.index }}-{{ doc.meta.id }}-{{tag}}-tag_card" class="d-inline">
-                  <span class="badge teal darken-2 z-depth-0 text-capitalize p-2">
+                  <span class="badge teal darken-2 z-depth-1 text-capitalize p-2">
                     {{ tag.title().replace("_"," ").replace("And", "&") }}
                 </h6>
                 {% endif %}
@@ -684,12 +719,12 @@
               </div>
 
               <!-- element tags -->
-              <div class="d-inline">
+              <div id="card_{{ doc.meta.id }}_tags" class="d-inline">
                 {% if doc.element_tags %}
                 {% for tag in doc.element_tags %}
                 {% if tag %}
                 <h6 id="{{ doc.meta.index }}-{{ doc.meta.id }}-{{tag}}-tag_card" class="d-inline">
-                  <span class="badge orange darken-4 z-depth-0 text-capitalize p-2">
+                  <span class="badge orange darken-4 z-depth-1 text-capitalize p-2">
                     {{ tag.title().replace("_"," ").replace("And", "&") }}
                 </h6>
                 {% endif %}
@@ -742,6 +777,14 @@
           <h4 id="{{ doc.meta.id }}_title" class="modal-title w-100 pl-4 pr-4 d-inline">
             {{ doc.title }}
           </h4>
+
+          <div class="help-tip-modal">
+            <p> This modal provides additional details for the selected record. Use the Bookmark button to save the
+              record
+              for later. Flag the record with one ore more of the LTBP objectives on right side of the window. You can
+              remove irrelevant tags by clicking on the 'x' next to any of the tags assigned to this record.
+            </p>
+          </div>
         </span>
 
         <!-- close button -->
@@ -753,50 +796,74 @@
 
       <div class="modal-body pl-5 pr-5 pb-5">
 
-        <!-- record type -->
-        <h4 class="d-inline mb-0">
-          <span id="{{ doc.meta.id }}_record_type" class="badge deep-purple darken-4 text-capitalize z-depth-0 p-2">
-            {{doc.doc_type.title()}}
-          </span>
-        </h4>
-
-        <!-- record tag -->
-        <div id="{{ doc.meta.id }}_tags" class="d-inline">
-          {% if doc.tags %}
-          {% for tag in doc.tags %}
-          {% if tag %}
-          <h4 id="{{ doc.meta.index }}-{{ doc.meta.id }}-{{tag}}-tag" class="d-inline">
-            <span class="badge teal darken-2 z-depth-0 p-2">
-              {{ tag.title().replace("_"," ").replace("And", "&") }}
-              <i class="close fa fa-times pt-0 pl-2 pr-0 text-white"
-                style="line-height:18px; font-size: 1.0rem; font-weight: lighter;"></i>
+        <div id="tag-container" class="d-inline">
+          <!-- record type -->
+          <h4 class="d-inline mb-0">
+            <span id="{{ doc.meta.id }}_record_type" class="badge deep-purple darken-4 text-capitalize z-depth-1 p-2">
+              {{doc.doc_type.title()}}
+            </span>
           </h4>
-          {% endif %}
-          {% endfor %}
-          {% endif %}
+
+          <!-- record tag -->
+          <div id="{{ doc.meta.id }}_tags" class="d-inline">
+            {% if doc.tags %}
+            {% for tag in doc.tags %}
+            {% if tag %}
+            <h4 id="{{ doc.meta.index }}-{{ doc.meta.id }}-{{tag}}-tag" class="d-inline">
+              <span class="badge teal darken-2 z-depth-1 p-2">
+                {{ tag.title().replace("_"," ").replace("And", "&") }}
+                <i class="close fa fa-times pt-0 pl-2 pr-0 text-white"
+                  style="line-height:18px; font-size: 1.0rem; font-weight: lighter;"></i>
+            </h4>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+          </div>
+
+          <!-- element tags -->
+          <div id="{{ doc.meta.id }}_elem_tags" class="d-inline">
+            {% if doc.element_tags %}
+            {% for tag in doc.element_tags %}
+            {% if tag %}
+            <h4 id="{{ doc.meta.index }}-{{ doc.meta.id }}-{{tag}}-tag" class="d-inline">
+              <span class="badge orange darken-4 z-depth-1 p-2">
+                {{ tag.title().replace("_"," ").replace("And", "&") }}
+                <i class="close fa fa-times pt-0 pl-2 pr-0 text-white"
+                  style="line-height:18px; font-size: 1.0rem; font-weight: lighter;"></i>
+            </h4>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+          </div>
+
         </div>
 
-        <!-- element tags -->
-        <div id="{{ doc.meta.id }}_elem_tags" class="d-inline">
-          {% if doc.element_tags %}
-          {% for tag in doc.element_tags %}
-          {% if tag %}
-          <h4 id="{{ doc.meta.index }}-{{ doc.meta.id }}-{{tag}}-tag" class="d-inline">
-            <span class="badge orange darken-4 z-depth-0 p-2">
-              {{ tag.title().replace("_"," ").replace("And", "&") }}
-              <i class="close fa fa-times pt-0 pl-2 pr-0 text-white"
-                style="line-height:18px; font-size: 1.0rem; font-weight: lighter;"></i>
-          </h4>
-          {% endif %}
-          {% endfor %}
-          {% endif %}
-        </div>
+        <!-- add tag button -->
+        <div class="d-inline ml-2">
+          <button id="btn-add-dropdown" class="plus-button dropdown z-depth-1" type="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-plus text-white"></i>
+          </button>
 
-        <div class="help-tip-modal float-right">
-          <p> This modal provides additional details for the selected record. Use the Bookmark button to save the record
-            for later. Flag the record with one ore more of the LTBP objectives on right side of the window. You can
-            remove irrelevant tags by clicking on the 'x' next to any of the tags assigned to this record.
-          </p>
+          <div class="dropdown-menu">
+            <a id="add-construction_quality-{{ doc.meta.index }}-{{ doc.meta.id }}" class="dropdown-item" rel=1>Construction Quality</a>
+            <a id="add-design_and_details-{{ doc.meta.index }}-{{ doc.meta.id }}" class="dropdown-item" rel=1>Design & Details</a>
+            <a id="add-material_specifications-{{ doc.meta.index }}-{{ doc.meta.id }}" class="dropdown-item" rel=1>Material Specifications</a>
+            <a id="add-live_load-{{ doc.meta.index }}-{{ doc.meta.id }}" class="dropdown-item" rel=1>Live Load</a>
+            <a id="add-environment-{{ doc.meta.index }}-{{ doc.meta.id }}" class="dropdown-item" rel=1>Environment</a>
+            <a id="add-maintenance_and_preservation-{{ doc.meta.index }}-{{ doc.meta.id }}" class="dropdown-item" rel=1>Maintenance & Preservation</a>
+            <a id="add-structural_integrity-{{ doc.meta.index }}-{{ doc.meta.id }}" class="dropdown-item" rel=1>Structural Integrity</a>
+            <a id="add-structural_condition-{{ doc.meta.index }}-{{ doc.meta.id }}" class="dropdown-item" rel=1>Structural Condition</a>
+            <a id="add-functionality-{{ doc.meta.index }}-{{ doc.meta.id }}" class="dropdown-item" rel=1>Functionality</a>
+            <a id="add-cost-{{ doc.meta.index }}-{{ doc.meta.id }}" class="dropdown-item" rel=1>Cost</a>
+            <a id="add-superstructure-{{ doc.meta.index }}-{{ doc.meta.id }}" class="dropdown-item" rel=2>Superstructure</a>
+            <a id="add-untreated_deck-{{ doc.meta.index }}-{{ doc.meta.id }}" class="dropdown-item" rel=2>Untreated Bridge Decks</a>
+            <a id="add-treated_deck-{{ doc.meta.index }}-{{ doc.meta.id }}" class="dropdown-item" rel=2>Treated Bridge Decks</a>
+            <a id="add-joints-{{ doc.meta.index }}-{{ doc.meta.id }}" class="dropdown-item" rel=2>Joints</a>
+            <a id="add-bearings-{{ doc.meta.index }}-{{ doc.meta.id }}" class="dropdown-item" rel=2>Bearings</a>
+            <a id="add-coatings-{{ doc.meta.index }}-{{ doc.meta.id }}" class="dropdown-item" rel=2>Steel Coatings</a>
+            <a id="add-prestressing-{{ doc.meta.index }}-{{ doc.meta.id }}" class="dropdown-item" rel=2>Prestressing</a>
+          </div>
         </div>
 
         <hr>

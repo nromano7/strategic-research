@@ -1,5 +1,70 @@
 console.log('js loaded.')
 
+// bind click event to add tag
+function bindClick_tag_add() {
+    $(document).ready(function () {
+        $("[id^=add-]").click(function () {
+
+            let tag = this.id.split("-")[1]
+            let index = this.id.split("-")[2]
+            let doc_id = this.id.split("-")[3]
+
+            // first submit post request to remove tag from record in DB
+            $.post("/update/record/add_tag", {
+                'doc_id': doc_id,
+                'index': index,
+                'tag': tag
+            }).done(function () {
+                return false
+            }).fail(function () {
+                alert('Failed to add tag to record.')
+            });
+
+            
+            // add tag to record modal
+            var className = this.rel==1 ? "badge teal darken-2 z-depth-1 p-2 mr-1 mt-1" : "badge orange darken-4 z-depth-1 p-2 mr-1 mt-1"
+            let modal_tag = $("<h4><span></span></h4>")
+                .attr({id:[index, doc_id, tag, 'tag'].join('-')})
+                .addClass("d-inline")
+                .find("span")
+                .addClass(className)
+                .html(this.text)
+                .append($("<i></i>")
+                .attr({style:"line-height:18px; font-size: 1.0rem;"})
+                .addClass("close fa fa-times pt-0 pl-2 pr-0 text-white"))
+                .end()
+              
+            if (this.rel == 1) {
+                modal_tag.appendTo("#"+doc_id+"_tags")
+            } else {
+                modal_tag.appendTo("#"+doc_id+"_elem_tags")
+            }
+
+            // add tag to record card 
+            var className = this.rel==1 ? "badge teal darken-2 z-depth-1 text-capitalize p-2 mr-1 mt-1" : "badge orange darken-4 z-depth-1 text-capitalize p-2 mr-1 mt-1"
+            let card_tag = $("<h6><span></span></h6>")
+                .attr({id: [index, doc_id, tag, 'tag_card'].join('-')})
+                .addClass("d-inline")
+                .find("span")
+                .addClass(className)
+                .html(this.text)
+                .end()
+
+            if (this.rel == 1) {
+                card_tag.appendTo("#card_"+doc_id+"_tags")
+            } else if (this.rel==2){
+                console.log(this.rel)
+                card_tag.appendTo("#card_"+doc_id+"_elem_tags")
+            }
+
+            // bind delete button click event
+            bindClick_tag_delete()
+            return false;
+        })
+    });
+}
+bindClick_tag_add()
+
 // bind click event to remove tag
 function bindClick_tag_delete() {
     $(document).ready(function () {

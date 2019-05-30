@@ -402,7 +402,7 @@ def bookmark():
 def remove_tag():
 
 	""" Remove tag from a given document. This function 
-	uses Elasticsearch's 'painless' scripting language."""
+	uses Elasticsearch's scripting language."""
 	
 	index = request.form.get('index','projects')
 	doc_id = request.form.get('doc_id')
@@ -417,12 +417,42 @@ def remove_tag():
 	# use the update API to run Elasticsearch script that removes the tag
 	client.update(index=index, doc_type='doc', id=doc_id, body=script, refresh=True)
 
-	# construct script to add 'removed_tags' field if it does not already exist or append tag_removed
+	# construct script to add 'removed_tags' field if it does not already exist or append tag_removed to removed tags field, also removes from added_tags field if it exists
 	script = {
-		"script" : f"if (ctx._source.containsKey('removed_tags')) {{ctx._source.removed_tags.removeAll(Collections.singleton('{tag_removed}')); ctx._source.removed_tags.add('{tag_removed}');}} else {{ctx._source.removed_tags = ['{tag_removed}']}}"
+		"script" : f"if (ctx._source.containsKey('added_tags')) {{ctx._source.added_tags.removeAll(Collections.singleton('{tag_removed}'))}} if (ctx._source.containsKey('removed_tags')) {{ctx._source.removed_tags.removeAll(Collections.singleton('{tag_removed}')); ctx._source.removed_tags.add('{tag_removed}');}} else {{ctx._source.removed_tags = ['{tag_removed}']}}"
 	} 
 
 	# add tag to "removed_tags" field
+	client.update(index=index, doc_type='doc', id=doc_id, body=script, refresh=True)
+
+	return 'doc updated'
+
+
+@application.route("/update/record/add_tag", methods=['GET', 'POST'])
+def add_tag():
+
+	""" Add tag from a given document. This function 
+	uses Elasticsearch's scripting language."""
+	
+	index = request.form.get('index','projects')
+	doc_id = request.form.get('doc_id')
+	tag_added = request.form.get('tag')
+
+	# construct script based on if tag_added is topic or element
+	if tag_added in topics:
+		script = {"script": f"if (ctx._source.tags != null) {{ctx._source.tags.add('{tag_added}')}} else {{ ctx._source.tags = ['{tag_added}'] }}"}
+	elif tag_added in element_tags:
+		script = {"script": f"if (ctx._source.element_tags != null) {{ctx._source.element_tags.add('{tag_added}')}} else {{ ctx._source.element_tags = ['{tag_added}'] }}"}
+
+	# use the update API to run Elasticsearch script that removes the tag
+	client.update(index=index, doc_type='doc', id=doc_id, body=script, refresh=True)
+
+	# construct script to add tag to added_tags field if it does not already exist or append tag_added
+	script = {
+		"script" : f"if (ctx._source.containsKey('added_tags')) {{ctx._source.added_tags.add('{tag_added}');}} else {{ctx._source.added_tags = ['{tag_added}']}}"
+	} 
+
+	# add tag to "added_tags" field
 	client.update(index=index, doc_type='doc', id=doc_id, body=script, refresh=True)
 
 	return 'doc updated'
