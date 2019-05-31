@@ -19,7 +19,7 @@ COPY elastic elastic
 COPY flaskapp flaskapp
 COPY webscrapper webscrapper
 COPY run.py ./
-COPY .data .data
+# COPY .data .data
 
 EXPOSE 5000
 ENTRYPOINT ["python"]

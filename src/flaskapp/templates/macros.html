@@ -30,8 +30,7 @@
           </div>
 
           <div class="help-tip-modal float-right">
-            <p> This modal provides additional details for the selected record. Use the Bookmark button to save the
-              record for later. Flag the record with one ore more of the LTBP objectives on right side of the window.
+            <p> This modal provides additional details for the selected record. Mark the record as LTBP relevant using the 'Mark LTBP' button. Flag the record with one ore more of the LTBP objectives on right side of the window.
               You can remove irrelevant tags by clicking on the 'x' next to any of the tags assigned to this record.
             </p>
           </div>
@@ -47,7 +46,7 @@
               class="btn btn mt-2 float-right waves-effect red darken-4 p-1 pl-2 pr-2">
               <i id="mt_modal_bookmark_icon" class="fa fa-bookmark-o fa-lg pr-1" aria-hidden="true"></i>
               <div id="mt_modal_bookmark_text" class="d-inline">
-                Bookmark
+                Mark LTBP
               </div>
             </button>
             <!-- abstract -->
@@ -199,7 +198,7 @@
         class="btn btn-sm d-inline mb-0 mt-0 float-right p-1 pl-2 pr-2 waves-effect red darken-4 marked d-inline">
         <i id="{{ doc.meta.id }}_bookmark_icon" class="fa fa-bookmark fa-lg pr-1" aria-hidden="true"></i>
         <div id="{{ doc.meta.id }}_bookmark_text" class="d-inline">
-          Marked
+          LTBP
         </div>
       </button>
       {% else %}
@@ -207,7 +206,7 @@
         class="btn btn-sm d-inline mb-0 mt-0 float-right p-1 pl-2 pr-2 waves-effect red darken-4 unmarked d-inline">
         <i id="{{ doc.meta.id }}_bookmark_icon" class="fa fa-bookmark-o fa-lg pr-1" aria-hidden="true"></i>
         <div id="{{ doc.meta.id }}_bookmark_text" class="d-inline">
-          Bookmark
+          Mark LTBP
         </div>
       </button>
       {% endif %}
@@ -319,10 +318,8 @@
           </h4>
 
           <div class="help-tip-modal">
-            <p> This modal provides additional details for the selected record. Use the Bookmark button to save the
-              record
-              for later. Flag the record with one ore more of the LTBP objectives on right side of the window. You can
-              remove irrelevant tags by clicking on the 'x' next to any of the tags assigned to this record.
+            <p> This modal provides additional details for the selected record. Mark the record as LTBP relevant using the 'Mark LTBP' button. Flag the record with one ore more of the LTBP objectives on right side of the window. You can
+              remove irrelevant tags by clicking on the 'x' next to any of the tags assigned to this record. Add additional tags using the '+' button.
             </p>
           </div>
         </span>
@@ -419,7 +416,7 @@
               class="btn btn mt-2 float-right waves-effect red darken-4 p-1 pl-2 pr-2 marked">
               <i id="{{ doc.meta.id }}_modal_bookmark_icon" class="fa fa-bookmark fa-lg pr-1" aria-hidden="true"></i>
               <div id="{{ doc.meta.id }}_modal_bookmark_text" class="d-inline">
-                Marked
+                LTBP
               </div>
             </button>
             {% else %}
@@ -427,7 +424,7 @@
               class="btn btn mt-2 float-right waves-effect red darken-4 p-1 pl-2 pr-2 unmarked">
               <i id="{{ doc.meta.id }}_modal_bookmark_icon" class="fa fa-bookmark-o fa-lg pr-1" aria-hidden="true"></i>
               <div id="{{ doc.meta.id }}_modal_bookmark_text" class="d-inline">
-                Bookmark
+                Mark LTBP
               </div>
             </button>
             {% endif %}
@@ -666,7 +663,7 @@
         class="btn btn-sm d-inline mb-0 mt-0 float-right p-1 pl-2 pr-2 waves-effect red darken-4 marked d-inline">
         <i id="{{ doc.meta.id }}_bookmark_icon" class="fa fa-bookmark fa-lg pr-1" aria-hidden="true"></i>
         <div id="{{ doc.meta.id }}_bookmark_text" class="d-inline">
-          Marked
+          LTBP
         </div>
       </button>
       {% else %}
@@ -674,7 +671,7 @@
         class="btn btn-sm d-inline mb-0 mt-0 float-right p-1 pl-2 pr-2 waves-effect red darken-4 unmarked d-inline">
         <i id="{{ doc.meta.id }}_bookmark_icon" class="fa fa-bookmark-o fa-lg pr-1" aria-hidden="true"></i>
         <div id="{{ doc.meta.id }}_bookmark_text" class="d-inline">
-          Bookmark
+          Mark LTBP
         </div>
       </button>
       {% endif %}
@@ -779,9 +776,7 @@
           </h4>
 
           <div class="help-tip-modal">
-            <p> This modal provides additional details for the selected record. Use the Bookmark button to save the
-              record
-              for later. Flag the record with one ore more of the LTBP objectives on right side of the window. You can
+            <p> This modal provides additional details for the selected record. Mark the record as LTBP relevant using the 'Mark LTBP' button. Flag the record with one ore more of the LTBP objectives on right side of the window. You can
               remove irrelevant tags by clicking on the 'x' next to any of the tags assigned to this record.
             </p>
           </div>
@@ -876,7 +871,7 @@
               class="btn btn mt-1 float-right waves-effect red darken-4 p-1 pl-2 pr-2 marked">
               <i id="{{ doc.meta.id }}_modal_bookmark_icon" class="fa fa-bookmark fa-lg pr-1" aria-hidden="true"></i>
               <div id="{{ doc.meta.id }}_modal_bookmark_text" class="d-inline">
-                Marked
+                LTBP
               </div>
             </button>
             {% else %}
@@ -884,7 +879,7 @@
               class="btn btn mt-1 float-right waves-effect red darken-4 p-1 pl-2 pr-2 unmarked">
               <i id="{{ doc.meta.id }}_modal_bookmark_icon" class="fa fa-bookmark-o fa-lg pr-1" aria-hidden="true"></i>
               <div id="{{ doc.meta.id }}_modal_bookmark_text" class="d-inline">
-                Bookmark
+                Mark LTBP
               </div>
             </button>
             {% endif %}

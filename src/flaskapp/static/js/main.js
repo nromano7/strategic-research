@@ -457,18 +457,18 @@ function bindClick_bookmark() {
         if (marked) {
             // document was bookmarked
             $("#" + doc_id + "_bookmark_icon").attr('class', 'fa fa-bookmark fa-lg pr-1');
-            $("#" + doc_id + "_bookmark_text").html('Marked');
+            $("#" + doc_id + "_bookmark_text").html('LTBP');
             $(this).addClass('marked').removeClass('unmarked');
             $("#" + doc_id + "_modal_bookmark_icon").attr('class', 'fa fa-bookmark fa-lg pr-1');
-            $("#" + doc_id + "_modal_bookmark_text").html('Marked');
+            $("#" + doc_id + "_modal_bookmark_text").html('LTBP');
             $("#" + doc_id + "_modal_bookmark_btn").addClass('marked').removeClass('unmarked');
         } else {
             //  document was unmarked
             $("#" + doc_id + "_bookmark_icon").attr('class', 'fa fa-bookmark-o fa-lg pr-1');
-            $("#" + doc_id + "_bookmark_text").html('Bookmark');
+            $("#" + doc_id + "_bookmark_text").html('Mark LTBP');
             $(this).addClass('unmarked').removeClass('marked');
             $("#" + doc_id + "_modal_bookmark_icon").attr('class', 'fa fa-bookmark-o fa-lg pr-1');
-            $("#" + doc_id + "_modal_bookmark_text").html('Bookmark');
+            $("#" + doc_id + "_modal_bookmark_text").html('Mark LTBP');
             $("#" + doc_id + "_modal_bookmark_btn").addClass('unmarked').removeClass('marked');
         }
         $.post('/update/record/bookmark', {
