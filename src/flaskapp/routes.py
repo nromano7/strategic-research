@@ -485,7 +485,7 @@ def update_database():
 	os.makedirs(PUB_FILES_PATH)
 
 	# scrape TRID site
-	webscrapper.scrape_trid(TMP_DIRECTORY, DOWNLOADS_FOLDER, prev_years=0)
+	webscrapper.scrape_trid(TMP_DIRECTORY, DOWNLOADS_FOLDER, prev_years=1)
 
 	# index documents
 	index.index_documents("projects", PROJECT_FILES_PATH)

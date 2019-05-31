@@ -228,26 +228,26 @@ if __name__ == '__main__':
 		'bearings', 'coatings', 'prestressing'
 	]
 
-	tag_documents("projects", topic_tags, element_tags, init=False)
+	# tag_documents("projects", topic_tags, element_tags, init=False)
 
-	# if os.environ.get('DATAPATH'):
-	# 	PROJECT_FILES_PATH = os.path.join(os.environ.get('DATAPATH'),'json','projects')
-	# 	PUB_FILES_PATH = os.path.join(os.environ.get('DATAPATH'),'json','publications')
-	# else:
-	# 	PROJECT_FILES_PATH = r"./.data/json/projects"
-	# 	PUB_FILES_PATH = r"./.data/json/publications"
+	if os.environ.get('DATAPATH'):
+		PROJECT_FILES_PATH = os.path.join(os.environ.get('DATAPATH'),'json','projects')
+		PUB_FILES_PATH = os.path.join(os.environ.get('DATAPATH'),'json','publications')
+	else:
+		PROJECT_FILES_PATH = r"./.data/json/projects"
+		PUB_FILES_PATH = r"./.data/json/publications"
 
-	# create_index("projects")
-	# index_documents("projects", PROJECT_FILES_PATH)
-	# tag_documents("projects", topic_tags, element_tags, init=True)
+	create_index("projects")
+	index_documents("projects", PROJECT_FILES_PATH)
+	tag_documents("projects", topic_tags, element_tags, init=True)
 
-	# create_index("publications")
-	# index_documents("publications", PUB_FILES_PATH)
-	# tag_documents("publications", topic_tags, element_tags, init=True)
+	create_index("publications")
+	index_documents("publications", PUB_FILES_PATH)
+	tag_documents("publications", topic_tags, element_tags, init=True)
 
-	# create_index("appdata")
-	# today = str(datetime.date.today())
-	# client.index(index='appdata', doc_type='doc', id=1, body={"last_update":today})
+	create_index("appdata")
+	today = str(datetime.date.today())
+	client.index(index='appdata', doc_type='doc', id=1, body={"last_update":today})
 
 
 
