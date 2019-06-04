@@ -168,23 +168,24 @@ def tag_documents(index_name, topic_tags, element_tags, init=False):
 		s = s.filter("bool",**{"must_not":{"term":{"tags":tag}}}) \
 			 .filter("bool",**{"must_not":{"term":{"removed_tags":tag}}})
 
-		hits, _ = query.process_search_response(s, last=s.count())
-		for id in hits:
-			if index_name == 'projects':
-				doc = models.Project.get(using=client, index=index_name, id=id)
-			elif index_name == 'publications':
-				doc = models.Publication.get(using=client, index=index_name, id=id)
+		if s.count() !=0:
+			hits, _ = query.process_search_response(s, last=s.count())
+			for id in hits:
+				if index_name == 'projects':
+					doc = models.Project.get(using=client, index=index_name, id=id)
+				elif index_name == 'publications':
+					doc = models.Publication.get(using=client, index=index_name, id=id)
 
-			if doc.tags:
-				current_tags = list(doc.tags)
-			else:
-				current_tags = []
+				if doc.tags:
+					current_tags = list(doc.tags)
+				else:
+					current_tags = []
 
-			current_tags.append(tag)
-			current_tags_set = set(current_tags)
-			doc.update(using=client,index=index_name,tags=list(current_tags_set))
+				current_tags.append(tag)
+				current_tags_set = set(current_tags)
+				doc.update(using=client,index=index_name,tags=list(current_tags_set))
 
-			print(f'{index_name} - doc ({id}): updated with {tag}')
+				print(f'{index_name} - doc ({id}): updated with {tag}')
 
 	# element tags
 	for tag in element_tags:
@@ -195,24 +196,25 @@ def tag_documents(index_name, topic_tags, element_tags, init=False):
 		# filter out documents that are already tagged or have had the current tag removed
 		s = s.filter("bool",**{"must_not":{"term":{"tags":tag}}}) \
 			 .filter("bool",**{"must_not":{"term":{"removed_tags":tag}}})
-			 
-		hits, _ = query.process_search_response(s, last=s.count())
-		for id in hits:
-			if index_name == 'projects':
-				doc = models.Project.get(using=client, index=index_name, id=id)
-			elif index_name == 'publications':
-				doc = models.Publication.get(using=client, index=index_name, id=id)
 
-			if doc.element_tags:
-				current_tags = list(doc.element_tags)
-			else:
-				current_tags = []
+		if s.count() !=0: 
+			hits, _ = query.process_search_response(s, last=s.count())
+			for id in hits:
+				if index_name == 'projects':
+					doc = models.Project.get(using=client, index=index_name, id=id)
+				elif index_name == 'publications':
+					doc = models.Publication.get(using=client, index=index_name, id=id)
 
-			current_tags.append(tag)
-			current_tags_set = set(current_tags)
-			doc.update(using=client,index=index_name,element_tags=list(current_tags_set))
+				if doc.element_tags:
+					current_tags = list(doc.element_tags)
+				else:
+					current_tags = []
 
-			print(f'{index_name} - doc ({id}): updated with {tag}')
+				current_tags.append(tag)
+				current_tags_set = set(current_tags)
+				doc.update(using=client,index=index_name,element_tags=list(current_tags_set))
+
+				print(f'{index_name} - doc ({id}): updated with {tag}')
 
 
 if __name__ == '__main__':

@@ -464,6 +464,11 @@ def update_database():
 	now = datetime.datetime.now()
 	year, month, day = now.year, now.month, now.day
 
+	# increase max result settings for both indexes
+	body = {"index" : {"max_result_window" : 50000}}
+	client.indices.put_settings(index="projects",body=body)
+	client.indices.put_settings(index="publications",body=body)
+
 	# create temporary directory for downloading files
 	CWD = os.getcwd()
 	TMP_DIRECTORY = os.path.join(CWD, r'.tmp')
